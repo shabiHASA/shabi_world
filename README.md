@@ -1,1 +1,0 @@
-# wapang_snail_blog
