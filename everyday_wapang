@@ -1,1 +1,56 @@
-# wapang_snail_blog
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>🌸 와와의 성장일기 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cute Font', cursive;
+      background: linear-gradient(to bottom, #ffe0f0, #ffccff);
+      color: #444;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      background: white;
+      border: 4px dotted #ff99cc;
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 0 15px #ffcce5;
+    }
+    h1 {
+      font-size: 40px;
+      color: #ff66aa;
+    }
+    .entry {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 15px;
+      background: #fff0f8;
+      border: 2px dashed #ffcce0;
+    }
+    .entry img {
+      max-width: 90%;
+      border-radius: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌸 와와의 성장일기 🌸</h1>
+    <div class="entry">
+      <h2>2025년 6월 12일</h2>
+      <p>오늘은 껍데기를 빤딱빤딱 닦아줬다긔~ 기분 좋아보였다긔!</p>
+      <img src="wawa-today.jpg" alt="오늘의 와와">
+    </div>
+    <div class="entry">
+      <h2>2025년 6월 10일</h2>
+      <p>딸기즙을 살짝 먹었는데 진짜 귀여웠다긔 🍓🐌</p>
+      <img src="wawa-strawberry.jpg" alt="딸기 먹는 와와">
+    </div>
+  </div>
+</body>
+</html>
