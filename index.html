@@ -14,7 +14,6 @@
       overflow-x: hidden;
     }
 
-    /* 💬 말풍선 스타일 */
     #welcome-bubble {
       position: fixed;
       bottom: 20px;
@@ -31,7 +30,6 @@
       z-index: 9999;
     }
 
-    /* 이하 기존 CSS 유지 */
     .sidebar {
       position: fixed;
       top: 0;
@@ -111,6 +109,16 @@
       background: #fff5fa;
       border: 2px dotted #ffcce5;
       box-shadow: 0 0 10px #ffd6eb;
+
+      /* ✨ 페이드인 효과 초기 상태 */
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .entry.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .entry img {
@@ -172,7 +180,6 @@
 </head>
 <body>
 
-  <!-- 💬 와팽이 말풍선 -->
   <div id="welcome-bubble" onclick="fadeOut(this)">
     🎀 와팽이네 블로그 상시 업데이트 중! html고수를 구합니다 🐌 (클릭해서 지우기)
   </div>
@@ -219,13 +226,27 @@
       document.getElementById('sidebar').classList.toggle('open');
     }
 
-    // 💫 말풍선 페이드아웃 함수
     function fadeOut(element) {
       element.style.opacity = '0';
       setTimeout(() => {
         element.style.display = 'none';
-      }, 1000); // 1초 후 완전 숨김
+      }, 1000);
     }
+
+    // ✨ entry 스크롤 페이드인 효과
+    const entries = document.querySelectorAll('.entry');
+
+    function checkFadeIn() {
+      entries.forEach(entry => {
+        const rect = entry.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          entry.classList.add('show');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkFadeIn);
+    window.addEventListener('load', checkFadeIn);
   </script>
 </body>
 </html>
