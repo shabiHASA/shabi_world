@@ -1,404 +1,428 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎀 샤비의 낙원 🎀</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎀 샤비의 낙원 🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    } 
 
-    body {
-      font-family: 'Cute Font', cursive;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
+    body {
+      font-family: 'Cute Font', cursive;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    } 
 
-    #main-content {
-      padding: 5vw;
-    }
+    #entry-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffe4f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+    } 
 
-    .container {
-      background: white;
-      border: 4px dashed #ff99cc;
-      border-radius: 25px;
-      padding: 5vw;
-      max-width: 90vw;
-      margin: 10vh auto;
-      box-shadow: 0 0 25px #ffb6d9;
-    }
+    #entry-button {
+      font-family: 'Cute Font', cursive;
+      font-size: 30px;
+      background: #ffaad4;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 20px 40px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #ffb6d9;
+      transition: transform 0.3s ease;
+    } 
 
-    h1 {
-      font-size: 8vw;
-    }
+    #entry-button:hover {
+      transform: scale(1.05);
+    } 
 
-    .entry h2 {
-      font-size: 6vw;
-    }
+    #welcome-bubble {
+      position: fixed;
+      bottom: 20px;
+      left: 50%; transform: translateX(-50%);
+      background: #fff0f8;
+      border: 2px dashed #ff99cc;
+      padding: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px #ffb6d9;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 1;
+      transition: opacity 1s ease;
+      z-index: 9999;
+    } 
 
-    .entry img {
-      max-width: 100%;
-      height: auto;
-    }
+    #main-content {
+      font-family: 'Cute Font', cursive;
+      background: linear-gradient(to bottom, #fff0f5, #ffe4f0);
+      color: #444;
+      padding: 30px;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+    } 
 
-    .menu-button {
-      top: 2vw;
-      left: 2vw;
-      font-size: 6vw;
-      padding: 2vw 4vw;
-    }
+    .floating-gifs {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      pointer-events: auto;
+    } 
 
-    .sidebar {
-      width: 80vw;
-      left: -85vw;
-    }
+    .floating-gifs.left {
+      left: 20px;
+    } 
 
-    .sidebar.open {
-      left: 0;
-    }
+    .floating-gifs.right {
+      right: 20px;
+    } 
 
-    .sidebar a {
-      font-size: 4vw;
-      padding: 2vw;
-    }
+    .floating-gif {
+      width: 130px;
+      height: 130px;
+      border-radius: 20px;
+      border: none;
+      box-shadow: none;
+      object-fit: cover;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: transparent;
+      opacity: 1;
+    } 
 
-    .gallery img {
-      width: 20vw;
-    }
+    .floating-gif:hover {
+    }
 
-    /* 🌸 반응형: 화면 좁아지면 텍스트와 버튼 사이즈 조절 */
-    @media (min-width: 768px) {
-      h1 {
-        font-size: 42px;
-      }
 
-      .entry h2 {
-        font-size: 28px;
-      }
 
-      .sidebar {
-        width: 250px;
-        left: -260px;
-      }
 
-      .sidebar.open {
-        left: 0;
-      }
 
-      .menu-button {
-        font-size: 26px;
-        padding: 8px 14px;
-      }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 250px;
+      height: 100%;
+      background: #ffe6f0;
+      border-right: 3px dashed #ff99cc;
+      box-shadow: 5px 0 15px #ffcce5;
+      padding: 20px;
+      transition: left 0.4s ease;
+      z-index: 1000;
+    } 
 
-      .gallery img {
-        width: 80px;
-      }
-    }
+    .sidebar.open {
+      left: 0;
+    } 
 
-    /* 🩷 첫 입장 화면 */
-    #entry-screen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: #ffe4f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 9999;
-    }
+    .sidebar h2 {
+      font-size: 26px;
+      color: #ff66aa;
+      margin-bottom: 20px;
+    } 
 
-    #entry-button {
-      font-family: 'Cute Font', cursive;
-      font-size: 30px;
-      background: #ffaad4;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 20px 40px;
-      cursor: pointer;
-      box-shadow: 0 0 20px #ffb6d9;
-      transition: transform 0.3s ease;
-    }
+    .sidebar a {
+      display: block;
+      margin: 15px 0;
+      color: #ff80bf;
+      text-decoration: none;
+      font-size: 20px;
+      padding: 8px;
+      border-radius: 12px;
+      background: #fff5fa;
+      border: 2px dashed #ffcce5;
+      transition: background 0.3s;
+    } 
 
-    #entry-button:hover {
-      transform: scale(1.05);
-    }
+    .sidebar a:hover {
+      background: #ffd6eb;
+    } 
 
-    /* 원래 페이지 스타일 복사 */
+    .menu-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1100;
+      background: #ffaad4;
+      color: white;
+      font-size: 26px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 2px 2px 10px #ffb6d9;
+    } 
 
-#welcome-bubble {
-      position: fixed;
-      bottom: 20px;
-      left: 50%; transform: translateX(-50%);
-      background: #fff0f8;
-      border: 2px dashed #ff99cc;
-      padding: 10px 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 10px #ffb6d9;
-      font-size: 20px;
-      cursor: pointer;
-      opacity: 1;
-      transition: opacity 1s ease;
-      z-index: 9999;
-    }
+    .container {
+      background: white;
+      border: 4px dashed #ff99cc;
+      border-radius: 25px;
+      padding: 25px;
+      max-width: 700px;
+      margin: 80px auto;
+      box-shadow: 0 0 25px #ffb6d9;
+      position: relative;
+      z-index: 1;
+    } 
 
-    #main-content {
-      font-family: 'Cute Font', cursive;
-      background: linear-gradient(to bottom, #fff0f5, #ffe4f0);
-      color: #444;
-      padding: 30px;
-      text-align: center;
-      overflow-x: hidden;
-    }
+    h1 {
+      font-size: 42px;
+      color: #ff66aa;
+      margin-bottom: 30px;
+    } 
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -260px;
-      width: 250px;
-      height: 100%;
-      background: #ffe6f0;
-      border-right: 3px dashed #ff99cc;
-      box-shadow: 5px 0 15px #ffcce5;
-      padding: 20px;
-      transition: left 0.4s ease;
-      z-index: 1000;
-    }
+    .entry {
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 20px;
+      background: #fff5fa;
+      border: 2px dotted #ffcce5;
+      box-shadow: 0 0 10px #ffd6eb;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    } 
 
-    .sidebar.open {
-      left: 0;
-    }
+    .entry.show {
+      opacity: 1;
+      transform: translateY(0);
+    } 
 
-    .sidebar h2 {
-      font-size: 26px;
-      color: #ff66aa;
-      margin-bottom: 20px;
-    }
+    .entry h2 {
+      font-size: 28px;
+      color: #ff80bf;
+    } 
 
-    .sidebar a {
-      display: block;
-      margin: 15px 0;
-      color: #ff80bf;
-      text-decoration: none;
-      font-size: 20px;
-      padding: 8px;
-      border-radius: 12px;
-      background: #fff5fa;
-      border: 2px dashed #ffcce5;
-      transition: background 0.3s;
-    }
+    .entry img {
+      max-width: 90%;
+      border-radius: 20px;
+      margin-top: 10px;
+    } 
 
-    .sidebar a:hover {
-      background: #ffd6eb;
-    }
+    @media (max-width: 1024px) {
+      .floating-gifs {
+        position: relative;
+        top: auto;
+        flex-direction: row;
+        justify-content: center;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      } 
 
-    .menu-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1100;
-      background: #ffaad4;
-      color: white;
-      font-size: 26px;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 2px 2px 10px #ffb6d9;
-    }
+      .floating-gifs.left,
+      .floating-gifs.right {
+        left: auto;
+        right: auto;
+        position: relative;
+      } 
 
-    .container {
-      background: white;
-      border: 4px dashed #ff99cc;
-      border-radius: 25px;
-      padding: 25px;
-      max-width: 700px;
-      margin: 80px auto;
-      box-shadow: 0 0 25px #ffb6d9;
-    }
+      .floating-gif {
+        width: 100px;
+        height: 100px;
+      } 
 
-    h1 {
-      font-size: 42px;
-      color: #ff66aa;
-      margin-bottom: 30px;
-    }
+      .gif-control-panel {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin: 20px auto;
+      } 
 
-    .entry {
-      margin: 20px 0;
-      padding: 20px;
-      border-radius: 20px;
-      background: #fff5fa;
-      border: 2px dotted #ffcce5;
-      box-shadow: 0 0 10px #ffd6eb;
+      h1 {
+        font-size: 8vw;
+      } 
 
-      /* ✨ 페이드인 효과 초기 상태 */
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
+      .entry h2 {
+        font-size: 6vw;
+      } 
 
-    .entry.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+      .container {
+        max-width: 90vw;
+        padding: 5vw;
+      } 
 
-    .entry img {
-      max-width: 90%;
-      border-radius: 20px;
-      margin-top: 10px;
-    }
+      .menu-button {
+        font-size: 6vw;
+        padding: 2vw 4vw;
+      } 
 
-    .entry h2 {
-      font-size: 28px;
-      color: #ff80bf;
-    }
+      .sidebar {
+        width: 80vw;
+        left: -85vw;
+      } 
 
-    form {
-      margin-top: 40px;
-      padding: 20px;
-      background: #fff0f8;
-      border-radius: 20px;
-      border: 2px solid #ffb3d9;
-      box-shadow: 0 0 10px #ffcce5;
-    }
+      .sidebar.open {
+        left: 0;
+      }
+    } 
 
-    textarea {
-      width: 90%;
-      height: 80px;
-      font-family: 'Cute Font', cursive;
-      font-size: 20px;
-      padding: 10px;
-      border-radius: 15px;
-      border: 2px dashed #ff99cc;
-      resize: none;
-      background: #fff8fc;
-      margin-bottom: 10px;
-    }
+    form {
+      margin-top: 40px;
+      padding: 20px;
+      background: #fff0f8;
+      border-radius: 20px;
+      border: 2px solid #ffb3d9;
+      box-shadow: 0 0 10px #ffcce5;
+    } 
 
-    button {
-      font-family: 'Cute Font', cursive;
-      font-size: 20px;
-      background: #ffaad4;
-      color: white;
-      border: none;
-      border-radius: 15px;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
+    textarea {
+      width: 90%;
+      height: 80px;
+      font-family: 'Cute Font', cursive;
+      font-size: 20px;
+      padding: 10px;
+      border-radius: 15px;
+      border: 2px dashed #ff99cc;
+      resize: none;
+      background: #fff8fc;
+      margin-bottom: 10px;
+    } 
 
-    button:hover {
-      background: #ff88bb;
-    }
+    button {
+      font-family: 'Cute Font', cursive;
+      font-size: 20px;
+      background: #ffaad4;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    } 
 
-    .gallery img {
-      width: 80px;
-      margin: 5px;
-      border-radius: 12px;
-      border: 2px dashed #ff99cc;
-    }
-  </style>
+    button:hover {
+      background: #ff88bb;
+    } 
+
+    .gallery img {
+      width: 80px;
+      margin: 5px;
+      border-radius: 12px;
+      border: 2px dashed #ff99cc;
+    } 
+
+    .hidden-file-input {
+      display: none;
+    }
+  </style>
 </head>
-<body>
+<body> 
 
-<!-- 🩷 입장 화면 -->
 <div id="entry-screen">
-  <button id="entry-button">🎀 지상낙원 입장하기 🎀</button>
-</div>
+  <button id="entry-button">🎀 지상낙원 입장하기 🎀</button>
+</div> 
 
-<!-- 🩷 메인 페이지 전체를 여기로 감싸기 -->
 <div id="main-content">
-  <!-- 🎵 배경음악 -->
-  <audio id="bg-music" loop>
-    <source src="demon_fiestar.mp3" type="audio/mpeg">
-    브라우저가 오디오를 지원하지 않아요ㅠㅠ
-  </audio>
+  <audio id="bg-music" loop>
+    <source src="demon_fiestar.mp3" type="audio/mpeg">
+    브라우저가 오디오를 지원하지 않아요ㅠㅠ
+  </audio> 
 
-  <div id="welcome-bubble" onclick="fadeOut(this)">
-    🎀 샤비네 지상낙원 html고수 상시 모집중!! 🩷 (클릭해서 지우기)
-  </div>
+  <div id="welcome-bubble" onclick="fadeOut(this)">
+    🎀 샤비네 지상낙원 html고수 상시 모집중!! 🩷 (클릭해서 지우기)
+  </div> 
 
-  <button class="menu-button" onclick="toggleSidebar()">☰</button>
+  <div class="floating-gifs left" id="left-floating-gifs">
+    <img src="1231232131231" alt="Left GIF 1" class="floating-gif">
+    <img src="123123123123131231" class="floating-gif">
+  </div> 
 
-  <div class="sidebar" id="sidebar">
-    <h2>🎀 MENU 🎀</h2>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUeAlvM1KvdmXuQitsSSyac0k9ZQAmR8ionXOFl8GiKYdTiw/viewform?usp=dialog" target="_blank">💌 방명록</a>
-    <a href="https://open.kakao.com/me/Shabi" target="_blank">💬 카카오톡</a>
-    <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">💗 유튜브</a>
-    <a href="https://shabihasa.tistory.com" target="_blank">🩷 팽이낙원</a>
-    <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">🪽 블루시티</a>
+  <div class="floating-gifs right" id="right-floating-gifs">
+    <img src="2131231232132131223123" alt="Right GIF 1" class="floating-gif">
+    <img src="21312321312312312" alt="Right GIF 2" class="floating-gif">
+  </div> 
 
-    <div class="gallery" id="gallery">
-      <h2 style="font-size: 17px;">설명</h2>
-      <img src="wawa-strawberry.jpg" alt="사진1">
-      <img src="wawa-strawberry.jpg" alt="사진2">
-    </div>
-  </div>
+  <button class="menu-button" onclick="toggleSidebar()">☰</button> 
 
-  <div class="container">
-    <h1>🎀 샤비의 낙원 🎀</h1>
+  <div class="sidebar" id="sidebar">
+    <h2>🎀 MENU 🎀</h2>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUeAlvM1KvdmXuQitsSSyac0k9ZQAmR8ionXOFl8GiKYdTiw/viewform?usp=dialog" target="_blank">💌 방명록</a>
+    <a href="https://open.kakao.com/me/Shabi" target="_blank">💬 카카오톡</a>
+    <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">💗 유튜브</a>
+    <a href="https://shabihasa.tistory.com" target="_blank">🩷 팽이낙원</a>
+    <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">🪽 블루시티</a> 
 
-    <div class="entry">
-      <h2>🌸 샤비를 소개합니다~ 🌸</h2>
-      <p></p>
-      <img src="무제37_20241004052914.png" alt="">
-    </div>
+    <div class="gallery" id="gallery">
+      <h2 style="font-size: 17px;">설명</h2>
+      <img src="wawa-strawberry.jpg" alt="사진1">
+      <img src="wawa-strawberry.jpg" alt="사진2">
+    </div>
+  </div> 
 
-    <div class="entry">
-      <h2>🩷 제목2 🩷</h2>
-      <p>본문2</p>
-      <img src="image1.jpg" alt="사진1">
-    </div>
+  <div class="container">
+    <h1>🎀 샤비의 낙원 🎀</h1> 
 
-    <div class="entry">
-      <h2>💗 제목3 💗</h2>
-      <p>본문2</p>
-      <img src="image2.jpg" alt="사진2">
-    </div>
-  </div>
+    <div class="entry">
+      <h2>🌸 샤비를 소개합니다~ 🌸</h2>
+      <p></p>
+      <img src="무제37_20241004052914.png" alt="">
+    </div> 
 
-<!-- ✨ 스크립트 -->
+    <div class="entry">
+      <h2>🩷 제목2 🩷</h2>
+      <p>본문2</p>
+      <img src="image1.jpg" alt="사진1">
+    </div> 
+
+    <div class="entry">
+      <h2>💗 제목3 💗</h2>
+      <p>본문2</p>
+      <img src="image2.jpg" alt="사진2">
+    </div>
+  </div>
+</div> 
+
 <script>
-  const entryScreen = document.getElementById('entry-screen');
-  const mainContent = document.getElementById('main-content');
-  const bgMusic = document.getElementById('bg-music');
+  const entryScreen = document.getElementById('entry-screen');
+  const mainContent = document.getElementById('main-content');
+  const bgMusic = document.getElementById('bg-music'); 
 
-  document.getElementById('entry-button').addEventListener('click', () => {
-    entryScreen.style.display = 'none';
-    mainContent.style.display = 'block';
-    bgMusic.play();
-  });
+  document.getElementById('entry-button').addEventListener('click', () => {
+    entryScreen.style.display = 'none';
+    mainContent.style.display = 'block';
+    bgMusic.play().catch(e => console.log('음악 재생 실패:', e));
+  }); 
 
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-  }
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  } 
 
-  function fadeOut(element) {
-    element.style.opacity = '0';
-    setTimeout(() => {
-      element.style.display = 'none';
-    }, 1000);
-  }
+  function fadeOut(element) {
+    element.style.opacity = '0';
+    setTimeout(() => {
+      element.style.display = 'none';
+    }, 1000);
+  } 
 
-  // ✨ entry 페이드인 효과
-  const entries = document.querySelectorAll('.entry');
-  function checkFadeIn() {
-    entries.forEach(entry => {
-      const rect = entry.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 100) {
-        entry.classList.add('show');
-      }
-    });
-  }
+  const entries = document.querySelectorAll('.entry');
+  function checkFadeIn() {
+    entries.forEach(entry => {
+      const rect = entry.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) {
+        entry.classList.add('show');
+      }
+    });
+  } 
 
-  window.addEventListener('scroll', checkFadeIn);
-  window.addEventListener('load', checkFadeIn);
-</script>
+  window.addEventListener('scroll', checkFadeIn);
+  window.addEventListener('load', checkFadeIn);
+</script> 
 
 </body>
 </html>
