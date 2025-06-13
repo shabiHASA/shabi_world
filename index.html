@@ -14,7 +14,24 @@
       overflow-x: hidden;
     }
 
-    /* 사이드바 */
+    /* 💬 말풍선 스타일 */
+    #welcome-bubble {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #fff0f8;
+      border: 2px dashed #ff99cc;
+      padding: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px #ffb6d9;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 1;
+      transition: opacity 1s ease;
+      z-index: 9999;
+    }
+
+    /* 이하 기존 CSS 유지 */
     .sidebar {
       position: fixed;
       top: 0;
@@ -56,7 +73,6 @@
       background: #ffd6eb;
     }
 
-    /* 메뉴 버튼 */
     .menu-button {
       position: fixed;
       top: 20px;
@@ -156,6 +172,11 @@
 </head>
 <body>
 
+  <!-- 💬 와팽이 말풍선 -->
+  <div id="welcome-bubble" onclick="fadeOut(this)">
+    🎀 와팽이네 블로그 상시 업데이트 중! html고수를 구합니다 🐌 (클릭해서 지우기)
+  </div>
+
   <button class="menu-button" onclick="toggleSidebar()">☰</button>
 
   <div class="sidebar" id="sidebar">
@@ -164,12 +185,11 @@
     <a href="https://open.kakao.com/me/Shabi" target="_blank">💬 카카오톡</a>
     <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">💗 유튜브</a>
     <a href="https://drive.google.com/drive/folders/1-mfZlLVTZvHvcIiHPgjtEh2OlfoYbdxx" target="_blank">🩷 달팽이 갤러리</a>
-    
+
     <div class="gallery" id="gallery">
       <h2 style="font-size: 17px;">팽이들을 소개합니다~</h2>
       <img src="wawa-strawberry.jpg" alt="와와">
       <img src="wawa-strawberry.jpg" alt="팽팽이">
-      <!-- 원하는 만큼 추가 가능 -->
     </div>
   </div>
 
@@ -197,6 +217,14 @@
   <script>
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // 💫 말풍선 페이드아웃 함수
+    function fadeOut(element) {
+      element.style.opacity = '0';
+      setTimeout(() => {
+        element.style.display = 'none';
+      }, 1000); // 1초 후 완전 숨김
     }
   </script>
 </body>
