@@ -232,7 +232,7 @@
       }
 
       .floating-gif {
-        width: 100px;
+        width: 200px;
         height: 100px;
       }
 
@@ -242,6 +242,11 @@
         left: auto;
         transform: none;
         margin: 20px auto;
+      }
+      @media (max-width: 767px) {
+        .floating-gifs {
+          display: none;
+        }
       }
 
       h1 {
