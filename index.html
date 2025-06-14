@@ -374,10 +374,39 @@
 </div>  
   
 <div id="main-content">  
-  <audio id="bg-music" loop>  
-    <source src="45second.mp3" type="audio/mpeg">  
-    브라우저가 오디오를 지원하지 않아요ㅠㅠ  
-  </audio>  
+  <!-- 플레이리스트 오디오 -->
+  <audio id="bg-music" preload="auto"></audio>
+
+
+  <script>
+    const playlist = [
+      "45second.mp3",  // 첫 번째 곡
+      "포피포.mp3",  // 두 번째 곡
+      "장난기.mp3"   // 세 번째 곡 (원하는 만큼 추가)
+      ];
+    let currentTrack = 0;
+    const audioPlayer = document.getElementById('bg-music');
+
+    function playTrack(index) {
+      if (index >= playlist.length) {
+        currentTrack = 0;  // 마지막 곡 다음엔 처음으로
+      } else {
+        currentTrack = index;
+      }
+      audioPlayer.src = playlist[currentTrack];
+      audioPlayer.play();
+     }
+
+     audioPlayer.addEventListener('ended', () => {
+       playTrack(currentTrack + 1);
+     });
+
+
+  document.getElementById('entry-button').addEventListener('click', () => {
+  document.getElementById('entry-screen').style.display = 'none';
+    playTrack(0);  // 첫 번째 곡부터 시작
+  });
+    </script>
   
   <div id="welcome-bubble" onclick="fadeOut(this)">  
     🎀 샤비네 지상낙원 html고수 상시 모집중!! 🩷 (클릭해서 지우기)  
