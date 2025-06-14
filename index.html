@@ -1,490 +1,480 @@
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎀 샤비의 낙원 🎀</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Cute Font', cursive;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
-
-    #entry-screen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: #ffe4f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 9999;
-    }
-
-    #entry-button {
-      font-family: 'Cute Font', cursive;
-      font-size: 30px;
-      background: #ffaad4;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 20px 40px;
-      cursor: pointer;
-      box-shadow: 0 0 20px #ffb6d9;
-      transition: transform 0.3s ease;
-    }
-
-    #entry-button:hover {
-      transform: scale(1.05);
-    }
-
-    #welcome-bubble {
-      position: fixed;
-      bottom: 20px;
-      left: 50%; transform: translateX(-50%);
-      background: #fff0f8;
-      border: 2px dashed #ff99cc;
-      padding: 10px 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 10px #ffb6d9;
-      font-size: 20px;
-      cursor: pointer;
-      opacity: 1;
-      transition: opacity 1s ease;
-      z-index: 9999;
-    }
-
-    #main-content {
-      font-family: 'Cute Font', cursive;
-      background: linear-gradient(to bottom, #fff0f5, #ffe4f0);
-      color: #444;
-      padding: 30px;
-      text-align: center;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    .floating-gifs {
-      position: absolute;
-      top: 30%;
-      transform: translateY(-70%);
-      z-index: 500;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      pointer-events: auto;
-    }
-
-    .floating-gifs.left {
-      left: 30px;
-    }
-
-    .floating-gifs.right {
-      right: 30px;
-    }
-
-    .floating-gif {
-      max-width: 230px;
-      max-height: 200px;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      border-radius: 20px;
-      border: none;
-      box-shadow: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background: transparent;
-      opacity: 1;
-    }
-
-    .floating-gif:hover {
-    }
-
-
-
-
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -260px;
-      width: 250px;
-      height: 100%;
-      background: #ffe6f0;
-      border-right: 3px dashed #ff99cc;
-      box-shadow: 5px 0 15px #ffcce5;
-      padding: 20px;
-      transition: left 0.4s ease;
-      z-index: 1000;
-    }
-
-    .sidebar.open {
-      left: 0;
-    }
-
-    .sidebar h2 {
-      font-size: 26px;
-      color: #ff66aa;
-      margin-bottom: 20px;
-    }
-
-    .sidebar a {
-      display: block;
-      margin: 15px 0;
-      color: #ff80bf;
-      text-decoration: none;
-      font-size: 20px;
-      padding: 8px;
-      border-radius: 12px;
-      background: #fff5fa;
-      border: 2px dashed #ffcce5;
-      transition: background 0.3s;
-    }
-
-    .sidebar a:hover {
-      background: #ffd6eb;
-    }
-
-    .menu-button {
-      position: fixed;
-      top: 30px;
-      left: 20px;
-      z-index: 1100;
-      background: #ffaad4;
-      color: white;
-      font-size: 26px;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 2px 2px 10px #ffb6d9;
-    }
-
-    .container {
-      background: white;
-      border: 4px dashed #ff99cc;
-      border-radius: 25px;
-      padding: 25px;
-      max-width: 700px;
-      margin: 80px auto;
-      box-shadow: 0 0 25px #ffb6d9;
-      position: relative;
-      z-index: 1;
-    }
-    .popup-header {
-      background: linear-gradient(to right, #ffd6eb, #fff0f8);
-      border-bottom: 2px dashed #ff99cc;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      padding: 10px 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 20px;
-      color: #ff66aa;
-      position: relative;
-      top: -25px;
-      margin-bottom: -15px;
-      box-shadow: 0 2px 5px #ffb6d9;
-    }
-    .popup-title {
-      font-weight: bold;
-    }
-    
-    .popup-controls {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .popup-btn {
-      background: #ffaad4;
-      color: white;
-      border-radius: 50%;
-      width: 26px;
-      height: 26px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 16px;
-      cursor: default;
-      box-shadow: 0 0 5px #ffb6d9;
-    }
-
-    h1 {
-      font-size: 42px;
-      color: #ff66aa;
-      margin-bottom: 30px;
-    }
-
-    .entry {
-      margin: 20px 0;
-      padding: 20px;
-      border-radius: 20px;
-      background: #fff5fa;
-      border: 2px dotted #ffcce5;
-      box-shadow: 0 0 10px #ffd6eb;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .entry.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .entry h2 {
-      font-size: 28px;
-      color: #ff80bf;
-    }
-
-    .entry img {
-      max-width: 90%;
-      border-radius: 20px;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 1024px) {
-      .floating-gifs {
-        position: relative;
-        top: auto;
-        flex-direction: row;
-        justify-content: center;
-        margin: 20px 0;
-        flex-wrap: wrap;
-      }
-
-      .floating-gifs.left,
-      .floating-gifs.right {
-        left: auto;
-        right: auto;
-        position: relative;
-      }
-
-      .floating-gif {
-        width: 200px;
-        height: 100px;
-      }
-
-      .gif-control-panel {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        transform: none;
-        margin: 20px auto;
-      }
-      @media (max-width: 767px) {
-        .floating-gifs {
-          display: none;
-        }
-      }
-
-      h1 {
-        font-size: 8vw;
-      }
-
-      .entry h2 {
-        font-size: 6vw;
-      }
-
-      .container {
-        max-width: 90vw;
-        padding: 5vw;
-      }
-
-      .menu-button {
-        font-size: 6vw;
-        padding: 2vw 4vw;
-      }
-
-      .sidebar {
-        width: 80vw;
-        left: -85vw;
-      }
-
-      .sidebar.open {
-        left: 0;
-      }
-    }
-
-    form {
-      margin-top: 40px;
-      padding: 20px;
-      background: #fff0f8;
-      border-radius: 20px;
-      border: 2px solid #ffb3d9;
-      box-shadow: 0 0 10px #ffcce5;
-    }
-
-    textarea {
-      width: 90%;
-      height: 80px;
-      font-family: 'Cute Font', cursive;
-      font-size: 20px;
-      padding: 10px;
-      border-radius: 15px;
-      border: 2px dashed #ff99cc;
-      resize: none;
-      background: #fff8fc;
-      margin-bottom: 10px;
-    }
-
-    button {
-      font-family: 'Cute Font', cursive;
-      font-size: 20px;
-      background: #ffaad4;
-      color: white;
-      border: none;
-      border-radius: 15px;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #ff88bb;
-    }
-
-    .gallery img {
-      width: 80px;
-      margin: 5px;
-      border-radius: 12px;
-      border: 2px dashed #ff99cc;
-    }
-
-    .hidden-file-input {
-      display: none;
-    }
-  </style>
-</head>
-<body>
-
-<div id="entry-screen">
-  <button id="entry-button">🎀 지상낙원 입장하기 🎀</button>
-</div>
-
-<div id="main-content">
-  <audio id="bg-music" controls></audio>
-
-  <div id="welcome-bubble" onclick="fadeOut(this)">
-    🎀 샤비네 지상낙원 html고수 상시 모집중!! 🩷 (클릭해서 지우기)
-  </div>
-
-  <div class="floating-gifs left" id="left-floating-gifs">
-    <img src="b158f4cc0584572b4cdab742ef9bf7c0.gif" alt="Left GIF 1" class="floating-gif">
-    <img src="93c81736d55c7366d7c9586e9c1e0f79.gif" class="floating-gif">
-  </div>
-
-  <div class="floating-gifs right" id="right-floating-gifs">
-    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" alt="Right GIF 1" class="floating-gif">
-    <img src="5cc612a28feb9b53192069a98d9572e8.gif" alt="Right GIF 2" class="floating-gif">
-  </div>
-
-  <button class="menu-button" onclick="toggleSidebar()">☰</button>
-
-  <div class="sidebar" id="sidebar">
-    <h2>🎀 MENU 🎀</h2>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUeAlvM1KvdmXuQitsSSyac0k9ZQAmR8ionXOFl8GiKYdTiw/viewform?usp=dialog" target="_blank">💌 방명록</a>
-    <a href="https://open.kakao.com/me/Shabi" target="_blank">💬 카카오톡</a>
-    <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">💗 유튜브</a>
-    <a href="https://shabihasa.tistory.com" target="_blank">🩷 팽이낙원</a>
-    <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">🪽 블루시티</a>
-
-    <div class="gallery" id="gallery">
-      <h2 style="font-size: 17px;">@샤비shabi</h2>
-      <img src="무제73_20250613202145.png" alt="">
-    </div>
-  </div>
-
-  <div class="popup-header">
-  <span class="popup-title">🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷</span>
-  <div class="popup-controls">
-    <span class="popup-btn">⎙</span>
-    <span class="popup-btn">✕</span>
-  </div>
-  </div>
+<!DOCTYPE html>  
+<html lang="ko">  
+  <head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>🎀 샤비의 낙원 🎀</title>  
+  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">  
+  <style>  
+    *, *::before, *::after {  
+      box-sizing: border-box;  
+    }  
   
-  <div class="container">
-    <h1>🎀 샤비의 낙원 🎀</h1>
-
-    <div class="entry">
-      <h2>🌸 샤비를 소개합니다~ 🌸</h2>
-      <p></p>
-      <img src="무제37_20241004052914.png" alt="">
-    </div>
-
-    <div class="entry">
-      <h2>🩷 지상낙원이란? 🩷</h2>
-      <p>현생탈출은 지능순!! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱</p>
-      <img src="3934660aaacc389bde28daa306354aec.jpg" alt="">
-    </div>
-
-    <div class="entry">
-      <h2>💗 제목3 💗</h2>
-      <p>본문2</p>
-      <img src="image2.jpg" alt="사진2">
-    </div>
-  </div>
-</div>
-
-<script>
-  const entryScreen = document.getElementById('entry-screen');
-  const mainContent = document.getElementById('main-content');
-  const music = document.getElementById("bg-music");
-
-  const playlist = [
-    "45second.mp3",
-    "포피포.mp3",
-    "장난기.mp3"
-  ];
-
-  let currentTrack = 0;
-
-  // 초기 로딩
-  music.src = playlist[currentTrack];
-  music.play();
-
-  // 다음 곡으로 넘어가기
-  music.addEventListener("ended", () => {
-    currentTrack = (currentTrack + 1) % playlist.length;
-    music.src = playlist[currentTrack];
-    music.play();
-  });
-
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-  }
-
-  function fadeOut(element) {
-    element.style.opacity = '0';
-    setTimeout(() => {
-      element.style.display = 'none';
-    }, 1000);
-  }
-
-  const entries = document.querySelectorAll('.entry');
-  function checkFadeIn() {
-    entries.forEach(entry => {
-      const rect = entry.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 100) {
-        entry.classList.add('show');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', checkFadeIn);
-  window.addEventListener('load', checkFadeIn);
-</script>
-
-</body>
+    body {  
+      font-family: 'Cute Font', cursive;  
+      margin: 0;  
+      padding: 0;  
+      overflow-x: hidden;  
+    }  
+  
+    #entry-screen {  
+      position: fixed;  
+      top: 0; left: 0;  
+      width: 100%;  
+      height: 100%;  
+      background: #ffe4f0;  
+      display: flex;  
+      justify-content: center;  
+      align-items: center;  
+      flex-direction: column;  
+      z-index: 9999;  
+    }  
+  
+    #entry-button {  
+      font-family: 'Cute Font', cursive;  
+      font-size: 30px;  
+      background: #ffaad4;  
+      color: white;  
+      border: none;  
+      border-radius: 20px;  
+      padding: 20px 40px;  
+      cursor: pointer;  
+      box-shadow: 0 0 20px #ffb6d9;  
+      transition: transform 0.3s ease;  
+    }  
+  
+    #entry-button:hover {  
+      transform: scale(1.05);  
+    }  
+  
+    #welcome-bubble {  
+      position: fixed;  
+      bottom: 20px;  
+      left: 50%; transform: translateX(-50%);  
+      background: #fff0f8;  
+      border: 2px dashed #ff99cc;  
+      padding: 10px 20px;  
+      border-radius: 20px;  
+      box-shadow: 0 0 10px #ffb6d9;  
+      font-size: 20px;  
+      cursor: pointer;  
+      opacity: 1;  
+      transition: opacity 1s ease;  
+      z-index: 9999;  
+    }  
+  
+    #main-content {  
+      font-family: 'Cute Font', cursive;  
+      background: linear-gradient(to bottom, #fff0f5, #ffe4f0);  
+      color: #444;  
+      padding: 30px;  
+      text-align: center;  
+      overflow-x: hidden;  
+      position: relative;  
+    }  
+  
+    .floating-gifs {  
+      position: absolute;  
+      top: 30%;  
+      transform: translateY(-70%);  
+      z-index: 500;  
+      display: flex;  
+      flex-direction: column;  
+      gap: 20px;  
+      pointer-events: auto;  
+    }  
+  
+    .floating-gifs.left {  
+      left: 30px;  
+    }  
+  
+    .floating-gifs.right {  
+      right: 30px;  
+    }  
+  
+    .floating-gif {  
+      max-width: 230px;  
+      max-height: 200px;  
+      width: auto;  
+      height: auto;  
+      object-fit: contain;  
+      border-radius: 20px;  
+      border: none;  
+      box-shadow: none;  
+      cursor: pointer;  
+      transition: all 0.3s ease;  
+      background: transparent;  
+      opacity: 1;  
+    }  
+  
+    .floating-gif:hover {  
+    }  
+  
+  
+  
+  
+  
+    .sidebar {  
+      position: fixed;  
+      top: 0;  
+      left: -260px;  
+      width: 250px;  
+      height: 100%;  
+      background: #ffe6f0;  
+      border-right: 3px dashed #ff99cc;  
+      box-shadow: 5px 0 15px #ffcce5;  
+      padding: 20px;  
+      transition: left 0.4s ease;  
+      z-index: 1000;  
+    }  
+  
+    .sidebar.open {  
+      left: 0;  
+    }  
+  
+    .sidebar h2 {  
+      font-size: 26px;  
+      color: #ff66aa;  
+      margin-bottom: 20px;  
+    }  
+  
+    .sidebar a {  
+      display: block;  
+      margin: 15px 0;  
+      color: #ff80bf;  
+      text-decoration: none;  
+      font-size: 20px;  
+      padding: 8px;  
+      border-radius: 12px;  
+      background: #fff5fa;  
+      border: 2px dashed #ffcce5;  
+      transition: background 0.3s;  
+    }  
+  
+    .sidebar a:hover {  
+      background: #ffd6eb;  
+    }  
+  
+    .menu-button {  
+      position: fixed;  
+      top: 30px;  
+      left: 20px;  
+      z-index: 1100;  
+      background: #ffaad4;  
+      color: white;  
+      font-size: 26px;  
+      padding: 8px 14px;  
+      border: none;  
+      border-radius: 10px;  
+      cursor: pointer;  
+      box-shadow: 2px 2px 10px #ffb6d9;  
+    }  
+  
+    .container {  
+      background: white;  
+      border: 4px dashed #ff99cc;  
+      border-radius: 25px;  
+      padding: 25px;  
+      max-width: 700px;  
+      margin: 80px auto;  
+      box-shadow: 0 0 25px #ffb6d9;  
+      position: relative;  
+      z-index: 1;  
+    }  
+    .popup-header {  
+      background: linear-gradient(to right, #ffd6eb, #fff0f8);  
+      border-bottom: 2px dashed #ff99cc;  
+      border-top-left-radius: 20px;  
+      border-top-right-radius: 20px;  
+      padding: 10px 15px;  
+      display: flex;  
+      justify-content: space-between;  
+      align-items: center;  
+      font-size: 20px;  
+      color: #ff66aa;  
+      position: relative;  
+      top: -25px;  
+      margin-bottom: -15px;  
+      box-shadow: 0 2px 5px #ffb6d9;  
+    }  
+    .popup-title {  
+      font-weight: bold;  
+    }  
+      
+    .popup-controls {  
+      display: flex;  
+      gap: 10px;  
+    }  
+      
+    .popup-btn {  
+      background: #ffaad4;  
+      color: white;  
+      border-radius: 50%;  
+      width: 26px;  
+      height: 26px;  
+      display: flex;  
+      justify-content: center;  
+      align-items: center;  
+      font-size: 16px;  
+      cursor: default;  
+      box-shadow: 0 0 5px #ffb6d9;  
+    }  
+  
+    h1 {  
+      font-size: 42px;  
+      color: #ff66aa;  
+      margin-bottom: 30px;  
+    }  
+  
+    .entry {  
+      margin: 20px 0;  
+      padding: 20px;  
+      border-radius: 20px;  
+      background: #fff5fa;  
+      border: 2px dotted #ffcce5;  
+      box-shadow: 0 0 10px #ffd6eb;  
+      opacity: 0;  
+      transform: translateY(40px);  
+      transition: opacity 0.8s ease, transform 0.8s ease;  
+    }  
+  
+    .entry.show {  
+      opacity: 1;  
+      transform: translateY(0);  
+    }  
+  
+    .entry h2 {  
+      font-size: 28px;  
+      color: #ff80bf;  
+    }  
+  
+    .entry img {  
+      max-width: 90%;  
+      border-radius: 20px;  
+      margin-top: 10px;  
+    }  
+  
+    @media (max-width: 1024px) {  
+      .floating-gifs {  
+        position: relative;  
+        top: auto;  
+        flex-direction: row;  
+        justify-content: center;  
+        margin: 20px 0;  
+        flex-wrap: wrap;  
+      }  
+  
+      .floating-gifs.left,  
+      .floating-gifs.right {  
+        left: auto;  
+        right: auto;  
+        position: relative;  
+      }  
+  
+      .floating-gif {  
+        width: 200px;  
+        height: 100px;  
+      }  
+  
+      .gif-control-panel {  
+        position: relative;  
+        bottom: auto;  
+        left: auto;  
+        transform: none;  
+        margin: 20px auto;  
+      }  
+      @media (max-width: 767px) {  
+        .floating-gifs {  
+          display: none;  
+        }  
+      }  
+  
+      h1 {  
+        font-size: 8vw;  
+      }  
+  
+      .entry h2 {  
+        font-size: 6vw;  
+      }  
+  
+      .container {  
+        max-width: 90vw;  
+        padding: 5vw;  
+      }  
+  
+      .menu-button {  
+        font-size: 6vw;  
+        padding: 2vw 4vw;  
+      }  
+  
+      .sidebar {  
+        width: 80vw;  
+        left: -85vw;  
+      }  
+  
+      .sidebar.open {  
+        left: 0;  
+      }  
+    }  
+  
+    form {  
+      margin-top: 40px;  
+      padding: 20px;  
+      background: #fff0f8;  
+      border-radius: 20px;  
+      border: 2px solid #ffb3d9;  
+      box-shadow: 0 0 10px #ffcce5;  
+    }  
+  
+    textarea {  
+      width: 90%;  
+      height: 80px;  
+      font-family: 'Cute Font', cursive;  
+      font-size: 20px;  
+      padding: 10px;  
+      border-radius: 15px;  
+      border: 2px dashed #ff99cc;  
+      resize: none;  
+      background: #fff8fc;  
+      margin-bottom: 10px;  
+    }  
+  
+    button {  
+      font-family: 'Cute Font', cursive;  
+      font-size: 20px;  
+      background: #ffaad4;  
+      color: white;  
+      border: none;  
+      border-radius: 15px;  
+      padding: 10px 20px;  
+      cursor: pointer;  
+      transition: background 0.3s ease;  
+    }  
+  
+    button:hover {  
+      background: #ff88bb;  
+    }  
+  
+    .gallery img {  
+      width: 80px;  
+      margin: 5px;  
+      border-radius: 12px;  
+      border: 2px dashed #ff99cc;  
+    }  
+  
+    .hidden-file-input {  
+      display: none;  
+    }  
+  </style>  
+</head>  
+<body>  
+  
+<div id="entry-screen">  
+  <button id="entry-button">🎀 지상낙원 입장하기 🎀</button>  
+</div>  
+  
+<div id="main-content">  
+  <audio id="bg-music" loop>  
+    <source src="45second.mp3" type="audio/mpeg">  
+    브라우저가 오디오를 지원하지 않아요ㅠㅠ  
+  </audio>  
+  
+  <div id="welcome-bubble" onclick="fadeOut(this)">  
+    🎀 샤비네 지상낙원 html고수 상시 모집중!! 🩷 (클릭해서 지우기)  
+  </div>  
+  
+  <div class="floating-gifs left" id="left-floating-gifs">  
+    <img src="b158f4cc0584572b4cdab742ef9bf7c0.gif" alt="Left GIF 1" class="floating-gif">  
+    <img src="93c81736d55c7366d7c9586e9c1e0f79.gif" class="floating-gif">  
+  </div>  
+  
+  <div class="floating-gifs right" id="right-floating-gifs">  
+    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" alt="Right GIF 1" class="floating-gif">  
+    <img src="5cc612a28feb9b53192069a98d9572e8.gif" alt="Right GIF 2" class="floating-gif">  
+  </div>  
+  
+  <button class="menu-button" onclick="toggleSidebar()">☰</button>  
+  
+  <div class="sidebar" id="sidebar">  
+    <h2>🎀 MENU 🎀</h2>  
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUeAlvM1KvdmXuQitsSSyac0k9ZQAmR8ionXOFl8GiKYdTiw/viewform?usp=dialog" target="_blank">💌 방명록</a>  
+    <a href="https://open.kakao.com/me/Shabi" target="_blank">💬 카카오톡</a>  
+    <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">💗 유튜브</a>  
+    <a href="https://shabihasa.tistory.com" target="_blank">🩷 팽이낙원</a>  
+    <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">🪽 블루시티</a>  
+  
+    <div class="gallery" id="gallery">  
+      <h2 style="font-size: 17px;">@샤비shabi</h2>  
+      <img src="무제73_20250613202145.png" alt="">  
+    </div>  
+  </div>  
+  
+  <div class="popup-header">  
+  <span class="popup-title">🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷</span>  
+  <div class="popup-controls">  
+    <span class="popup-btn">⎙</span>  
+    <span class="popup-btn">✕</span>  
+  </div>  
+  </div>  
+    
+  <div class="container">  
+    <h1>🎀 샤비의 낙원 🎀</h1>  
+  
+    <div class="entry">  
+      <h2>🌸 샤비를 소개합니다~ 🌸</h2>  
+      <p></p>  
+      <img src="무제37_20241004052914.png" alt="">  
+    </div>  
+  
+    <div class="entry">  
+      <h2>🩷 지상낙원이란? 🩷</h2>  
+      <p>현생탈출은 지능순!! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱</p>  
+      <img src="3934660aaacc389bde28daa306354aec.jpg" alt="">  
+    </div>  
+  
+    <div class="entry">  
+      <h2>💗 제목3 💗</h2>  
+      <p>본문2</p>  
+      <img src="image2.jpg" alt="사진2">  
+    </div>  
+  </div>  
+</div>  
+  
+<script>  
+  const entryScreen = document.getElementById('entry-screen');  
+  const mainContent = document.getElementById('main-content');  
+  const bgMusic = document.getElementById('bg-music');  
+  
+  document.getElementById('entry-button').addEventListener('click', () => {  
+    entryScreen.style.display = 'none';  
+    mainContent.style.display = 'block';  
+    bgMusic.play().catch(e => console.log('음악 재생 실패:', e));  
+  });  
+  
+  function toggleSidebar() {  
+    document.getElementById('sidebar').classList.toggle('open');  
+  }  
+  
+  function fadeOut(element) {  
+    element.style.opacity = '0';  
+    setTimeout(() => {  
+      element.style.display = 'none';  
+    }, 1000);  
+  }  
+  
+  const entries = document.querySelectorAll('.entry');  
+  function checkFadeIn() {  
+    entries.forEach(entry => {  
+      const rect = entry.getBoundingClientRect();  
+      if (rect.top < window.innerHeight - 100) {  
+        entry.classList.add('show');  
+      }  
+    });  
+  }  
+  
+  window.addEventListener('scroll', checkFadeIn);  
+  window.addEventListener('load', checkFadeIn);  
+</script>  
+  
+</body>  
 </html>
