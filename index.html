@@ -15,63 +15,182 @@
       margin: 0;  
       padding: 0;  
       overflow-x: hidden;  
-    }  
+    }
+
+    /* 반짝이는 별들 애니메이션 */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .star {
+      position: absolute;
+      color: #ff99cc;
+      font-size: 20px;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* 떨어지는 하트 애니메이션 */
+    .falling-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .heart {
+      position: absolute;
+      color: #ff66aa;
+      font-size: 25px;
+      animation: fall 8s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* 펄스 효과 */
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* 글로우 효과 */
+    .glow {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 20px #ff99cc, 0 0 30px #ff99cc, 0 0 40px #ff99cc;
+      }
+      to {
+        text-shadow: 0 0 10px #ff66aa, 0 0 20px #ff66aa, 0 0 30px #ff66aa;
+      }
+    }
   
     #entry-screen {  
       position: fixed;  
       top: 0; left: 0;  
       width: 100%;  
       height: 100%;  
-      background: #ffe4f0;  
+      background: linear-gradient(45deg, #ffe4f0, #ffd6eb, #ffcce5);
+      background-size: 400% 400%;
+      animation: gradientShift 4s ease infinite;
       display: flex;  
       justify-content: center;  
       align-items: center;  
       flex-direction: column;  
       z-index: 9999;  
     }  
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
   
     #entry-button {  
       font-family: 'Cute Font', cursive;  
       font-size: 30px;  
-      background: #ffaad4;  
+      background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+      background-size: 400% 400%;
+      animation: rainbow 3s ease infinite, buttonPulse 2s infinite;
       color: white;  
       border: none;  
       border-radius: 20px;  
       padding: 20px 40px;  
       cursor: pointer;  
-      box-shadow: 0 0 20px #ffb6d9;  
-      transition: transform 0.3s ease;  
+      box-shadow: 0 0 30px #ffb6d9, 0 0 60px #ff99cc;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 20px #ff99cc, 0 0 30px #ff99cc, 0 0 40px #ff99cc;
     }  
+
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes buttonPulse {
+      0% { transform: scale(1); box-shadow: 0 0 30px #ffb6d9; }
+      50% { transform: scale(1.1); box-shadow: 0 0 50px #ff99cc, 0 0 80px #ff66aa; }
+      100% { transform: scale(1); box-shadow: 0 0 30px #ffb6d9; }
+    }
   
     #entry-button:hover {  
-      transform: scale(1.05);  
+      transform: scale(1.15);
+      animation: rainbow 3s ease infinite;
+      box-shadow: 0 0 60px #ff99cc, 0 0 100px #ff66aa;
+      text-shadow: 0 0 10px #ff66aa, 0 0 20px #ff66aa, 0 0 30px #ff66aa;
     }  
   
     #welcome-bubble {  
       position: fixed;  
       bottom: 20px;  
       left: 50%; transform: translateX(-50%);  
-      background: #fff0f8;  
+      background: linear-gradient(45deg, #fff0f8, #ffe6f0);
       border: 2px dashed #ff99cc;  
       padding: 10px 20px;  
       border-radius: 20px;  
-      box-shadow: 0 0 10px #ffb6d9;  
+      box-shadow: 0 0 20px #ffb6d9;
       font-size: 20px;  
       cursor: pointer;  
       opacity: 1;  
-      transition: opacity 1s ease;  
-      z-index: 9999;  
+      transition: all 1s ease;
+      z-index: 9999;
+      animation: bounce 2s infinite;
     }  
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
   
     #main-content {  
       font-family: 'Cute Font', cursive;  
-      background: linear-gradient(to bottom, #fff0f5, #ffe4f0);  
+      background: linear-gradient(135deg, #fff0f5, #ffe4f0, #ffd6eb, #ffcce5);
+      background-size: 400% 400%;
+      animation: backgroundFlow 8s ease infinite;
       color: #444;  
       padding: 30px;  
       text-align: center;  
       overflow-x: hidden;  
       position: relative;  
     }  
+
+    @keyframes backgroundFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
   
     .floating-gifs {  
       position: absolute;  
@@ -85,12 +204,24 @@
     }  
   
     .floating-gifs.left {  
-      left: 30px;  
+      left: 30px;
+      animation: floatLeft 4s ease-in-out infinite;
     }  
   
     .floating-gifs.right {  
-      right: 30px;  
+      right: 30px;
+      animation: floatRight 4s ease-in-out infinite;
     }  
+
+    @keyframes floatLeft {
+      0%, 100% { transform: translateY(-70%) translateX(0); }
+      50% { transform: translateY(-60%) translateX(10px); }
+    }
+
+    @keyframes floatRight {
+      0%, 100% { transform: translateY(-70%) translateX(0); }
+      50% { transform: translateY(-60%) translateX(-10px); }
+    }
   
     .floating-gif {  
       max-width: 230px;  
@@ -99,20 +230,25 @@
       height: auto;  
       object-fit: contain;  
       border-radius: 20px;  
-      border: none;  
-      box-shadow: none;  
+      border: 3px solid transparent;
+      background: linear-gradient(45deg, #ff99cc, #ffb3d9) padding-box,
+                  linear-gradient(45deg, #ff66aa, #ff99cc) border-box;
+      box-shadow: 0 0 25px rgba(255, 153, 204, 0.6);
       cursor: pointer;  
       transition: all 0.3s ease;  
-      background: transparent;  
-      opacity: 1;  
+      opacity: 1;
+      animation: gifGlow 3s ease-in-out infinite alternate;
     }  
+
+    @keyframes gifGlow {
+      from { box-shadow: 0 0 25px rgba(255, 153, 204, 0.6); }
+      to { box-shadow: 0 0 40px rgba(255, 102, 170, 0.8); }
+    }
   
-    .floating-gif:hover {  
+    .floating-gif:hover {
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 0 50px rgba(255, 102, 170, 1);
     }  
-  
-  
-  
-  
   
     .sidebar {  
       position: fixed;  
@@ -120,9 +256,9 @@
       left: -260px;  
       width: 250px;  
       height: 100%;  
-      background: #ffe6f0;  
+      background: linear-gradient(180deg, #ffe6f0, #ffd6eb);
       border-right: 3px dashed #ff99cc;  
-      box-shadow: 5px 0 15px #ffcce5;  
+      box-shadow: 5px 0 25px rgba(255, 204, 229, 0.7);
       padding: 20px;  
       transition: left 0.4s ease;  
       z-index: 1000;  
@@ -135,7 +271,8 @@
     .sidebar h2 {  
       font-size: 26px;  
       color: #ff66aa;  
-      margin-bottom: 20px;  
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255, 102, 170, 0.5);
     }  
   
     .sidebar a {  
@@ -146,13 +283,16 @@
       font-size: 20px;  
       padding: 8px;  
       border-radius: 12px;  
-      background: #fff5fa;  
+      background: linear-gradient(45deg, #fff5fa, #fff0f8);
       border: 2px dashed #ffcce5;  
-      transition: background 0.3s;  
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(255, 204, 229, 0.3);
     }  
   
     .sidebar a:hover {  
-      background: #ffd6eb;  
+      background: linear-gradient(45deg, #ffd6eb, #ffcce5);
+      transform: translateX(5px);
+      box-shadow: 0 4px 15px rgba(255, 153, 204, 0.5);
     }  
   
     .menu-button {  
@@ -160,30 +300,51 @@
       top: 30px;  
       left: 20px;  
       z-index: 1100;  
-      background: #ffaad4;  
+      background: linear-gradient(45deg, #ffaad4, #ff88bb);
       color: white;  
       font-size: 26px;  
       padding: 8px 14px;  
       border: none;  
       border-radius: 10px;  
       cursor: pointer;  
-      box-shadow: 2px 2px 10px #ffb6d9;  
+      box-shadow: 0 0 20px rgba(255, 182, 217, 0.7);
+      transition: all 0.3s ease;
+      animation: menuGlow 2s ease-in-out infinite alternate;
     }  
+
+    @keyframes menuGlow {
+      from { box-shadow: 0 0 20px rgba(255, 182, 217, 0.7); }
+      to { box-shadow: 0 0 30px rgba(255, 136, 187, 0.9); }
+    }
+
+    .menu-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 40px rgba(255, 136, 187, 1);
+    }
   
     .container {  
-      background: white;  
-      border: 4px dashed #ff99cc;  
+      background: linear-gradient(135deg, white, #fff8fc);
+      border: 4px dashed #ff99cc;
       border-radius: 25px;  
       padding: 25px;  
       max-width: 700px;  
       margin: 80px auto;  
-      box-shadow: 0 0 25px #ffb6d9;  
+      box-shadow: 0 0 40px rgba(255, 182, 217, 0.8), 
+                  inset 0 0 20px rgba(255, 255, 255, 0.8);
       position: relative;  
-      z-index: 1;  
+      z-index: 1;
+      animation: containerFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes containerFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
     }
 
     .popup-header {  
-      background: linear-gradient(to right, #ffd6eb, #fff0f8);  
+      background: linear-gradient(45deg, #ffd6eb, #fff0f8, #ffe6f0);
+      background-size: 200% 200%;
+      animation: headerShimmer 3s ease infinite;
       border-bottom: 2px dashed #ff99cc;  
       border-top-left-radius: 20px;  
       border-top-right-radius: 20px;  
@@ -194,16 +355,28 @@
       font-size: 20px;  
       color: #ff66aa;  
       position: relative;  
-      top: -25px; /* 컨테이너 패딩만큼 위로 올리기 */
-      left: -25px; /* 컨테이너 패딩만큼 왼쪽으로 밀기 */
-      right: -25px; /* 컨테이너 패딩만큼 오른쪽으로 밀기 */
-      width: calc(100% + 50px); /* 양쪽 패딩 25px씩 총 50px 보정 */
+      top: -25px;
+      left: -25px;
+      right: -25px;
+      width: calc(100% + 50px);
       margin-bottom: -15px;  
-      box-shadow: 0 2px 5px rgba(255, 182, 217, 0.3);  
+      box-shadow: 0 2px 15px rgba(255, 182, 217, 0.5);
     }
+
+    @keyframes headerShimmer {
+      0% { background-position: 200% 50%; }
+      100% { background-position: -200% 50%; }
+    }
+
     .popup-title {  
-      font-weight: bold;  
+      font-weight: bold;
+      animation: titlePulse 2s ease-in-out infinite;
     }  
+
+    @keyframes titlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
       
     .popup-controls {  
       display: flex;  
@@ -211,7 +384,7 @@
     }  
       
     .popup-btn {  
-      background: #ffaad4;  
+      background: linear-gradient(45deg, #ffaad4, #ff88bb);
       color: white;  
       border-radius: 50%;  
       width: 26px;  
@@ -221,42 +394,124 @@
       align-items: center;  
       font-size: 16px;  
       cursor: default;  
-      box-shadow: 0 0 5px #ffb6d9;  
+      box-shadow: 0 0 15px rgba(255, 182, 217, 0.7);
+      animation: btnGlow 2s ease-in-out infinite alternate;
     }  
+
+    @keyframes btnGlow {
+      from { box-shadow: 0 0 15px rgba(255, 182, 217, 0.7); }
+      to { box-shadow: 0 0 25px rgba(255, 136, 187, 0.9); }
+    }
   
     h1 {  
       font-size: 42px;  
       color: #ff66aa;  
-      margin-bottom: 30px;  
+      margin-bottom: 30px;
+      text-shadow: 0 0 20px rgba(255, 102, 170, 0.6);
+      animation: titleGlow 3s ease-in-out infinite alternate;
     }  
+
+    @keyframes titleGlow {
+      from { 
+        text-shadow: 0 0 20px rgba(255, 102, 170, 0.6);
+        transform: scale(1);
+      }
+      to { 
+        text-shadow: 0 0 30px rgba(255, 102, 170, 0.9);
+        transform: scale(1.02);
+      }
+    }
   
     .entry {  
       margin: 20px 0;  
       padding: 20px;  
       border-radius: 20px;  
-      background: #fff5fa;  
+      background: linear-gradient(135deg, #fff5fa, #fff0f8);
       border: 2px dotted #ffcce5;  
-      box-shadow: 0 0 10px #ffd6eb;  
+      box-shadow: 0 0 20px rgba(255, 214, 235, 0.6);
       opacity: 0;  
       transform: translateY(40px);  
-      transition: opacity 0.8s ease, transform 0.8s ease;  
+      transition: all 0.8s ease;
+      position: relative;
+      overflow: hidden;
     }  
+
+    .entry::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transform: rotate(45deg);
+      transition: all 0.6s ease;
+      opacity: 0;
+    }
+
+    .entry:hover::before {
+      animation: shimmer 1.5s ease;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+    }
   
     .entry.show {  
       opacity: 1;  
       transform: translateY(0);  
     }  
+
+    .entry:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 30px rgba(255, 153, 204, 0.8);
+    }
   
     .entry h2 {  
       font-size: 28px;  
-      color: #ff80bf;  
+      color: #ff80bf;
+      text-shadow: 0 0 10px rgba(255, 128, 191, 0.5);
     }  
   
     .entry img {  
       max-width: 90%;  
       border-radius: 20px;  
-      margin-top: 10px;  
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(255, 182, 217, 0.4);
     }  
+
+    .entry img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 30px rgba(255, 153, 204, 0.6);
+    }
+
+    /* 클릭 파티클 효과 */
+    .click-particle {
+      position: fixed;
+      pointer-events: none;
+      color: #ff99cc;
+      font-size: 20px;
+      z-index: 9999;
+      animation: particleExplode 1s ease-out forwards;
+    }
+
+    @keyframes particleExplode {
+      0% {
+        opacity: 1;
+        transform: scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.8) translateY(-50px);
+      }
+    }
   
     @media (max-width: 1024px) {  
       .floating-gifs {  
@@ -265,7 +520,8 @@
         flex-direction: row;  
         justify-content: center;  
         margin: 20px 0;  
-        flex-wrap: wrap;  
+        flex-wrap: wrap;
+        animation: none;
       }  
   
       .floating-gifs.left,  
@@ -290,7 +546,11 @@
       @media (max-width: 767px) {  
         .floating-gifs {  
           display: none;  
-        }  
+        }
+        
+        .stars, .falling-hearts {
+          display: none;
+        }
       }  
   
       h1 {  
@@ -324,10 +584,10 @@
     form {  
       margin-top: 40px;  
       padding: 20px;  
-      background: #fff0f8;  
+      background: linear-gradient(135deg, #fff0f8, #ffe6f0);
       border-radius: 20px;  
       border: 2px solid #ffb3d9;  
-      box-shadow: 0 0 10px #ffcce5;  
+      box-shadow: 0 0 20px rgba(255, 204, 229, 0.6);
     }  
   
     textarea {  
@@ -339,32 +599,47 @@
       border-radius: 15px;  
       border: 2px dashed #ff99cc;  
       resize: none;  
-      background: #fff8fc;  
-      margin-bottom: 10px;  
+      background: linear-gradient(135deg, #fff8fc, white);
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
     }  
+
+    textarea:focus {
+      box-shadow: 0 0 15px rgba(255, 153, 204, 0.5);
+      transform: scale(1.02);
+    }
   
     button {  
       font-family: 'Cute Font', cursive;  
       font-size: 20px;  
-      background: #ffaad4;  
+      background: linear-gradient(45deg, #ffaad4, #ff88bb);
       color: white;  
       border: none;  
       border-radius: 15px;  
       padding: 10px 20px;  
       cursor: pointer;  
-      transition: background 0.3s ease;  
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 170, 212, 0.4);
     }  
   
     button:hover {  
-      background: #ff88bb;  
+      background: linear-gradient(45deg, #ff88bb, #ff66aa);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 136, 187, 0.6);
     }  
   
     .gallery img {  
       width: 80px;  
       margin: 5px;  
       border-radius: 12px;  
-      border: 2px dashed #ff99cc;  
+      border: 2px dashed #ff99cc;
+      transition: all 0.3s ease;
     }  
+
+    .gallery img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 153, 204, 0.6);
+    }
   
     .hidden-file-input {  
       display: none;  
@@ -372,48 +647,111 @@
   </style>  
 </head>  
 <body>  
+
+<!-- 반짝이는 별들 -->
+<div class="stars" id="stars"></div>
+
+<!-- 떨어지는 하트들 -->
+<div class="falling-hearts" id="falling-hearts"></div>
   
 <div id="entry-screen">  
-  <button id="entry-button">🎀 지상낙원 입장하기 🎀</button>  
+  <button id="entry-button" class="glow">🎀 지상낙원 입장하기 🎀</button>  
 </div>  
   
 <div id="main-content">  
   <!-- 플레이리스트 오디오 -->
   <audio id="bg-music" preload="auto"></audio>
 
-
   <script>
     const playlist = [
-      "45second.mp3",  // 첫 번째 곡
-      "포피포.mp3",  // 두 번째 곡
-      "장난기.mp3",   // 세 번째 곡 (원하는 만큼 추가)
+      "45second.mp3",
+      "포피포.mp3",
+      "장난기.mp3",
       "매스머라이저.mp3"
-      ];
+    ];
     let currentTrack = 0;
     const audioPlayer = document.getElementById('bg-music');
 
     function playTrack(index) {
       if (index >= playlist.length) {
-        currentTrack = 0;  // 마지막 곡 다음엔 처음으로
+        currentTrack = 0;
       } else {
         currentTrack = index;
       }
       audioPlayer.src = playlist[currentTrack];
       audioPlayer.play();
-     }
+    }
 
-     audioPlayer.addEventListener('ended', () => {
-       playTrack(currentTrack + 1);
-     });
+    audioPlayer.addEventListener('ended', () => {
+      playTrack(currentTrack + 1);
+    });
 
+    document.getElementById('entry-button').addEventListener('click', () => {
+      document.getElementById('entry-screen').style.display = 'none';
+      playTrack(0);
+    });
 
-  document.getElementById('entry-button').addEventListener('click', () => {
-  document.getElementById('entry-screen').style.display = 'none';
-    playTrack(0);  // 첫 번째 곡부터 시작
-  });
-    </script>
+    // 별 생성
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.innerHTML = '✨';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // 하트 생성
+    function createFallingHearts() {
+      const heartsContainer = document.getElementById('falling-hearts');
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '💗';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+        heartsContainer.appendChild(heart);
+        
+        setTimeout(() => {
+          heart.remove();
+        }, 8000);
+      }, 800);
+    }
+
+    // 클릭 파티클 효과
+    function createClickParticle(x, y) {
+      const particles = ['✨', '💖', '🌟', '💫', '🎀'];
+      for (let i = 0; i < 5; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'click-particle';
+        particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+        particle.style.left = (x + Math.random() * 100 - 50) + 'px';
+        particle.style.top = (y + Math.random() * 100 - 50) + 'px';
+        document.body.appendChild(particle);
+        
+        setTimeout(() => {
+          particle.remove();
+        }, 1000);
+      }
+    }
+
+    // 클릭 이벤트 리스너
+    document.addEventListener('click', (e) => {
+      createClickParticle(e.clientX, e.clientY);
+    });
+
+    // 페이지 로드 시 효과 시작
+    window.addEventListener('load', () => {
+      createStars();
+      createFallingHearts();
+    });
+  </script>
   
-  <div id="welcome-bubble" onclick="fadeOut(this)">  
+  <div id="welcome-bubble" onclick="fadeOut(this)" class="pulse">  
     🎀 샤비네 지상낙원 html고수 상시 모집중!! 🩷 (클릭해서 지우기)  
   </div>  
   
@@ -430,7 +768,7 @@
   <button class="menu-button" onclick="toggleSidebar()">☰</button>  
   
   <div class="sidebar" id="sidebar">  
-    <h2>🎀 MENU 🎀</h2>  
+    <h2 class="glow">🎀 MENU 🎀</h2>  
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUeAlvM1KvdmXuQitsSSyac0k9ZQAmR8ionXOFl8GiKYdTiw/viewform?usp=dialog" target="_blank">💌 방명록</a>  
     <a href="https://open.kakao.com/me/Shabi" target="_blank">💬 카카오톡</a>  
     <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">💗 유튜브</a>  
@@ -446,7 +784,8 @@
   <div class="container">  
     <div class="popup-header">  
       <span class="popup-title">🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷</span>  
-      <div class="popup-controls">  
+      <div class="popup-controls">
+        ```html
         <span class="popup-btn">⎙</span>  
         <span class="popup-btn">✕</span>  
       </div>  
