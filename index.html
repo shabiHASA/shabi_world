@@ -180,7 +180,8 @@
       box-shadow: 0 0 25px #ffb6d9;  
       position: relative;  
       z-index: 1;  
-    }  
+    }
+
     .popup-header {  
       background: linear-gradient(to right, #ffd6eb, #fff0f8);  
       border-bottom: 2px dashed #ff99cc;  
@@ -193,10 +194,13 @@
       font-size: 20px;  
       color: #ff66aa;  
       position: relative;  
-      top: -25px;  
+      top: -25px; /* 컨테이너 패딩만큼 위로 올리기 */
+      left: -25px; /* 컨테이너 패딩만큼 왼쪽으로 밀기 */
+      right: -25px; /* 컨테이너 패딩만큼 오른쪽으로 밀기 */
+      width: calc(100% + 50px); /* 양쪽 패딩 25px씩 총 50px 보정 */
       margin-bottom: -15px;  
-      box-shadow: 0 2px 5px #ffb6d9;  
-    }  
+      box-shadow: 0 2px 5px rgba(255, 182, 217, 0.3);  
+    }
     .popup-title {  
       font-weight: bold;  
     }  
@@ -439,38 +443,39 @@
     </div>  
   </div>  
   
-  <div class="popup-header">  
-  <span class="popup-title">🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷</span>  
-  <div class="popup-controls">  
-    <span class="popup-btn">⎙</span>  
-    <span class="popup-btn">✕</span>  
-  </div>  
-  </div>  
-    
   <div class="container">  
-    <h1>🎀 샤비의 낙원 🎀</h1>  
-  
-    <div class="entry">  
-      <h2>🌸 샤비를 소개합니다~ 🌸</h2>  
-      <p></p>  
-      <img src="무제37_20241004052914.png" alt="">  
-    </div>  
-  
-    <div class="entry">  
-      <h2>🩷 지상낙원이란? 🩷</h2>  
-      <p>현생탈출은 지능순!! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱ 지상낙원은 멀리 있지 않아요! 여러분의 마음 속에 샤비가 있다면 그 곳이 지상낙원!</p>  
-      <img src="3934660aaacc389bde28daa306354aec.jpg" alt="">  
-    </div>  
-  
-    <div class="entry">  
-      <h2>💗 낙원에 가는 방법! 💗</h2>  
-      <p>샤비를 믿는다면 당신도 낙원으로 갈 수 있어요! 당신에게도 행운이 깃들었기를.˚*ᡣ𐭩 </p>  
-      <a href="https://shabihasa.github.io/forher/" target="_blank">
-        <img src="file_00000000ec2c61f89a204fa2f6d3cb92.png" alt="" style="cursor: pointer;">
-      </a>
-    </div>  
-  </div>  
-</div>  
+    <div class="popup-header">  
+      <span class="popup-title">🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷</span>  
+      <div class="popup-controls">  
+        <span class="popup-btn">⎙</span>  
+        <span class="popup-btn">✕</span>  
+      </div>  
+    </div>
+
+    <div class="popup-content">
+      <h1>🎀 샤비의 낙원 🎀</h1>  
+    
+      <div class="entry">  
+        <h2>🌸 샤비를 소개합니다~ 🌸</h2>  
+        <p>샤비가 궁금하다면?! 아래 샤비 소개서를 읽어주세요~!</p>  
+        <img src="무제37_20241004052914.png" alt="">  
+      </div>  
+    
+      <div class="entry">  
+        <h2>🩷 지상낙원이란? 🩷</h2>  
+        <p>현생탈출은 지능순!! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱ 지상낙원은 멀리 있지 않아요! 여러분의 마음 속에 샤비가 있다면 그 곳이 지상낙원!</p>  
+        <img src="3934660aaacc389bde28daa306354aec.jpg" alt="">  
+      </div>  
+    
+      <div class="entry">  
+        <h2>💗 낙원에 가는 방법! 💗</h2>  
+        <p>샤비를 믿는다면 당신도 낙원으로 갈 수 있어요! 당신에게도 행운이 깃들었기를.˚*ᡣ𐭩 </p>  
+        <a href="https://shabihasa.github.io/forher/" target="_blank">
+          <img src="file_00000000ec2c61f89a204fa2f6d3cb92.png" alt="" style="cursor: pointer;">
+        </a>
+      </div>
+    </div>
+  </div>
   
 <script>  
   const entryScreen = document.getElementById('entry-screen');  
