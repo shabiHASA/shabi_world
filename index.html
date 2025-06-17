@@ -682,6 +682,8 @@
       "매스머라이저.mp3"
     ];
     let currentTrack = 0;
+    let isPlaying = false;
+    let currentTime = 0;
     const audioPlayer = document.getElementById('bg-music');
 
     function playTrack(index) {
@@ -691,11 +693,42 @@
         currentTrack = index;
       }
       audioPlayer.src = playlist[currentTrack];
+      audioPlayer.currentTime = currentTime;
       audioPlayer.play();
+      isPlaying = true;
+    }
+
+    function pauseMusic() {
+      if (audioPlayer && !audioPlayer.paused) {
+        currentTime = audioPlayer.currentTime;
+        audioPlayer.pause();
+        isPlaying = false;
+      }
+    }
+
+    function resumeMusic() {
+      if (audioPlayer && audioPlayer.paused && isPlaying) {
+        audioPlayer.currentTime = currentTime;
+        audioPlayer.play();
+      }
     }
 
     audioPlayer.addEventListener('ended', () => {
       playTrack(currentTrack + 1);
+    });
+
+    audioPlayer.addEventListener('timeupdate', () => {
+      currentTime = audioPlayer.currentTime;
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        pauseMusic();
+      } else {
+        setTimeout(() => {
+          resumeMusic();
+        }, 500);
+      }
     });
 
     document.getElementById('entry-button').addEventListener('click', () => {
