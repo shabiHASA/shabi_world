@@ -1,897 +1,863 @@
-<!DOCTYPE html>  
-<html lang="ko">  
-  <head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>🎀 샤비의 낙원 🎀</title>  
-  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">  
-  <style>  
-    *, *::before, *::after {  
-      box-sizing: border-box;  
-    }  
-  
-    body {  
-      font-family: 'Cute Font', cursive;  
-      margin: 0;  
-      padding: 0;  
-      overflow-x: hidden;  
-    } 
+<!DOCTYPE html>  
+<html lang="ko">  
+  <head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>🎀 샤비의 낙원 🎀</title>  
+  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">  
+  <style>  
+    *, *::before, *::after {  
+      box-sizing: border-box;  
+    }  
+  
+    body {  
+      font-family: 'Cute Font', cursive;  
+      margin: 0;  
+      padding: 0;  
+      overflow-x: hidden;  
+    }
 
-    /* 반짝이는 별들 애니메이션 */
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 10;
-    } 
+    /* 반짝이는 별들 애니메이션 */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
 
-    .star {
-      position: absolute;
-      color: #ff99cc;
-      font-size: 20px;
-      animation: starFall 6s linear infinite;
-    } 
+    .star {
+      position: absolute;
+      color: #ff99cc;
+      font-size: 20px;
+      animation: twinkle 2s infinite alternate;
+    }
 
-    @keyframes starFall {
-      0% {
-        transform: translateY(-100px) rotate(0deg) scale(0.8);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg) scale(1.2);
-        opacity: 0;
-      }
-    } 
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
 
-    /* 떨어지는 하트 애니메이션 */
-    .falling-hearts {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5;
-    } 
+    /* 떨어지는 하트 애니메이션 */
+    .falling-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
 
-    .heart {
-      position: absolute;
-      color: #ff66aa;
-      font-size: 25px;
-      animation: fall 8s linear infinite;
-      opacity: 0.7;
-    } 
+    .heart {
+      position: absolute;
+      color: #ff66aa;
+      font-size: 25px;
+      animation: fall 8s linear infinite;
+      opacity: 0.7;
+    }
 
-    @keyframes fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    } 
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
 
-    /* 펄스 효과 */
-    .pulse {
-      animation: pulse 2s infinite;
-    } 
+    /* 무지개 텍스트 효과 */
+    .rainbow-text {
+      background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbow 3s ease infinite;
+    }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    } 
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-    /* 글로우 효과 */
-    .glow {
-      animation: glow 2s ease-in-out infinite alternate;
-    } 
+    /* 펄스 효과 */
+    .pulse {
+      animation: pulse 2s infinite;
+    }
 
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 20px #ff99cc, 0 0 30px #ff99cc, 0 0 40px #ff99cc;
-      }
-      to {
-        text-shadow: 0 0 10px #ff66aa, 0 0 20px #ff66aa, 0 0 30px #ff66aa;
-      }
-    }
-  
-    #entry-screen {  
-      position: fixed;  
-      top: 0; left: 0;  
-      width: 100%;  
-      height: 100%;  
-      background: linear-gradient(45deg, #ffe4f0, #ffd6eb, #ffcce5);
-      background-size: 400% 400%;
-      animation: gradientShift 4s ease infinite;
-      display: flex;  
-      justify-content: center;  
-      align-items: center;  
-      flex-direction: column;  
-      z-index: 9999;  
-    }  
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-  
-    #entry-button {  
-      font-family: 'Cute Font', cursive;  
-      font-size: 30px;  
-      background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
-      background-size: 400% 400%;
-      animation: rainbow 3s ease infinite, buttonPulse 2s infinite;
-      color: white;  
-      border: none;  
-      border-radius: 20px;  
-      padding: 20px 40px;  
-      cursor: pointer;  
-      box-shadow: 0 0 30px #ffb6d9, 0 0 60px #ff99cc;
-      transition: all 0.3s ease;
-      text-shadow: 0 0 20px #ff99cc, 0 0 30px #ff99cc, 0 0 40px #ff99cc;
-    }  
+    /* 글로우 효과 */
+    .glow {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
 
-    @keyframes rainbow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    } 
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 20px #ff99cc, 0 0 30px #ff99cc, 0 0 40px #ff99cc;
+      }
+      to {
+        text-shadow: 0 0 10px #ff66aa, 0 0 20px #ff66aa, 0 0 30px #ff66aa;
+      }
+    }
+  
+    #entry-screen {  
+      position: fixed;  
+      top: 0; left: 0;  
+      width: 100%;  
+      height: 100%;  
+      background: linear-gradient(45deg, #ffe4f0, #ffd6eb, #ffcce5);
+      background-size: 400% 400%;
+      animation: gradientShift 4s ease infinite;
+      display: flex;  
+      justify-content: center;  
+      align-items: center;  
+      flex-direction: column;  
+      z-index: 9999;  
+    }  
 
-    @keyframes buttonPulse {
-      0% { transform: scale(1); box-shadow: 0 0 30px #ffb6d9; }
-      50% { transform: scale(1.1); box-shadow: 0 0 50px #ff99cc, 0 0 80px #ff66aa; }
-      100% { transform: scale(1); box-shadow: 0 0 30px #ffb6d9; }
-    }
-  
-    #entry-button:hover {  
-      transform: scale(1.15);
-      animation: rainbow 3s ease infinite;
-      box-shadow: 0 0 60px #ff99cc, 0 0 100px #ff66aa;
-      text-shadow: 0 0 10px #ff66aa, 0 0 20px #ff66aa, 0 0 30px #ff66aa;
-    }  
-  
-    #welcome-bubble {  
-      position: fixed;  
-      bottom: 20px;  
-      left: 50%; transform: translateX(-50%);  
-      background: linear-gradient(45deg, #fff0f8, #ffe6f0);
-      border: 2px dashed #ff99cc;  
-      padding: 10px 20px;  
-      border-radius: 20px;  
-      box-shadow: 0 0 20px #ffb6d9;
-      font-size: 20px;  
-      cursor: pointer;  
-      opacity: 1;  
-      transition: all 1s ease;
-      z-index: 9999;
-      animation: bounce 2s infinite;
-    }  
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  
+    #entry-button {  
+      font-family: 'Cute Font', cursive;  
+      font-size: 30px;  
+      background: linear-gradient(45deg, #ffaad4, #ff88bb, #ff66aa);
+      color: white;  
+      border: none;  
+      border-radius: 20px;  
+      padding: 20px 40px;  
+      cursor: pointer;  
+      box-shadow: 0 0 30px #ffb6d9, 0 0 60px #ff99cc;
+      transition: all 0.3s ease;
+      animation: buttonPulse 2s infinite;
+    }  
 
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-      40% { transform: translateX(-50%) translateY(-10px); }
-      60% { transform: translateX(-50%) translateY(-5px); }
-    }
-  
-    #main-content {  
-      font-family: 'Cute Font', cursive;  
-      background: linear-gradient(135deg, #fff0f5, #ffe4f0, #ffd6eb, #ffcce5);
-      background-size: 400% 400%;
-      animation: backgroundFlow 8s ease infinite;
-      color: #444;  
-      padding: 30px;  
-      text-align: center;  
-      overflow-x: hidden;  
-      position: relative;  
-    }  
+    @keyframes buttonPulse {
+      0% { transform: scale(1); box-shadow: 0 0 30px #ffb6d9; }
+      50% { transform: scale(1.1); box-shadow: 0 0 50px #ff99cc, 0 0 80px #ff66aa; }
+      100% { transform: scale(1); box-shadow: 0 0 30px #ffb6d9; }
+    }
+  
+    #entry-button:hover {  
+      transform: scale(1.15);
+      animation: none;
+      box-shadow: 0 0 60px #ff99cc, 0 0 100px #ff66aa;
+    }  
+  
+    #welcome-bubble {  
+      position: fixed;  
+      bottom: 20px;  
+      left: 50%; transform: translateX(-50%);  
+      background: linear-gradient(45deg, #fff0f8, #ffe6f0);
+      border: 2px dashed #ff99cc;  
+      padding: 10px 20px;  
+      border-radius: 20px;  
+      box-shadow: 0 0 20px #ffb6d9;
+      font-size: 20px;  
+      cursor: pointer;  
+      opacity: 1;  
+      transition: all 1s ease;
+      z-index: 9999;
+      animation: bounce 2s infinite;
+    }  
 
-    @keyframes backgroundFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-  
-    .floating-gifs {  
-      position: absolute;  
-      top: 30%;  
-      transform: translateY(-70%);  
-      z-index: 500;  
-      display: flex;  
-      flex-direction: column;  
-      gap: 20px;  
-      pointer-events: auto;  
-    }  
-  
-    .floating-gifs.left {  
-      left: 30px;
-      animation: floatLeft 4s ease-in-out infinite;
-    }  
-  
-    .floating-gifs.right {  
-      right: 30px;
-      animation: floatRight 4s ease-in-out infinite;
-    }  
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+  
+    #main-content {  
+      font-family: 'Cute Font', cursive;  
+      background: linear-gradient(135deg, #fff0f5, #ffe4f0, #ffd6eb, #ffcce5);
+      background-size: 400% 400%;
+      animation: backgroundFlow 8s ease infinite;
+      color: #444;  
+      padding: 30px;  
+      text-align: center;  
+      overflow-x: hidden;  
+      position: relative;  
+    }  
 
-    @keyframes floatLeft {
-      0%, 100% { transform: translateY(-70%) translateX(0); }
-      50% { transform: translateY(-60%) translateX(10px); }
-    } 
+    @keyframes backgroundFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  
+    .floating-gifs {  
+      position: absolute;  
+      top: 30%;  
+      transform: translateY(-70%);  
+      z-index: 500;  
+      display: flex;  
+      flex-direction: column;  
+      gap: 20px;  
+      pointer-events: auto;  
+    }  
+  
+    .floating-gifs.left {  
+      left: 30px;
+      animation: floatLeft 4s ease-in-out infinite;
+    }  
+  
+    .floating-gifs.right {  
+      right: 30px;
+      animation: floatRight 4s ease-in-out infinite;
+    }  
 
-    @keyframes floatRight {
-      0%, 100% { transform: translateY(-70%) translateX(0); }
-      50% { transform: translateY(-60%) translateX(-10px); }
-    }
-  
-    .floating-gif {  
-      max-width: 230px;  
-      max-height: 200px;  
-      width: auto;  
-      height: auto;  
-      object-fit: contain;  
-      border-radius: 20px;  
-      border: 3px solid transparent;
-      background: linear-gradient(45deg, #ff99cc, #ffb3d9) padding-box,
-                  linear-gradient(45deg, #ff66aa, #ff99cc) border-box;
-      box-shadow: 0 0 25px rgba(255, 153, 204, 0.6);
-      cursor: pointer;  
-      transition: all 0.3s ease;  
-      opacity: 1;
-      animation: gifGlow 3s ease-in-out infinite alternate;
-    }  
+    @keyframes floatLeft {
+      0%, 100% { transform: translateY(-70%) translateX(0); }
+      50% { transform: translateY(-60%) translateX(10px); }
+    }
 
-    @keyframes gifGlow {
-      from { box-shadow: 0 0 25px rgba(255, 153, 204, 0.6); }
-      to { box-shadow: 0 0 40px rgba(255, 102, 170, 0.8); }
-    }
-  
-    .floating-gif:hover {
-      transform: scale(1.05) rotate(2deg);
-      box-shadow: 0 0 50px rgba(255, 102, 170, 1);
-    }  
-  
-    .sidebar {  
-      position: fixed;  
-      top: 0;  
-      left: -260px;  
-      width: 250px;  
-      height: 100%;  
-      background: linear-gradient(180deg, #ffe6f0, #ffd6eb);
-      border-right: 3px dashed #ff99cc;  
-      box-shadow: 5px 0 25px rgba(255, 204, 229, 0.7);
-      padding: 20px;  
-      transition: left 0.4s ease;  
-      z-index: 1000;  
-    }  
-  
-    .sidebar.open {  
-      left: 0;  
-    }  
-  
-    .sidebar h2 {  
-      font-size: 26px;  
-      color: #ff66aa;  
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px rgba(255, 102, 170, 0.5);
-    }  
-  
-    .sidebar a {  
-      display: block;  
-      margin: 15px 0;  
-      color: #ff80bf;  
-      text-decoration: none;  
-      font-size: 20px;  
-      padding: 8px;  
-      border-radius: 12px;  
-      background: linear-gradient(45deg, #fff5fa, #fff0f8);
-      border: 2px dashed #ffcce5;  
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 10px rgba(255, 204, 229, 0.3);
-    }  
-  
-    .sidebar a:hover {  
-      background: linear-gradient(45deg, #ffd6eb, #ffcce5);
-      transform: translateX(5px);
-      box-shadow: 0 4px 15px rgba(255, 153, 204, 0.5);
-    }  
-  
-    .menu-button {  
-      position: fixed;  
-      top: 30px;  
-      left: 20px;  
-      z-index: 1100;  
-      background: linear-gradient(45deg, #ffaad4, #ff88bb);
-      color: white;  
-      font-size: 26px;  
-      padding: 8px 14px;  
-      border: none;  
-      border-radius: 10px;  
-      cursor: pointer;  
-      box-shadow: 0 0 20px rgba(255, 182, 217, 0.7);
-      transition: all 0.3s ease;
-      animation: menuGlow 2s ease-in-out infinite alternate;
-    }  
+    @keyframes floatRight {
+      0%, 100% { transform: translateY(-70%) translateX(0); }
+      50% { transform: translateY(-60%) translateX(-10px); }
+    }
+  
+    .floating-gif {  
+      max-width: 230px;  
+      max-height: 200px;  
+      width: auto;  
+      height: auto;  
+      object-fit: contain;  
+      border-radius: 20px;  
+      border: 3px solid transparent;
+      background: linear-gradient(45deg, #ff99cc, #ffb3d9) padding-box,
+                  linear-gradient(45deg, #ff66aa, #ff99cc) border-box;
+      box-shadow: 0 0 25px rgba(255, 153, 204, 0.6);
+      cursor: pointer;  
+      transition: all 0.3s ease;  
+      opacity: 1;
+      animation: gifGlow 3s ease-in-out infinite alternate;
+    }  
 
-    @keyframes menuGlow {
-      from { box-shadow: 0 0 20px rgba(255, 182, 217, 0.7); }
-      to { box-shadow: 0 0 30px rgba(255, 136, 187, 0.9); }
-    } 
+    @keyframes gifGlow {
+      from { box-shadow: 0 0 25px rgba(255, 153, 204, 0.6); }
+      to { box-shadow: 0 0 40px rgba(255, 102, 170, 0.8); }
+    }
+  
+    .floating-gif:hover {
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 0 50px rgba(255, 102, 170, 1);
+    }  
+  
+    .sidebar {  
+      position: fixed;  
+      top: 0;  
+      left: -260px;  
+      width: 250px;  
+      height: 100%;  
+      background: linear-gradient(180deg, #ffe6f0, #ffd6eb);
+      border-right: 3px dashed #ff99cc;  
+      box-shadow: 5px 0 25px rgba(255, 204, 229, 0.7);
+      padding: 20px;  
+      transition: left 0.4s ease;  
+      z-index: 1000;  
+    }  
+  
+    .sidebar.open {  
+      left: 0;  
+    }  
+  
+    .sidebar h2 {  
+      font-size: 26px;  
+      color: #ff66aa;  
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255, 102, 170, 0.5);
+    }  
+  
+    .sidebar a {  
+      display: block;  
+      margin: 15px 0;  
+      color: #ff80bf;  
+      text-decoration: none;  
+      font-size: 20px;  
+      padding: 8px;  
+      border-radius: 12px;  
+      background: linear-gradient(45deg, #fff5fa, #fff0f8);
+      border: 2px dashed #ffcce5;  
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(255, 204, 229, 0.3);
+    }  
+  
+    .sidebar a:hover {  
+      background: linear-gradient(45deg, #ffd6eb, #ffcce5);
+      transform: translateX(5px);
+      box-shadow: 0 4px 15px rgba(255, 153, 204, 0.5);
+    }  
+  
+    .menu-button {  
+      position: fixed;  
+      top: 30px;  
+      left: 20px;  
+      z-index: 1100;  
+      background: linear-gradient(45deg, #ffaad4, #ff88bb);
+      color: white;  
+      font-size: 26px;  
+      padding: 8px 14px;  
+      border: none;  
+      border-radius: 10px;  
+      cursor: pointer;  
+      box-shadow: 0 0 20px rgba(255, 182, 217, 0.7);
+      transition: all 0.3s ease;
+      animation: menuGlow 2s ease-in-out infinite alternate;
+    }  
 
-    .menu-button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 40px rgba(255, 136, 187, 1);
-    }
-  
-    .container {  
-      background: linear-gradient(135deg, white, #fff8fc);
-      border: 4px dashed #ff99cc;
-      border-radius: 25px;  
-      padding: 25px;  
-      max-width: 700px;  
-      margin: 80px auto;  
-      box-shadow: 0 0 40px rgba(255, 182, 217, 0.8), 
-                  inset 0 0 20px rgba(255, 255, 255, 0.8);
-      position: relative;  
-      z-index: 1;
-      animation: containerFloat 6s ease-in-out infinite;
-    } 
+    @keyframes menuGlow {
+      from { box-shadow: 0 0 20px rgba(255, 182, 217, 0.7); }
+      to { box-shadow: 0 0 30px rgba(255, 136, 187, 0.9); }
+    }
 
-    @keyframes containerFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    } 
+    .menu-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 40px rgba(255, 136, 187, 1);
+    }
+  
+    .container {  
+      background: linear-gradient(135deg, white, #fff8fc);
+      border: 4px solid transparent;
+      background-clip: padding-box;
+      border-image: linear-gradient(45deg, #ff99cc, #ffb3d9, #ff66aa) 1;
+      border-radius: 25px;  
+      padding: 25px;  
+      max-width: 700px;  
+      margin: 80px auto;  
+      box-shadow: 0 0 40px rgba(255, 182, 217, 0.8), 
+                  inset 0 0 20px rgba(255, 255, 255, 0.8);
+      position: relative;  
+      z-index: 1;
+      animation: containerFloat 6s ease-in-out infinite;
+    }
 
-    .popup-header {  
-      background: linear-gradient(45deg, #ffd6eb, #fff0f8, #ffe6f0);
-      background-size: 200% 200%;
-      animation: headerShimmer 3s ease infinite;
-      border-bottom: 2px dashed #ff99cc;  
-      border-top-left-radius: 20px;  
-      border-top-right-radius: 20px;  
-      padding: 10px 15px;  
-      display: flex;  
-      justify-content: space-between;  
-      align-items: center;  
-      font-size: 20px;  
-      color: #ff66aa;  
-      position: relative;  
-      top: -25px;
-      left: -25px;
-      right: -25px;
-      width: calc(100% + 50px);
-      margin-bottom: -15px;  
-      box-shadow: 0 2px 15px rgba(255, 182, 217, 0.5);
-    } 
+    @keyframes containerFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
 
-    @keyframes headerShimmer {
-      0% { background-position: 200% 50%; }
-      100% { background-position: -200% 50%; }
-    } 
+    .popup-header {  
+      background: linear-gradient(45deg, #ffd6eb, #fff0f8, #ffe6f0);
+      background-size: 200% 200%;
+      animation: headerShimmer 3s ease infinite;
+      border-bottom: 2px dashed #ff99cc;  
+      border-top-left-radius: 20px;  
+      border-top-right-radius: 20px;  
+      padding: 10px 15px;  
+      display: flex;  
+      justify-content: space-between;  
+      align-items: center;  
+      font-size: 20px;  
+      color: #ff66aa;  
+      position: relative;  
+      top: -25px;
+      left: -25px;
+      right: -25px;
+      width: calc(100% + 50px);
+      margin-bottom: -15px;  
+      box-shadow: 0 2px 15px rgba(255, 182, 217, 0.5);
+    }
 
-    .popup-title {  
-      font-weight: bold;
-      animation: titlePulse 2s ease-in-out infinite;
-    }  
+    @keyframes headerShimmer {
+      0% { background-position: 200% 50%; }
+      100% { background-position: -200% 50%; }
+    }
 
-    @keyframes titlePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-      
-    .popup-controls {  
-      display: flex;  
-      gap: 10px;  
-    }  
-      
-    .popup-btn {  
-      background: linear-gradient(45deg, #ffaad4, #ff88bb);
-      color: white;  
-      border-radius: 50%;  
-      width: 26px;  
-      height: 26px;  
-      display: flex;  
-      justify-content: center;  
-      align-items: center;  
-      font-size: 16px;  
-      cursor: default;  
-      box-shadow: 0 0 15px rgba(255, 182, 217, 0.7);
-      animation: btnGlow 2s ease-in-out infinite alternate;
-    }  
+    .popup-title {  
+      font-weight: bold;
+      animation: titlePulse 2s ease-in-out infinite;
+    }  
 
-    @keyframes btnGlow {
-      from { box-shadow: 0 0 15px rgba(255, 182, 217, 0.7); }
-      to { box-shadow: 0 0 25px rgba(255, 136, 187, 0.9); }
-    }
-  
-    h1 {  
-      font-size: 42px;  
-      color: #ff66aa;  
-      margin-bottom: 30px;
-      text-shadow: 0 0 20px rgba(255, 102, 170, 0.6);
-      animation: titleGlow 3s ease-in-out infinite alternate;
-    }  
+    @keyframes titlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+      
+    .popup-controls {  
+      display: flex;  
+      gap: 10px;  
+    }  
+      
+    .popup-btn {  
+      background: linear-gradient(45deg, #ffaad4, #ff88bb);
+      color: white;  
+      border-radius: 50%;  
+      width: 26px;  
+      height: 26px;  
+      display: flex;  
+      justify-content: center;  
+      align-items: center;  
+      font-size: 16px;  
+      cursor: default;  
+      box-shadow: 0 0 15px rgba(255, 182, 217, 0.7);
+      animation: btnGlow 2s ease-in-out infinite alternate;
+    }  
 
-    @keyframes titleGlow {
-      from { 
-        text-shadow: 0 0 20px rgba(255, 102, 170, 0.6);
-        transform: scale(1);
-      }
-      to { 
-        text-shadow: 0 0 30px rgba(255, 102, 170, 0.9);
-        transform: scale(1.02);
-      }
-    }
-  
-    .entry {  
-      margin: 20px 0;  
-      padding: 20px;  
-      border-radius: 20px;  
-      background: linear-gradient(135deg, #fff5fa, #fff0f8);
-      border: 2px dotted #ffcce5;  
-      box-shadow: 0 0 20px rgba(255, 214, 235, 0.6);
-      opacity: 0;  
-      transform: translateY(40px);  
-      transition: all 0.8s ease;
-      position: relative;
-      overflow: hidden;
-    }  
+    @keyframes btnGlow {
+      from { box-shadow: 0 0 15px rgba(255, 182, 217, 0.7); }
+      to { box-shadow: 0 0 25px rgba(255, 136, 187, 0.9); }
+    }
+  
+    h1 {  
+      font-size: 42px;  
+      color: #ff66aa;  
+      margin-bottom: 30px;
+      text-shadow: 0 0 20px rgba(255, 102, 170, 0.6);
+      animation: titleGlow 3s ease-in-out infinite alternate;
+    }  
 
-    .entry::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transform: rotate(45deg);
-      transition: all 0.6s ease;
-      opacity: 0;
-    } 
+    @keyframes titleGlow {
+      from { 
+        text-shadow: 0 0 20px rgba(255, 102, 170, 0.6);
+        transform: scale(1);
+      }
+      to { 
+        text-shadow: 0 0 30px rgba(255, 102, 170, 0.9);
+        transform: scale(1.02);
+      }
+    }
+  
+    .entry {  
+      margin: 20px 0;  
+      padding: 20px;  
+      border-radius: 20px;  
+      background: linear-gradient(135deg, #fff5fa, #fff0f8);
+      border: 2px dotted #ffcce5;  
+      box-shadow: 0 0 20px rgba(255, 214, 235, 0.6);
+      opacity: 0;  
+      transform: translateY(40px);  
+      transition: all 0.8s ease;
+      position: relative;
+      overflow: hidden;
+    }  
 
-    .entry:hover::before {
-      animation: shimmer 1.5s ease;
-    } 
+    .entry::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transform: rotate(45deg);
+      transition: all 0.6s ease;
+      opacity: 0;
+    }
 
-    @keyframes shimmer {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
-    }
-  
-    .entry.show {  
-      opacity: 1;  
-      transform: translateY(0);  
-    }  
+    .entry:hover::before {
+      animation: shimmer 1.5s ease;
+    }
 
-    .entry:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 30px rgba(255, 153, 204, 0.8);
-    }
-  
-    .entry h2 {  
-      font-size: 28px;  
-      color: #ff80bf;
-      text-shadow: 0 0 10px rgba(255, 128, 191, 0.5);
-    }  
-  
-    .entry img {  
-      max-width: 90%;  
-      border-radius: 20px;  
-      margin-top: 10px;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 20px rgba(255, 182, 217, 0.4);
-    }  
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+    }
+  
+    .entry.show {  
+      opacity: 1;  
+      transform: translateY(0);  
+    }  
 
-    .entry img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 30px rgba(255, 153, 204, 0.6);
-    } 
+    .entry:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 30px rgba(255, 153, 204, 0.8);
+    }
+  
+    .entry h2 {  
+      font-size: 28px;  
+      color: #ff80bf;
+      text-shadow: 0 0 10px rgba(255, 128, 191, 0.5);
+    }  
+  
+    .entry img {  
+      max-width: 90%;  
+      border-radius: 20px;  
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(255, 182, 217, 0.4);
+    }  
 
-    /* 클릭 파티클 효과 */
-    .click-particle {
-      position: fixed;
-      pointer-events: none;
-      color: #ff99cc;
-      font-size: 20px;
-      z-index: 9999;
-      animation: particleExplode 1s ease-out forwards;
-    } 
+    .entry img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 30px rgba(255, 153, 204, 0.6);
+    }
 
-    @keyframes particleExplode {
-      0% {
-        opacity: 1;
-        transform: scale(0);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(0.8) translateY(-50px);
-      }
-    }
-  
-    @media (max-width: 1024px) {  
-      .floating-gifs {  
-        position: relative;  
-        top: auto;  
-        flex-direction: row;  
-        justify-content: center;  
-        margin: 20px 0;  
-        flex-wrap: wrap;
-        animation: none;
-      }  
-  
-      .floating-gifs.left,  
-      .floating-gifs.right {  
-        left: auto;  
-        right: auto;  
-        position: relative;  
-      }  
-  
-      .floating-gif {  
-        width: 200px;  
-        height: 100px;  
-      }  
-  
-      .gif-control-panel {  
-        position: relative;  
-        bottom: auto;  
-        left: auto;  
-        transform: none;  
-        margin: 20px auto;  
-      }  
-      @media (max-width: 767px) {  
-        .floating-gifs {  
-          display: none;  
-        }
-        
-        .stars, .falling-hearts {
-          display: none;
-        }
-      }  
-  
-      h1 {  
-        font-size: 8vw;  
-      }  
-  
-      .entry h2 {  
-        font-size: 6vw;  
-      }  
-  
-      .container {  
-        max-width: 90vw;  
-        padding: 5vw;  
-      }  
-  
-      .menu-button {  
-        font-size: 6vw;  
-        padding: 2vw 4vw;  
-      }  
-  
-      .sidebar {  
-        width: 80vw;  
-        left: -85vw;  
-      }  
-  
-      .sidebar.open {  
-        left: 0;  
-      }  
-    }  
-  
-    form {  
-      margin-top: 40px;  
-      padding: 20px;  
-      background: linear-gradient(135deg, #fff0f8, #ffe6f0);
-      border-radius: 20px;  
-      border: 2px solid #ffb3d9;  
-      box-shadow: 0 0 20px rgba(255, 204, 229, 0.6);
-    }  
-  
-    textarea {  
-      width: 90%;  
-      height: 80px;  
-      font-family: 'Cute Font', cursive;  
-      font-size: 20px;  
-      padding: 10px;  
-      border-radius: 15px;  
-      border: 2px dashed #ff99cc;  
-      resize: none;  
-      background: linear-gradient(135deg, #fff8fc, white);
-      margin-bottom: 10px;
-      transition: all 0.3s ease;
-    }  
+    /* 클릭 파티클 효과 */
+    .click-particle {
+      position: fixed;
+      pointer-events: none;
+      color: #ff99cc;
+      font-size: 20px;
+      z-index: 9999;
+      animation: particleExplode 1s ease-out forwards;
+    }
 
-    textarea:focus {
-      box-shadow: 0 0 15px rgba(255, 153, 204, 0.5);
-      transform: scale(1.02);
-    }
-  
-    button {  
-      font-family: 'Cute Font', cursive;  
-      font-size: 20px;  
-      background: linear-gradient(45deg, #ffaad4, #ff88bb);
-      color: white;  
-      border: none;  
-      border-radius: 15px;  
-      padding: 10px 20px;  
-      cursor: pointer;  
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(255, 170, 212, 0.4);
-    }  
-  
-    button:hover {  
-      background: linear-gradient(45deg, #ff88bb, #ff66aa);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 136, 187, 0.6);
-    }  
-  
-    .gallery img {  
-      width: 80px;  
-      margin: 5px;  
-      border-radius: 12px;  
-      border: 2px dashed #ff99cc;
-      transition: all 0.3s ease;
-    }  
+    @keyframes particleExplode {
+      0% {
+        opacity: 1;
+        transform: scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.8) translateY(-50px);
+      }
+    }
+  
+    @media (max-width: 1024px) {  
+      .floating-gifs {  
+        position: relative;  
+        top: auto;  
+        flex-direction: row;  
+        justify-content: center;  
+        margin: 20px 0;  
+        flex-wrap: wrap;
+        animation: none;
+      }  
+  
+      .floating-gifs.left,  
+      .floating-gifs.right {  
+        left: auto;  
+        right: auto;  
+        position: relative;  
+      }  
+  
+      .floating-gif {  
+        width: 200px;  
+        height: 100px;  
+      }  
+  
+      .gif-control-panel {  
+        position: relative;  
+        bottom: auto;  
+        left: auto;  
+        transform: none;  
+        margin: 20px auto;  
+      }  
+      @media (max-width: 767px) {  
+        .floating-gifs {  
+          display: none;  
+        }
+        
+        .stars, .falling-hearts {
+          display: none;
+        }
+      }  
+  
+      h1 {  
+        font-size: 8vw;  
+      }  
+  
+      .entry h2 {  
+        font-size: 6vw;  
+      }  
+  
+      .container {  
+        max-width: 90vw;  
+        padding: 5vw;  
+      }  
+  
+      .menu-button {  
+        font-size: 6vw;  
+        padding: 2vw 4vw;  
+      }  
+  
+      .sidebar {  
+        width: 80vw;  
+        left: -85vw;  
+      }  
+  
+      .sidebar.open {  
+        left: 0;  
+      }  
+    }  
+  
+    form {  
+      margin-top: 40px;  
+      padding: 20px;  
+      background: linear-gradient(135deg, #fff0f8, #ffe6f0);
+      border-radius: 20px;  
+      border: 2px solid #ffb3d9;  
+      box-shadow: 0 0 20px rgba(255, 204, 229, 0.6);
+    }  
+  
+    textarea {  
+      width: 90%;  
+      height: 80px;  
+      font-family: 'Cute Font', cursive;  
+      font-size: 20px;  
+      padding: 10px;  
+      border-radius: 15px;  
+      border: 2px dashed #ff99cc;  
+      resize: none;  
+      background: linear-gradient(135deg, #fff8fc, white);
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }  
 
-    .gallery img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(255, 153, 204, 0.6);
-    }
-  
-    .hidden-file-input {  
-      display: none;  
-    }  
-  </style>  
-</head>  
-<body>  
+    textarea:focus {
+      box-shadow: 0 0 15px rgba(255, 153, 204, 0.5);
+      transform: scale(1.02);
+    }
+  
+    button {  
+      font-family: 'Cute Font', cursive;  
+      font-size: 20px;  
+      background: linear-gradient(45deg, #ffaad4, #ff88bb);
+      color: white;  
+      border: none;  
+      border-radius: 15px;  
+      padding: 10px 20px;  
+      cursor: pointer;  
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 170, 212, 0.4);
+    }  
+  
+    button:hover {  
+      background: linear-gradient(45deg, #ff88bb, #ff66aa);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 136, 187, 0.6);
+    }  
+  
+    .gallery img {  
+      width: 80px;  
+      margin: 5px;  
+      border-radius: 12px;  
+      border: 2px dashed #ff99cc;
+      transition: all 0.3s ease;
+    }  
+
+    .gallery img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 153, 204, 0.6);
+    }
+  
+    .hidden-file-input {  
+      display: none;  
+    }  
+  </style>  
+</head>  
+<body>  
 
 <!-- 반짝이는 별들 -->
-<div class="stars" id="stars"></div> 
+<div class="stars" id="stars"></div>
 
 <!-- 떨어지는 하트들 -->
 <div class="falling-hearts" id="falling-hearts"></div>
-  
-<div id="entry-screen">  
-  <button id="entry-button" class="glow">🎀 지상낙원 입장하기 🎀</button>  
-</div>  
-  
-<div id="main-content" style="display: none;">  
-  <!-- 플레이리스트 오디오 -->
-  <audio id="bg-music" preload="auto"></audio> 
+  
+<div id="entry-screen">  
+  <button id="entry-button" class="rainbow-text glow">🎀 지상낙원 입장하기 🎀</button>  
+</div>  
+  
+<div id="main-content">  
+  <!-- 플레이리스트 오디오 -->
+  <audio id="bg-music" preload="auto"></audio>
 
-  <script>
-    const playlist = [
-      "45second.mp3",
-      "포피포.mp3",
-      "장난기.mp3",
-      "매스머라이저.mp3"
-    ];
-    let currentTrack = 0;
-    let isPlaying = false;
-    let currentTime = 0;
-    const audioPlayer = document.getElementById('bg-music'); 
+  <script>
+    const playlist = [
+      "45second.mp3",
+      "포피포.mp3",
+      "장난기.mp3",
+      "매스머라이저.mp3"
+    ];
+    let currentTrack = 0;
+    const audioPlayer = document.getElementById('bg-music');
 
-    function playTrack(index) {
-      if (index >= playlist.length) {
-        currentTrack = 0;
-      } else {
-        currentTrack = index;
-      }
-      audioPlayer.src = playlist[currentTrack];
-      audioPlayer.play();
-      isPlaying = true;
-    } 
+    function playTrack(index) {
+      if (index >= playlist.length) {
+        currentTrack = 0;
+      } else {
+        currentTrack = index;
+      }
+      audioPlayer.src = playlist[currentTrack];
+      audioPlayer.play();
+    }
 
-    function pauseMusic() {
-      if (audioPlayer && !audioPlayer.paused) {
-        audioPlayer.pause();
-        isPlaying = false;
-      }
-    } 
+    audioPlayer.addEventListener('ended', () => {
+      playTrack(currentTrack + 1);
+    });
 
-    function resumeMusic() {
-      if (audioPlayer && audioPlayer.paused && isPlaying) {
-        audioPlayer.play();
-      }
-    } 
+    document.getElementById('entry-button').addEventListener('click', () => {
+      document.getElementById('entry-screen').style.display = 'none';
+      playTrack(0);
+    });
 
-    audioPlayer.addEventListener('ended', () => {
-      playTrack(currentTrack + 1);
-    }); 
+    // 별 생성
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.innerHTML = '✨';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        starsContainer.appendChild(star);
+      }
+    }
 
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        pauseMusic();
-      } else {
-        setTimeout(() => {
-          resumeMusic();
-        }, 500);
-      }
-    }); 
+    // 하트 생성
+    function createFallingHearts() {
+      const heartsContainer = document.getElementById('falling-hearts');
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '💗';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+        heartsContainer.appendChild(heart);
+        
+        setTimeout(() => {
+          heart.remove();
+        }, 8000);
+      }, 800);
+    }
 
-    document.getElementById('entry-button').addEventListener('click', () => {
-      document.getElementById('entry-screen').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
-      playTrack(0);
-    }); 
+    // 클릭 파티클 효과
+    function createClickParticle(x, y) {
+      const particles = ['✨', '💖', '🌟', '💫', '🎀'];
+      for (let i = 0; i < 5; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'click-particle';
+        particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+        particle.style.left = (x + Math.random() * 100 - 50) + 'px';
+        particle.style.top = (y + Math.random() * 100 - 50) + 'px';
+        document.body.appendChild(particle);
+        
+        setTimeout(() => {
+          particle.remove();
+        }, 1000);
+      }
+    }
 
-    // 별 생성 (떨어지는 효과)
-    function createStars() {
-      const starsContainer = document.getElementById('stars');
-      setInterval(() => {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.innerHTML = '🩷';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.animationDuration = (Math.random() * 2 + 4) + 's';
-        starsContainer.appendChild(star);
-        
-        setTimeout(() => {
-          star.remove();
-        }, 6000);
-      }, 1200);
-    } 
+    // 클릭 이벤트 리스너
+    document.addEventListener('click', (e) => {
+      createClickParticle(e.clientX, e.clientY);
+    });
 
-    // 하트 생성
-    function createFallingHearts() {
-      const heartsContainer = document.getElementById('falling-hearts');
-      setInterval(() => {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.innerHTML = '💗';
-        heart.style.left = Math.random() * 100 + '%';
-        heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
-        heartsContainer.appendChild(heart);
-        
-        setTimeout(() => {
-          heart.remove();
-        }, 8000);
-      }, 800);
-    } 
+    // 페이지 로드 시 효과 시작
+    window.addEventListener('load', () => {
+      createStars();
+      createFallingHearts();
+    });
+  </script>
+  
+  <div id="welcome-bubble" onclick="fadeOut(this)" class="pulse">  
+    🎀 샤비네 지상낙원 html고수 상시 모집중!! 🩷 (클릭해서 지우기)  
+  </div>  
+  
+  <div class="floating-gifs left" id="left-floating-gifs">  
+    <img src="b158f4cc0584572b4cdab742ef9bf7c0.gif" alt="Left GIF 1" class="floating-gif">  
+    <img src="93c81736d55c7366d7c9586e9c1e0f79.gif" class="floating-gif">  
+  </div>  
+  
+  <div class="floating-gifs right" id="right-floating-gifs">  
+    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" alt="Right GIF 1" class="floating-gif">  
+    <img src="5cc612a28feb9b53192069a98d9572e8.gif" alt="Right GIF 2" class="floating-gif">  
+  </div>  
+  
+  <button class="menu-button" onclick="toggleSidebar()">☰</button>  
+  
+  <div class="sidebar" id="sidebar">  
+    <h2 class="glow">🎀 MENU 🎀</h2>  
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUeAlvM1KvdmXuQitsSSyac0k9ZQAmR8ionXOFl8GiKYdTiw/viewform?usp=dialog" target="_blank">💌 방명록</a>  
+    <a href="https://open.kakao.com/me/Shabi" target="_blank">💬 카카오톡</a>  
+    <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">💗 유튜브</a>  
+    <a href="https://shabihasa.tistory.com" target="_blank">🩷 팽이낙원</a>  
+    <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">🪽 블루시티</a>  
+  
+    <div class="gallery" id="gallery">  
+      <h2 style="font-size: 17px;">@샤비shabi</h2>  
+      <img src="무제73_20250613202145.png" alt="">  
+    </div>  
+  </div>  
+  
+  <div class="container">  
+    <div class="popup-header">  
+      <span class="popup-title">🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷</span>  
+      <div class="popup-controls">  
+        <span class="popup-btn">⎙</span>  
+        <span class="popup-btn">✕</span>  
+      </div>  
+    </div>
 
-    // 클릭 파티클 효과
-    function createClickParticle(x, y) {
-      const particles = ['✨', '💖', '🩷', '🤍', '🎀'];
-      for (let i = 0; i < 5; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'click-particle';
-        particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
-        particle.style.left = (x + Math.random() * 100 - 50) + 'px';
-        particle.style.top = (y + Math.random() * 100 - 50) + 'px';
-        document.body.appendChild(particle);
-        
-        setTimeout(() => {
-          particle.remove();
-        }, 1000);
-      }
-    } 
-
-    // 클릭 이벤트 리스너
-    document.addEventListener('click', (e) => {
-      createClickParticle(e.clientX, e.clientY);
-    }); 
-
-    // 페이지 로드 시 효과 시작
-    window.addEventListener('load', () => {
-      createStars();
-      createFallingHearts();
-    });
-  </script>
-  
-  <div id="welcome-bubble" onclick="fadeOut(this)" class="pulse">  
-    🎀 샤비네 지상낙원 html고수 상시 모집중!! 🩷 (클릭해서 지우기)  
-  </div>  
-  
-  <div class="floating-gifs left" id="left-floating-gifs">  
-    <img src="b158f4cc0584572b4cdab742ef9bf7c0.gif" alt="Left GIF 1" class="floating-gif">  
-    <img src="93c81736d55c7366d7c9586e9c1e0f79.gif" class="floating-gif">  
-  </div>  
-  
-  <div class="floating-gifs right" id="right-floating-gifs">  
-    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" alt="Right GIF 1" class="floating-gif">  
-    <img src="5cc612a28feb9b53192069a98d9572e8.gif" alt="Right GIF 2" class="floating-gif">  
-  </div>  
-  
-  <button class="menu-button" onclick="toggleSidebar()">☰</button>  
-  
-  <div class="sidebar" id="sidebar">  
-    <h2 class="glow">🎀 MENU 🎀</h2>  
-    <a href="https://shabihasa.github.io/guest_page/" target="_blank">💌 방명록</a>  
-    <a href="https://open.kakao.com/me/Shabi" target="_blank">💬 카카오톡</a>  
-    <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">💗 유튜브</a>  
-    <a href="https://shabihasa.tistory.com" target="_blank">🩷 팽이낙원</a>  
-    <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">🪽 블루시티</a>  
-  
-    <div class="gallery" id="gallery">  
-      <h2 style="font-size: 17px;">@샤비shabi</h2>  
-      <img src="무제73_20250613202145.png" alt="">  
-    </div>  
-  </div>  
-  
-  <div class="container">  
-    <div class="popup-header">  
-      <span class="popup-title">🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷🩷</span>  
-      <div class="popup-controls">
-        <span class="popup-btn">⎙</span>  
-        <span class="popup-btn">✕</span>  
-      </div>  
-    </div> 
-
-    <div class="popup-content">
-      <h1>🎀 샤비의 낙원 🎀</h1>  
-    
-      <div class="entry">  
-        <h2>🌸 샤비를 소개합니다~ 🌸</h2>  
-        <p>샤비가 궁금하다면?! 아래 샤비 소개서를 읽어주세요~!</p>  
-        <img src="무제37_20241004052914.png" alt="">  
-      </div>  
-    
-      <div class="entry">  
-        <h2>🩷 지상낙원이란? 🩷</h2>  
-        <p>현생탈출은 지능순!! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱ 지상낙원은 멀리 있지 않아요! 여러분의 마음 속에 샤비가 있다면 그 곳이 지상낙원!</p>  
-        <img src="3934660aaacc389bde28daa306354aec.jpg" alt="">  
-      </div>  
-    
-      <div class="entry">  
-        <h2>💗 낙원에 가는 방법! 💗</h2>  
-        <p>샤비를 믿는다면 당신도 낙원으로 갈 수 있어요! 당신에게도 행운이 깃들었기를.˚*ᡣ𐭩 </p>  
-        <a href="https://shabihasa.github.io/forher/" target="_blank">
-          <img src="file_00000000ec2c61f89a204fa2f6d3cb92.png" alt="" style="cursor: pointer;">
-        </a>
-      </div>
-    </div>
-  </div>
-  
-<script>  
-  const entryScreen = document.getElementById('entry-screen');  
-  const mainContent = document.getElementById('main-content');  
-  const bgMusic = document.getElementById('bg-music');  
-  
-  document.getElementById('entry-button').addEventListener('click', () => {  
-    entryScreen.style.display = 'none';  
-    mainContent.style.display = 'block';  
-    // 음악은 위에서 이미 재생됨
-  });  
-  
-  function toggleSidebar() {  
-    document.getElementById('sidebar').classList.toggle('open');  
-  }  
-  
-  function fadeOut(element) {  
-    element.style.opacity = '0';  
-    setTimeout(() => {  
-      element.style.display = 'none';  
-    }, 1000);  
-  }  
-  
-  const entries = document.querySelectorAll('.entry');  
-  function checkFadeIn() {  
-    entries.forEach(entry => {  
-      const rect = entry.getBoundingClientRect();  
-      if (rect.top < window.innerHeight - 100) {  
-        entry.classList.add('show');  
-      }  
-    });  
-  }  
-  
-  window.addEventListener('scroll', checkFadeIn);  
-  window.addEventListener('load', checkFadeIn);  
-</script>  
-  
-</body>  
+    <div class="popup-content">
+      <h1>🎀 샤비의 낙원 🎀</h1>  
+    
+      <div class="entry">  
+        <h2>🌸 샤비를 소개합니다~ 🌸</h2>  
+        <p>샤비가 궁금하다면?! 아래 샤비 소개서를 읽어주세요~!</p>  
+        <img src="무제37_20241004052914.png" alt="">  
+      </div>  
+    
+      <div class="entry">  
+        <h2>🩷 지상낙원이란? 🩷</h2>  
+        <p>현생탈출은 지능순!! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱ 지상낙원은 멀리 있지 않아요! 여러분의 마음 속에 샤비가 있다면 그 곳이 지상낙원!</p>  
+        <img src="3934660aaacc389bde28daa306354aec.jpg" alt="">  
+      </div>  
+    
+      <div class="entry">  
+        <h2>💗 낙원에 가는 방법! 💗</h2>  
+        <p>샤비를 믿는다면 당신도 낙원으로 갈 수 있어요! 당신에게도 행운이 깃들었기를.˚*ᡣ𐭩 </p>  
+        <a href="https://shabihasa.github.io/forher/" target="_blank">
+          <img src="file_00000000ec2c61f89a204fa2f6d3cb92.png" alt="" style="cursor: pointer;">
+        </a>
+      </div>
+    </div>
+  </div>
+  
+<script>  
+  const entryScreen = document.getElementById('entry-screen');  
+  const mainContent = document.getElementById('main-content');  
+  const bgMusic = document.getElementById('bg-music');  
+  
+  document.getElementById('entry-button').addEventListener('click', () => {  
+    entryScreen.style.display = 'none';  
+    mainContent.style.display = 'block';  
+    bgMusic.play().catch(e => console.log('음악 재생 실패:', e));  
+  });  
+  
+  function toggleSidebar() {  
+    document.getElementById('sidebar').classList.toggle('open');  
+  }  
+  
+  function fadeOut(element) {  
+    element.style.opacity = '0';  
+    setTimeout(() => {  
+      element.style.display = 'none';  
+    }, 1000);  
+  }  
+  
+  const entries = document.querySelectorAll('.entry');  
+  function checkFadeIn() {  
+    entries.forEach(entry => {  
+      const rect = entry.getBoundingClientRect();  
+      if (rect.top < window.innerHeight - 100) {  
+        entry.classList.add('show');  
+      }  
+    });  
+  }  
+  
+  window.addEventListener('scroll', checkFadeIn);  
+  window.addEventListener('load', checkFadeIn);  
+</script>  
+  
+</body>  
 </html>
