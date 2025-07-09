@@ -261,6 +261,50 @@
       transform: scale(1.05) rotate(2deg);
       box-shadow: 0 0 50px rgba(255, 102, 170, 1);
     }  
+
+    .header-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+      z-index: 800;
+      display: block;
+    }
+    
+    .header-image.mobile {
+      display: none;
+    }
+    
+    #main-content {
+      padding-top: 220px; /* 헤더 이미지 높이만큼 여백 */
+      }
+    
+    /* 메뉴 버튼 위치 조정 */
+    .menu-button {
+      top: 210px; /* 헤더 이미지 아래로 이동 */
+    }
+    
+    /* 모바일 반응형 */
+    @media (max-width: 767px) {
+      .header-image {
+        display: none;
+      }
+      
+      .header-image.mobile {
+        display: block;
+        max-height: 150px;
+      }
+#main-content {
+padding-top: 170px;
+}
+  
+  .menu-button {
+    top: 160px;
+  }
+}
   
     .sidebar {  
       position: fixed;  
