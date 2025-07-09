@@ -210,15 +210,17 @@
     }
   
     .floating-gifs {  
-      position: absolute;  
-      top: 30%;  
-      transform: translateY(-70%);  
+      position: fixed;  
+      top: 0;  
+      height: 100vh;
       z-index: 500;  
       display: flex;  
       flex-direction: column;  
-      gap: 20px;  
-      pointer-events: auto;  
-    }  
+      gap: 15px;  
+      pointer-events: auto;
+      padding: 20px 0;
+      overflow: hidden;
+    }
   
     .floating-gifs.left {  
       left: 30px;
