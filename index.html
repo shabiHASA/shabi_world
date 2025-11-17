@@ -844,6 +844,91 @@
     .hidden-file-input {  
       display: none;  
     }  
+    /* 시계 & 날씨 위젯 */
+    .widget-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px auto;
+      max-width: 700px;
+      flex-wrap: wrap;
+    }
+
+    .widget {
+      background: linear-gradient(45deg, #fff5fb, #ffe9f4);
+      border: 2px dashed #FCCFE9;
+      border-radius: 20px;
+      padding: 20px;
+      min-width: 200px;
+      box-shadow: 0 0 20px rgba(255, 217, 236, 0.6);
+      animation: widgetFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes widgetFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .widget h3 {
+      color: #ff88cc;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .widget-content {
+      color: #ff99cc;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .weather-info {
+      font-size: 18px;
+      color: #ffaadd;
+      margin-top: 5px;
+    }
+
+/* 푸터 스타일 */
+    .footer {
+      background: linear-gradient(135deg, #fff5fb, #ffe9f4);
+      border-top: 3px dashed #FCCFE9;
+      padding: 40px 20px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .footer-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .footer-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(45deg, #ffd4ea, #ffbbe0);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(255, 187, 224, 0.4);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .footer-icon:hover {
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 5px 20px rgba(255, 187, 224, 0.7);
+    }
+
+    .copyright {
+      color: #ff99cc;
+      font-size: 18px;
+      margin-top: 20px;
+    }
   </style>  
 </head>
 <body>  
@@ -981,6 +1066,19 @@
           <button class="player-btn" onclick="nextTrack()" title="다음곡">⏭</button>
         </div>
       </div>
+        <!-- 시계 & 날씨 위젯 -->
+      <div class="widget-container">
+        <div class="widget">
+          <h3>현재 시각</h3>
+          <div class="widget-content" id="clock">00:00:00</div>
+        </div>
+  
+        <div class="widget">
+          <h3>점메추</h3>
+          <div class="widget-content" id="weather">로딩중...</div>
+          <div class="weather-info" id="weather-info"></div>
+        </div>
+      </div>
     
       <div class="entry">  
         <h2>🤍 샤비를 소개합니다~ 🤍</h2>  
@@ -1011,6 +1109,30 @@
           <img src="낙원의문.png" alt="" style="cursor: pointer;">
         </a>
       </div>
+    </div>
+  </div>
+  <!-- 푸터 -->
+  <div class="footer">
+    <h2 style="color: #ff88cc; font-size: 28px;">✦ CONTACT ✦</h2>
+  
+    <div class="footer-icons">
+      <a href="https://open.kakao.com/me/Shabi" target="_blank" class="footer-icon" title="카카오톡">
+        ☪︎
+      </a>
+      <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank" class="footer-icon" title="이메일">
+        ✿
+      </a>
+      <a href="https://shabihasa.tistory.com" target="_blank" class="footer-icon" title="네이버카페">
+        ✧
+      </a>
+      <a href="https://shabihasa.github.io/guest_page/" target="_blank" class="footer-icon" title="방명록">
+        ⊰✿
+      </a>
+    </div>
+  
+    <div class="copyright">
+      © 2024 샤비의 낙원 All Rights Reserved 🩷<br>
+      Made with Love by Shabi
     </div>
   </div>
   
@@ -1209,7 +1331,35 @@
   }  
   
   window.addEventListener('scroll', checkFadeIn);  
-  window.addEventListener('load', checkFadeIn);  
+  window.addEventListener('load', checkFadeIn); 
+    
+  function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // 날씨 위젯 (간단 버전 - 랜덤)
+  function updateWeather() {
+    const weathers = [
+      { emoji: '똥', text: '아주', temp: '따뜻하게' },
+      { emoji: '물설사', text: '약간', temp: '차갑게' },
+      { emoji: '베꼽때', text: '적당히', temp: '미지근하게' },
+      { emoji: '귀지', text: '아주', temp: '촉촉하게' },
+      { emoji: '코딱지', text: '아주', temp: '쫀득하게' }
+    ];
+  
+    const randomWeather = weathers[Math.floor(Math.random() * weathers.length)];
+    document.getElementById('weather').textContent = randomWeather.emoji;
+    document.getElementById('weather-info').textContent = `${randomWeather.text} ${randomWeather.temp}`;
+  }
+
+  updateWeather();
 </script>  
   
 </body>  
