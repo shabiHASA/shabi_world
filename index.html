@@ -1068,17 +1068,17 @@
           <button class="player-btn" onclick="nextTrack()" title="다음곡">⏭</button>
         </div>
       </div>
-        <!-- 시계 & 날씨 위젯 -->
+        <!-- 시계 & 쇼핑 위젯 -->
       <div class="widget-container">
         <div class="widget">
           <h3>현재 시각</h3>
           <div class="widget-content" id="clock">00:00:00</div>
         </div>
   
-        <div class="widget">
-          <h3>점메추</h3>
-          <div class="widget-content" id="weather">로딩중...</div>
-          <div class="weather-info" id="weather-info"></div>
+        <div class="widget" style="cursor: pointer;" onclick="window.open('https://buymeacoffee.com/shabihasa/extras', '_blank')">
+          <h3>쇼핑하기</h3>
+          <div class="widget-content" style="font-size: 20px;">샤비가 준비한 상품들</div>
+          <div class="weather-info">클릭하면 이동!</div>
         </div>
       </div>
     
@@ -1229,10 +1229,8 @@
     "낙원에 온 걸 환영해!",
     "오늘도 고생했어~",
     "샤비가 응원할게! 🩷",
-    "지상낙원 최고!",
     "현생 탈출은 지!능!순!",
-    "샤비와 함께라면 행복해!",
-    "제일 귀여워🤍",
+    "샤비와 함께라면 행복해질거야~",
     "샤비가 지켜줄게!",
     "낙원으로 가자~"
   ];
@@ -1347,22 +1345,6 @@
   setInterval(updateClock, 1000);
   updateClock();
 
-  // 날씨 위젯 (간단 버전 - 랜덤)
-  function updateWeather() {
-    const weathers = [
-      { emoji: '똥', text: '아주', temp: '따뜻하게' },
-      { emoji: '물설사', text: '약간', temp: '차갑게' },
-      { emoji: '베꼽때', text: '적당히', temp: '미지근하게' },
-      { emoji: '귀지', text: '아주', temp: '촉촉하게' },
-      { emoji: '코딱지', text: '아주', temp: '쫀득하게' }
-    ];
-  
-    const randomWeather = weathers[Math.floor(Math.random() * weathers.length)];
-    document.getElementById('weather').textContent = randomWeather.emoji;
-    document.getElementById('weather-info').textContent = `${randomWeather.text} ${randomWeather.temp}`;
-  }
-
-  updateWeather();
 </script>  
   
 </body>  
