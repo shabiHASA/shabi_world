@@ -20,10 +20,9 @@
       margin: 0;  
       padding: 0;  
       overflow-x: hidden;  
-      color: #ffaadd;
+      color: #F4BEDD; /* 기존 #ffaadd → 채도 낮춤 */
     }
 
-    /* 반짝이는 별들 애니메이션 */
     .stars {
       position: fixed;
       top: 0;
@@ -42,23 +41,12 @@
     }
 
     @keyframes starFall {
-      0% {
-        transform: translateY(-100px) rotate(0deg) scale(0.8);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg) scale(1.2);
-        opacity: 0;
-      }
+      0% { transform: translateY(-100px) rotate(0deg) scale(0.8); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg) scale(1.2); opacity: 0; }
     }
 
-    /* 떨어지는 하트 애니메이션 */
     .falling-hearts {
       position: fixed;
       top: 0;
@@ -78,17 +66,10 @@
     }
 
     @keyframes fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
 
-    /* 펄스 효과 */
     .pulse {
       animation: pulse 2s infinite;
     }
@@ -99,18 +80,13 @@
       100% { transform: scale(1); }
     }
 
-    /* 글로우 효과 */
     .glow {
       animation: glow 2s ease-in-out infinite alternate;
     }
 
     @keyframes glow {
-      from {
-        text-shadow: 0 0 20px #ffe6f5, 0 0 30px #ffe6f5, 0 0 40px #ffe6f5;
-      }
-      to {
-        text-shadow: 0 0 10px #ffb3dd, 0 0 20px #ffb3dd, 0 0 30px #ffb3dd;
-      }
+      from { text-shadow: 0 0 20px #ffe6f5, 0 0 30px #ffe6f5, 0 0 40px #ffe6f5; }
+      to { text-shadow: 0 0 10px #ffb3dd, 0 0 20px #ffb3dd, 0 0 30px #ffb3dd; }
     }
   
     #entry-screen {  
@@ -136,7 +112,8 @@
   
     #entry-button {  
       font-family: 'Song Myung', cursive;  
-      font-size: 23px;  
+      font-size: 23px;
+      /* 핑크 → 라벤더로 부드럽게 변하는 그라디언트 */
       background: linear-gradient(45deg, #f4a0c8, #e8a0d8, #c9a0e8, #b8a0f0, #c9a0e8, #e8a0d8, #f4a0c8);
       background-size: 400% 400%;
       animation: pinkLavender 3s ease infinite, buttonPulse 2s infinite;
@@ -150,7 +127,7 @@
       text-shadow: 0 0 20px #ffe6f5, 0 0 30px #ffe6f5, 0 0 40px #ffe6f5;
     }  
 
-    @keyframes rainbow {
+    @keyframes pinkLavender {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
@@ -164,7 +141,6 @@
   
     #entry-button:hover {  
       transform: scale(1.15);
-      animation: rainbow 3s ease infinite;
       box-shadow: 0 0 60px #ffe6f5, 0 0 100px #ffb3dd;
       text-shadow: 0 0 10px #ffb3dd, 0 0 20px #ffb3dd, 0 0 30px #ffb3dd;
     }  
@@ -179,7 +155,7 @@
       border-radius: 20px;  
       box-shadow: 0 0 20px #ffd9ec;
       font-size: 13px;
-      color: #ffaadd;
+      color: #F4BEDD; /* 기존 #ffaadd → 채도 낮춤 */
       cursor: pointer;  
       opacity: 1;  
       transition: all 1s ease;
@@ -198,7 +174,7 @@
       background: linear-gradient(135deg, #fffcfe, #fff8fc, #fff4fa, #fff0f8);
       background-size: 400% 400%;
       animation: backgroundFlow 8s ease infinite;
-      color: #ffaadd;  
+      color: #F4BEDD; /* 기존 #ffaadd → 채도 낮춤 */
       padding: 30px;  
       text-align: center;  
       overflow-x: hidden;  
@@ -253,11 +229,6 @@
       transition: all 0.3s ease;  
       opacity: 1;
     }
-
-    @keyframes gifGlow {
-      from { box-shadow: 0 0 25px rgba(255, 206, 229, 0.6); }
-      to { box-shadow: 0 0 40px rgba(255, 179, 221, 0.8); }
-    }
   
     .floating-gif:hover {
       transform: scale(1.05) rotate(2deg);
@@ -286,7 +257,6 @@
       top: 30px;
     }
 
-    /* 방문자 카운터 스타일 */
     .visitor-counter {
       position: fixed;
       top: 30px;
@@ -298,7 +268,7 @@
       box-shadow: 0 0 20px rgba(255, 217, 236, 0.6);
       z-index: 1100;
       font-size: 11px;
-      color: #ff88cc;
+      color: #F4BEDD; /* 기존 #ff88cc → 채도 낮춤 */
       animation: counterGlow 2s ease-in-out infinite alternate;
     }
 
@@ -309,11 +279,10 @@
 
     .visitor-counter .count {
       font-weight: bold;
-      color: #ff66b3;
+      color: #F4BEDD; /* 기존 #ff66b3 → 채도 낮춤 */
       margin: 0 5px;
     }
 
-    /* BGM 플레이어 스타일 */
     .bgm-player {
       background: linear-gradient(45deg, #fff5fb, #ffe9f4);
       border: 2px dashed #FCCFE9;
@@ -332,12 +301,12 @@
 
     .bgm-player h3 {
       margin: 0 0 10px 0;
-      color: #ff88cc;
+      color: #F4BEDD; /* 기존 #ff88cc → 채도 낮춤 */
       font-size: 15px;
     }
 
     .song-title {
-      color: #ff99cc;
+      color: #F4BEDD; /* 기존 #ff99cc → 채도 낮춤 */
       font-size: 11px;
       margin-bottom: 10px;
       display: flex;
@@ -383,7 +352,6 @@
       box-shadow: 0 5px 15px rgba(255, 187, 224, 0.7);
     }
 
-    /* 미니미 캐릭터 스타일 */
     .minime {
       position: fixed;
       bottom: 20px;
@@ -430,7 +398,7 @@
       transform: translateY(10px);
       transition: all 0.3s ease;
       pointer-events: none;
-      color: #ff88cc;
+      color: #F4BEDD; /* 기존 #ff88cc → 채도 낮춤 */
       font-size: 11px;
     }
 
@@ -451,43 +419,15 @@
       transform: translateY(0);
     }
     
-    /* 모바일 반응형 */
     @media (max-width: 767px) {
-      .header-image {
-        display: none;
-      }
-      
-      .header-image.mobile {
-        display: block;
-        max-height: 150px;
-      }
-
-      #main-content {
-        padding-top: 70px;
-      }
-  
-      .menu-button {
-        top: 30px;
-      }
-
-      .visitor-counter {
-        top: 80px;
-        right: 10px;
-        font-size: 7px;
-        padding: 8px 12px;
-      }
-
-      .minime {
-        display: none;
-      }
-
-      .floating-gifs {
-        display: none;
-      }
-
-      .stars, .falling-hearts {
-        display: none;
-      }
+      .header-image { display: none; }
+      .header-image.mobile { display: block; max-height: 150px; }
+      #main-content { padding-top: 70px; }
+      .menu-button { top: 30px; }
+      .visitor-counter { top: 80px; right: 10px; font-size: 7px; padding: 8px 12px; }
+      .minime { display: none; }
+      .floating-gifs { display: none; }
+      .stars, .falling-hearts { display: none; }
     }
     
     @media (max-width: 1024px) {  
@@ -500,18 +440,8 @@
         flex-wrap: wrap;
         animation: none;
       }  
-  
-      .floating-gifs.left,  
-      .floating-gifs.right {  
-        left: auto;  
-        right: auto;  
-        position: relative;  
-      }  
-  
-      .floating-gif {  
-        width: 200px;  
-        height: 100px;  
-      }  
+      .floating-gifs.left, .floating-gifs.right { left: auto; right: auto; position: relative; }  
+      .floating-gif { width: 200px; height: 100px; }  
     }
   
     .sidebar {  
@@ -528,13 +458,11 @@
       z-index: 1000;  
     }  
   
-    .sidebar.open {  
-      left: 0;  
-    }  
+    .sidebar.open { left: 0; }  
   
     .sidebar h2 {  
       font-size: 19px;  
-      color: #ff88cc;  
+      color: #F4BEDD; /* 기존 #ff88cc → 채도 낮춤 */
       margin-bottom: 20px;
       text-shadow: 0 0 10px rgba(255, 136, 204, 0.5);
     }  
@@ -542,7 +470,7 @@
     .sidebar a {  
       display: block;  
       margin: 15px 0;  
-      color: #ff88cc;  
+      color: #F4BEDD; /* 기존 #ff88cc → 채도 낮춤 */
       text-decoration: none;  
       font-size: 13px;  
       padding: 8px;  
@@ -593,8 +521,7 @@
       padding: 25px;  
       max-width: 700px;  
       margin: 80px auto;  
-      box-shadow: 0 0 40px rgba(255, 217, 236, 0.8), 
-                  inset 0 0 20px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 40px rgba(255, 217, 236, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.8);
       position: relative;  
       z-index: 1;
       animation: containerFloat 6s ease-in-out infinite;
@@ -617,7 +544,7 @@
       justify-content: space-between;  
       align-items: center;  
       font-size: 13px;  
-      color: #ff88cc;  
+      color: #F4BEDD; /* 기존 #ff88cc → 채도 낮춤 */
       position: relative;  
       top: -25px;
       left: -25px;
@@ -642,10 +569,7 @@
       50% { transform: scale(1.05); }
     }
       
-    .popup-controls {  
-      display: flex;  
-      gap: 10px;  
-    }  
+    .popup-controls { display: flex; gap: 10px; }  
       
     .popup-btn {  
       background: linear-gradient(45deg, #ffd4ea, #ffbbe0);
@@ -669,21 +593,15 @@
   
     h1 {  
       font-size: 35px;  
-      color: #ff88cc;  
+      color: #F4BEDD; /* 기존 #ff88cc → 채도 낮춤 */
       margin-bottom: 30px;
       text-shadow: 0 0 20px rgba(255, 136, 204, 0.6);
       animation: titleGlow 3s ease-in-out infinite alternate;
     }  
 
     @keyframes titleGlow {
-      from { 
-        text-shadow: 0 0 20px rgba(255, 136, 204, 0.6);
-        transform: scale(1);
-      }
-      to { 
-        text-shadow: 0 0 30px rgba(255, 136, 204, 0.9);
-        transform: scale(1.02);
-      }
+      from { text-shadow: 0 0 20px rgba(255, 136, 204, 0.6); transform: scale(1); }
+      to { text-shadow: 0 0 30px rgba(255, 136, 204, 0.9); transform: scale(1.02); }
     }
   
     .entry {  
@@ -723,10 +641,7 @@
       100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
     }
   
-    .entry.show {  
-      opacity: 1;  
-      transform: translateY(0);  
-    }  
+    .entry.show { opacity: 1; transform: translateY(0); }  
 
     .entry:hover {
       transform: translateY(-5px);
@@ -735,12 +650,12 @@
   
     .entry h2 {  
       font-size: 21px;  
-      color: #ff99cc;
+      color: #F4BEDD; /* 기존 #ff99cc → 채도 낮춤 */
       text-shadow: 0 0 10px rgba(255, 153, 204, 0.5);
     }
 
     .entry p {
-      color: #ffaadd;
+      color: #F4BEDD; /* 기존 #ffaadd → 채도 낮춤 */
     }
   
     .entry img {  
@@ -766,18 +681,9 @@
     }
 
     @keyframes particleExplode {
-      0% {
-        opacity: 1;
-        transform: scale(0);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(0.8) translateY(-50px);
-      }
+      0% { opacity: 1; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(0.8) translateY(-50px); }
     }
   
     form {  
@@ -801,7 +707,7 @@
       background: linear-gradient(135deg, #fffcfd, white);
       margin-bottom: 10px;
       transition: all 0.3s ease;
-      color: #ffaadd;
+      color: #F4BEDD; /* 기존 #ffaadd → 채도 낮춤 */
     }  
 
     textarea:focus {
@@ -841,10 +747,8 @@
       box-shadow: 0 0 15px rgba(255, 206, 229, 0.6);
     }
   
-    .hidden-file-input {  
-      display: none;  
-    }  
-    /* 시계 & 날씨 위젯 */
+    .hidden-file-input { display: none; }
+
     .widget-container {
       display: flex;
       justify-content: center;
@@ -870,24 +774,23 @@
     }
 
     .widget h3 {
-      color: #ff88cc;
+      color: #F4BEDD; /* 기존 #ff88cc → 채도 낮춤 */
       font-size: 15px;
       margin-bottom: 10px;
     }
 
     .widget-content {
-      color: #ff99cc;
+      color: #F4BEDD; /* 기존 #ff99cc → 채도 낮춤 */
       font-size: 21px;
       font-weight: bold;
     }
 
     .weather-info {
       font-size: 11px;
-      color: #ffaadd;
+      color: #F4BEDD; /* 기존 #ffaadd → 채도 낮춤 */
       margin-top: 5px;
     }
 
-/* 푸터 스타일 */
     .footer {
       background: linear-gradient(135deg, #fff5fb, #ffe9f4);
       border-top: 3px dashed #FCCFE9;
@@ -925,7 +828,7 @@
     }
 
     .copyright {
-      color: #ff99cc;
+      color: #F4BEDD; /* 기존 #ff99cc → 채도 낮춤 */
       font-size: 11px;
       margin-top: 20px;
     }
@@ -933,10 +836,7 @@
 </head>
 <body>  
 
-<!-- 반짝이는 별들 -->
 <div class="stars" id="stars"></div>
-
-<!-- 떨어지는 하트들 -->
 <div class="falling-hearts" id="falling-hearts"></div>
   
 <div id="entry-screen">  
@@ -944,26 +844,22 @@
 </div>  
   
 <div id="main-content" style="display: none;">  
-  <!-- 헤더 이미지 -->
   <img src="pc샤비배너.png" alt="Header" class="header-image">
   <img src="모바일샤비배너1.png" alt="Header Mobile" class="header-image mobile">
   
-  <!-- 방문자 카운터 -->
   <div class="visitor-counter">
     <span>TODAY <span class="count" id="today-count">0</span></span>
     <span>|</span>
     <span>TOTAL <span class="count" id="total-count">0</span></span>
   </div>
 
-  <!-- 미니미 캐릭터 -->
   <div class="minime" onclick="showMinimiBubble()">
     <div class="minime-character">
-       
+      <img src="미니샤비.png" alt="">
     </div>
     <div class="minime-bubble" id="minime-bubble"></div>
   </div>
   
-  <!-- 플레이리스트 오디오 -->
   <audio id="bg-music" preload="auto"></audio>
   
   <div id="welcome-bubble" onclick="fadeOut(this)" class="pulse">  
@@ -1035,7 +931,6 @@
     <a href="https://naver.me/FSvVHvby" target="_blank">✦ 팬카페</a>  
     <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">✦ 블로그</a> 
     <a href="https://shabihasa.github.io/Nmare_shabi_tarot/" target="_blank">✦ 타로보기</a>
-  
     <div class="gallery" id="gallery">  
       <h2 style="font-size: 10px;">@샤비shabi</h2>
       <img src="하트샤비.png" alt=""> 
@@ -1054,7 +949,6 @@
     <div class="popup-content">
       <h1>꒰১ 샤비의 낙원 ໒꒱</h1>  
 
-      <!-- BGM 플레이어 -->
       <div class="bgm-player">
         <h3>✦ BGM ✦</h3>
         <div class="song-title">
@@ -1068,13 +962,12 @@
           <button class="player-btn" onclick="nextTrack()" title="다음곡">⏭</button>
         </div>
       </div>
-        <!-- 시계 & 쇼핑 위젯 -->
+
       <div class="widget-container">
         <div class="widget">
           <h3>현재 시각</h3>
           <div class="widget-content" id="clock">00:00:00</div>
         </div>
-  
         <div class="widget" style="cursor: pointer;" onclick="window.open('https://buymeacoffee.com/shabihasa/extras', '_blank')">
           <h3>쇼핑하기</h3>
           <div class="widget-content" style="font-size: 13px;">샤비가 준비한 상품들</div>
@@ -1115,25 +1008,15 @@
       </div>
     </div>
   </div>
-  <!-- 푸터 -->
+
   <div class="footer">
-    <h2 style="color: #ff88cc; font-size: 21px;">✦ CONTACT ✦</h2>
-  
+    <h2 style="color: #F4BEDD; font-size: 21px;">✦ CONTACT ✦</h2>
     <div class="footer-icons">
-      <a href="https://open.kakao.com/me/Shabi" target="_blank" class="footer-icon" title="카카오톡">
-        💬
-      </a>
-      <a href="mailto:kawaii.tensi.shabi@gmail.com" target="_blank" class="footer-icon" title="이메일">
-        ✉️
-      </a>
-      <a href="https://naver.me/FSvVHvby" target="_blank" class="footer-icon" title="네이버카페">
-        🥛
-      </a>
-      <a href="https://shabihasa.github.io/guest_page/" target="_blank" class="footer-icon" title="방명록">
-        📄
-      </a>
+      <a href="https://open.kakao.com/me/Shabi" target="_blank" class="footer-icon" title="카카오톡">💬</a>
+      <a href="mailto:kawaii.tensi.shabi@gmail.com" target="_blank" class="footer-icon" title="이메일">✉️</a>
+      <a href="https://naver.me/FSvVHvby" target="_blank" class="footer-icon" title="네이버카페">🥛</a>
+      <a href="https://shabihasa.github.io/guest_page/" target="_blank" class="footer-icon" title="방명록">📄</a>
     </div>
-  
     <div class="copyright">
       © 2024 샤비의 낙원 All Rights Reserved<br>
       Made with Love by Shabi
@@ -1141,10 +1024,8 @@
   </div>
   
 <script>  
-  // 플레이리스트
   const playlist = [
     { file: "Nuvfr - Blink.mp3", title: "Nuvfr - Blink" }
-    // 여기에 더 많은 곡을 추가할 수 있어요!
   ];
   
   let currentTrack = 0;
@@ -1152,13 +1033,9 @@
   let isPlaying = false;
 
   function playTrack(index) {
-    if (index >= playlist.length) {
-      currentTrack = 0;
-    } else if (index < 0) {
-      currentTrack = playlist.length - 1;
-    } else {
-      currentTrack = index;
-    }
+    if (index >= playlist.length) { currentTrack = 0; }
+    else if (index < 0) { currentTrack = playlist.length - 1; }
+    else { currentTrack = index; }
     audioPlayer.src = playlist[currentTrack].file;
     document.getElementById('current-song').textContent = playlist[currentTrack].title;
     audioPlayer.play();
@@ -1167,34 +1044,20 @@
   }
 
   function togglePlay() {
-    if (isPlaying) {
-      audioPlayer.pause();
-      isPlaying = false;
-    } else {
-      audioPlayer.play();
-      isPlaying = true;
-    }
+    if (isPlaying) { audioPlayer.pause(); isPlaying = false; }
+    else { audioPlayer.play(); isPlaying = true; }
     updatePlayButton();
   }
 
-  function nextTrack() {
-    playTrack(currentTrack + 1);
-  }
-
-  function previousTrack() {
-    playTrack(currentTrack - 1);
-  }
+  function nextTrack() { playTrack(currentTrack + 1); }
+  function previousTrack() { playTrack(currentTrack - 1); }
 
   function updatePlayButton() {
-    const btn = document.getElementById('play-pause-btn');
-    btn.textContent = isPlaying ? '❚❚' : '▶';
+    document.getElementById('play-pause-btn').textContent = isPlaying ? '❚❚' : '▶';
   }
 
-  audioPlayer.addEventListener('ended', () => {
-    nextTrack();
-  });
+  audioPlayer.addEventListener('ended', () => { nextTrack(); });
 
-  // 입장 버튼 클릭 시
   document.getElementById('entry-button').addEventListener('click', () => {
     document.getElementById('entry-screen').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
@@ -1202,55 +1065,34 @@
     updateVisitorCount();
   });
 
-  // 방문자 카운터
   function updateVisitorCount() {
     const today = new Date().toDateString();
     let visits = JSON.parse(localStorage.getItem('shabiVisits') || '{}');
-    
-    // 총 방문자 수
     let totalCount = parseInt(localStorage.getItem('shabiTotalCount') || '0');
     totalCount++;
     localStorage.setItem('shabiTotalCount', totalCount);
-    
-    // 오늘 방문자 수
-    if (!visits[today]) {
-      visits[today] = 0;
-    }
+    if (!visits[today]) { visits[today] = 0; }
     visits[today]++;
     localStorage.setItem('shabiVisits', JSON.stringify(visits));
-    
-    // 화면에 표시
     document.getElementById('today-count').textContent = visits[today];
     document.getElementById('total-count').textContent = totalCount;
   }
 
-  // 미니미 말풍선
   const minimiMessages = [
-    "낙원에 온 걸 환영해!",
-    "도태되는 감각은 불쾌해~",
-    "낙원으로 도피하자! 🩷",
-    "현생 탈출은 지능순!",
-    "샤비와 함께라면 행복해질거야~",
-    "샤비가 지켜줄게!",
-    "샤비의 낙원으로 가자~"
+    "낙원에 온 걸 환영해!", "도태되는 감각은 불쾌해~", "낙원으로 도피하자! 🩷",
+    "현생 탈출은 지능순!", "샤비와 함께라면 행복해질거야~", "샤비가 지켜줄게!", "샤비의 낙원으로 가자~"
   ];
 
   let bubbleTimeout;
 
   function showMinimiBubble() {
     const bubble = document.getElementById('minime-bubble');
-    const randomMessage = minimiMessages[Math.floor(Math.random() * minimiMessages.length)];
-    
-    bubble.textContent = randomMessage;
+    bubble.textContent = minimiMessages[Math.floor(Math.random() * minimiMessages.length)];
     bubble.classList.add('show');
-    
     clearTimeout(bubbleTimeout);
-    bubbleTimeout = setTimeout(() => {
-      bubble.classList.remove('show');
-    }, 3000);
+    bubbleTimeout = setTimeout(() => { bubble.classList.remove('show'); }, 3000);
   }
 
-  // 별 생성
   function createStars() {
     const starsContainer = document.getElementById('stars');
     setInterval(() => {
@@ -1260,14 +1102,10 @@
       star.style.left = Math.random() * 100 + '%';
       star.style.animationDuration = (Math.random() * 2 + 4) + 's';
       starsContainer.appendChild(star);
-      
-      setTimeout(() => {
-        star.remove();
-      }, 6000);
+      setTimeout(() => { star.remove(); }, 6000);
     }, 1200);
   }
 
-  // 하트 생성
   function createFallingHearts() {
     const heartsContainer = document.getElementById('falling-hearts');
     setInterval(() => {
@@ -1277,14 +1115,10 @@
       heart.style.left = Math.random() * 100 + '%';
       heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
       heartsContainer.appendChild(heart);
-      
-      setTimeout(() => {
-        heart.remove();
-      }, 8000);
+      setTimeout(() => { heart.remove(); }, 8000);
     }, 800);
   }
 
-  // 클릭 파티클 효과
   function createClickParticle(x, y) {
     const particles = ['🪽', '💗', '🩷', '☁️'];
     for (let i = 0; i < 5; i++) {
@@ -1294,58 +1128,43 @@
       particle.style.left = (x + Math.random() * 100 - 50) + 'px';
       particle.style.top = (y + Math.random() * 100 - 50) + 'px';
       document.body.appendChild(particle);
-      
-      setTimeout(() => {
-        particle.remove();
-      }, 1000);
+      setTimeout(() => { particle.remove(); }, 1000);
     }
   }
 
-  document.addEventListener('click', (e) => {
-    createClickParticle(e.clientX, e.clientY);
-  });
+  document.addEventListener('click', (e) => { createClickParticle(e.clientX, e.clientY); });
 
-  window.addEventListener('load', () => {
-    createStars();
-    createFallingHearts();
-  });
+  window.addEventListener('load', () => { createStars(); createFallingHearts(); });
   
-  function toggleSidebar() {  
-    document.getElementById('sidebar').classList.toggle('open');  
-  }  
+  function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
   
-  function fadeOut(element) {  
-    element.style.opacity = '0';  
-    setTimeout(() => {  
-      element.style.display = 'none';  
-    }, 1000);  
-  }  
+  function fadeOut(element) {
+    element.style.opacity = '0';
+    setTimeout(() => { element.style.display = 'none'; }, 1000);
+  }
   
-  const entries = document.querySelectorAll('.entry');  
-  function checkFadeIn() {  
-    entries.forEach(entry => {  
-      const rect = entry.getBoundingClientRect();  
-      if (rect.top < window.innerHeight - 100) {  
-        entry.classList.add('show');  
-      }  
-    });  
-  }  
+  const entries = document.querySelectorAll('.entry');
+  function checkFadeIn() {
+    entries.forEach(entry => {
+      const rect = entry.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) { entry.classList.add('show'); }
+    });
+  }
   
-  window.addEventListener('scroll', checkFadeIn);  
-  window.addEventListener('load', checkFadeIn); 
+  window.addEventListener('scroll', checkFadeIn);
+  window.addEventListener('load', checkFadeIn);
     
   function updateClock() {
     const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
   }
 
   setInterval(updateClock, 1000);
   updateClock();
-
 </script>  
   
 </body>  
-      </html>
+</html>
