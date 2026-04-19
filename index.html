@@ -11,6 +11,30 @@
   <meta property="og:url" content="https://shabihasa.github.io/shabi_world/">
   <meta property="og:type" content="website">
   <style>  
+    /* ✦ 배경 반짝이는 별 효과 */
+    .bg-star {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      color: white;
+      font-size: 10px;
+      opacity: 0;
+      animation: starTwinkle var(--duration) ease-in-out infinite var(--delay);
+      text-shadow: 0 0 6px #fff, 0 0 12px #ffe6f5, 0 0 20px #ffb3dd;
+    }
+
+    .bg-star.dot {
+      font-size: 5px;
+      content: '•';
+    }
+
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0; transform: scale(0.6); }
+      30%       { opacity: 0; }
+      50%       { opacity: 1; transform: scale(1.3); }
+      70%       { opacity: 0.6; }
+      85%       { opacity: 0; transform: scale(0.8); }
+    }
     *, *::before, *::after {  
       box-sizing: border-box;  
     }  
@@ -832,16 +856,184 @@
       font-size: 11px;
       margin-top: 20px;
     }
+        /* EGG2 — 코나미: 진짜 낙원 */
+    #true-paradise {
+      position: fixed; inset: 0; z-index: 10000; background: #0a0005;
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 40px;
+    }
+    #true-paradise.show { display: flex; animation: trueReveal 1.5s ease both; }
+    @keyframes trueReveal { from { filter: brightness(0); } to { filter: brightness(1); } }
+    .true-title {
+      font-size: clamp(28px, 6vw, 60px); color: rgba(255,80,80,.9);
+      letter-spacing: 4px; margin-bottom: 16px; font-style: italic;
+      text-shadow: 0 0 40px rgba(139,0,0,.8);
+      animation: trueGlow 2s ease-in-out infinite alternate;
+    }
+    @keyframes trueGlow {
+      from { text-shadow: 0 0 40px rgba(139,0,0,.8); }
+      to   { text-shadow: 0 0 80px rgba(200,0,0,1), 0 0 120px rgba(139,0,0,.6); }
+    }
+    .true-sub { font-size: clamp(12px,2vw,16px); color: rgba(255,180,180,.7); letter-spacing: 3px; font-style: italic; line-height: 2.2; max-width: 500px; margin-bottom: 28px; }
+    .true-menu { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; padding: 0; }
+    .true-menu li { font-size: 13px; color: rgba(255,160,160,.8); letter-spacing: 2px; border-bottom: 1px solid rgba(139,0,0,.25); padding-bottom: 10px; }
+    .true-menu li span { color: rgba(255,100,100,.9); font-style: italic; }
+    #true-close {
+      font-family: 'Song Myung', cursive; font-size: 12px; letter-spacing: 3px;
+      color: rgba(255,160,160,.4); border: 1px solid rgba(139,0,0,.3);
+      background: none; padding: 10px 24px; border-radius: 20px; cursor: pointer; transition: all .3s;
+    }
+    #true-close:hover { color: rgba(255,160,160,.9); border-color: rgba(200,0,0,.7); transform: none; box-shadow: none; }
+
+    /* EGG3 — "shabi" 타이핑: 암전 */
+    #shabi-flash {
+      position: fixed; inset: 0; z-index: 9800; background: #000;
+      opacity: 0; pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.4s;
+    }
+    #shabi-flash.on { pointer-events: all; }
+    #shabi-flash-text {
+      font-size: clamp(18px, 4vw, 36px); color: rgba(255,80,80,.9);
+      letter-spacing: 6px; text-align: center; line-height: 2;
+      font-style: italic; opacity: 0; transition: opacity 0.5s;
+    }
+        /* EGG6 — 우클릭 말풍선 */
+    #rightclick-bubble {
+      position: fixed; z-index: 9000; background: #2d0f1c;
+      border: 1px solid #8b0000; border-radius: 12px; padding: 12px 20px;
+      color: rgba(255,160,160,.9); font-style: italic; font-size: 13px; letter-spacing: 2px;
+      opacity: 0; pointer-events: none; transition: opacity .3s;
+      white-space: nowrap; box-shadow: 0 4px 20px rgba(139,0,0,.3);
+    }
+    #rightclick-bubble.show { opacity: 1; }
+
+    /* EGG7 — 탭 복귀 배너 */
+    #tab-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9800;
+      background: #2d0f1c; border-bottom: 1px solid #8b0000;
+      padding: 12px; text-align: center;
+      color: rgba(255,160,160,.9); font-style: italic; font-size: 13px; letter-spacing: 3px;
+      transform: translateY(-100%); transition: transform .6s ease;
+    }
+    #tab-banner.show { transform: translateY(0); }
+
+    /* EGG8 — 맨 아래 스크롤 */
+    #bottom-flash { position: fixed; inset: 0; background: #000; z-index: 7000; pointer-events: none; opacity: 0; }
+    #bottom-msg {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 7001;
+      text-align: center; padding: 18px;
+      background: #2d0f1c; border-top: 1px solid #8b0000;
+      color: rgba(255,160,160,.9); font-style: italic; font-size: 13px; letter-spacing: 3px;
+      transform: translateY(100%); transition: transform .6s ease;
+    }
+    #bottom-msg.show { transform: translateY(0); }
+
+    /* EGG9 — 새벽 배너 */
+    #midnight-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9700;
+      background: linear-gradient(90deg, #0a0005, #2d0f1c, #0a0005);
+      border-bottom: 1px solid rgba(139,0,0,.5);
+      padding: 14px 20px; text-align: center;
+      color: rgba(255,160,160,.9); font-style: italic; font-size: 13px; letter-spacing: 3px;
+      transform: translateY(-100%); transition: transform .8s ease;
+    }
+    #midnight-banner.show { transform: translateY(0); }
+    
+    #egg-popup {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2d0f1c;
+  border: 1px solid #8b0000;
+  border-radius: 16px;
+  padding: 24px 32px;
+  color: rgba(255,160,160,.9);
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 2px;
+  z-index: 10000;
+  display: none;
+  text-align: center;
+}
+#egg-popup-close {
+  margin-top: 16px;
+  cursor: pointer;
+  color: rgba(255,120,120,.6);
+  font-size: 12px;
+}
+    
+    .btn-truth {
+  display: block;
+  font-size: 10px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+  letter-spacing: 2px;
+  color: rgba(255, 160, 160, 0.8);  /* 이스터에그 텍스트 색 */
+}
+
+#entry-button:hover .btn-truth {
+  opacity: 1;
+  max-height: 30px;
+}
+
+#entry-button:hover {
+  background: linear-gradient(45deg, #2d0f1c, #1a0810, #3d1020, #2d0f1c) !important;
+  background-size: 400% 400% !important;
+  animation: pinkLavender 3s ease infinite, buttonPulse 2s infinite !important;
+  box-shadow: 0 0 60px rgba(139, 0, 0, 0.8), 0 0 100px rgba(200, 0, 0, 0.4) !important;
+  text-shadow: 0 0 20px rgba(255, 80, 80, 0.9), 0 0 40px rgba(139, 0, 0, 0.8) !important;
+  color: rgba(255, 160, 160, 0.9) !important;
+}
   </style>  
 </head>
 <body>  
+<!-- =============================================
+     🩸 이스터에그 DOM 요소들
+============================================= -->
+<div id="blood-vignette"></div>
+<div id="idle-msg">
+  <span id="idle-msg-text"></span>
+</div>
 
+<div id="true-paradise">
+  <div class="true-title">진짜 낙원</div>
+  <p class="true-sub">코드를 알고 있군요.<br>그럼 이미 알고 있을 거예요.<br>여기서 나가는 방법은<br><span style="font-size:11px;color:rgba(255,140,140,.4);">없어요.</span></p>
+  <ul class="true-menu">
+    <li>현재 낙원 주민 수 : <span>██명</span></li>
+    <li>퇴소한 주민 수 : <span>0</span></li>
+    <li>샤비의 오늘 식사 : <span>███████</span></li>
+    <li>당신의 입주 예정일 : <span>이미 입주하셨습니다</span></li>
+    <li>Nmare의 마지막 꿈 섭취 : <span>3분 전</span></li>
+  </ul>
+  <button id="true-close" onclick="closeTrueParadise()">돌아가기 — 소용없지만요</button>
+</div>
+
+<div id="shabi-flash">
+  <div id="shabi-flash-text">샤비가<br>당신을 찾아냈어요</div>
+</div>
+
+<div id="egg-popup">
+  <p id="egg-popup-text"></p>
+  <div id="egg-popup-close" onclick="closeEggPopup()">닫기</div>
+</div>
+
+<div id="rightclick-bubble"></div>
+<div id="bottom-flash"></div>
+<div id="bottom-msg">맨 아래까지 내려오셨네요! 아쉽게도 출구는 없지만요 🩷</div>
+<div id="tab-banner"></div>
+<div id="midnight-banner"></div>
 <div class="stars" id="stars"></div>
 <div class="falling-hearts" id="falling-hearts"></div>
   
 <div id="entry-screen">  
-  <button id="entry-button" class="glow">✦ 지상낙원 입장하기 ✦</button>  
-</div>  
+  <button id="entry-button" class="glow">
+    ✦ 지상낙원 입장하기 ✦
+    <span class="btn-truth">못나가못나가못나가못나가</span>
+  </button>  
+</div>    
   
 <div id="main-content" style="display: none;">  
   <img src="pc_샤비배너.png" alt="Header" class="header-image">
@@ -1057,12 +1249,14 @@
 
   audioPlayer.addEventListener('ended', () => { nextTrack(); });
 
-  document.getElementById('entry-button').addEventListener('click', () => {
-    document.getElementById('entry-screen').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-    playTrack(0);
-    updateVisitorCount();
-  });
+document.getElementById('entry-button').addEventListener('click', () => {
+  document.getElementById('entry-screen').style.display = 'none';
+  document.getElementById('main-content').style.display = 'block';
+  playTrack(0);
+  updateVisitorCount();
+  startScrollWatch();   // ← 추가
+  checkMidnight();      // ← 추가
+});
 
   function updateVisitorCount() {
     const today = new Date().toDateString();
@@ -1104,6 +1298,27 @@
       setTimeout(() => { star.remove(); }, 6000);
     }, 1200);
   }
+  function createBgStars() {
+      const count = 80;
+      const symbols = ['✦', '✦', '✦', '·', '·', '·', '✧', '+'];
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('span');
+        el.className = 'bg-star';
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top  = Math.random() * 100 + 'vh';
+        el.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+        el.style.setProperty('--delay',    -(Math.random() * 5)    + 's');
+        el.style.fontSize = (Math.random() * 8 + 6) + 'px';
+        document.body.appendChild(el);
+      }
+    }
+
+    window.addEventListener('load', () => {
+      createBgStars();
+      createStars();
+      createFallingHearts();
+    });
 
   function createFallingHearts() {
     const heartsContainer = document.getElementById('falling-hearts');
@@ -1163,6 +1378,117 @@
 
   setInterval(updateClock, 1000);
   updateClock();
+    /* =============================================
+     🎮 EGG 2: 코나미 코드 → 진짜 낙원
+  ============================================= */
+  const konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let konamiIdx = 0;
+  function closeTrueParadise() { document.getElementById('true-paradise').classList.remove('show'); }
+
+  /* =============================================
+     ⌨️ EGG 3: "shabi" 타이핑 → 암전
+  ============================================= */
+  let shabiBuffer = '';
+  function triggerShabiFlash() {
+    const f = document.getElementById('shabi-flash');
+    const t = document.getElementById('shabi-flash-text');
+    f.style.opacity = '1'; f.classList.add('on');
+    setTimeout(() => { t.style.opacity = '1';
+      setTimeout(() => { t.style.opacity = '0';
+        setTimeout(() => { f.style.opacity = '0'; f.classList.remove('on'); }, 500);
+      }, 2200);
+    }, 600);
+  }
+
+  /* 키보드 — 코나미 + shabi 동시 처리 */
+  document.addEventListener('keydown', e => {
+    /* 코나미 */
+    if (e.key === konamiSeq[konamiIdx]) {
+      konamiIdx++;
+      if (konamiIdx === konamiSeq.length) { konamiIdx = 0; document.getElementById('true-paradise').classList.add('show'); }
+    } else konamiIdx = 0;
+    /* shabi 타이핑 */
+    if (e.key.length === 1) shabiBuffer = (shabiBuffer + e.key.toLowerCase()).slice(-5);
+    if (shabiBuffer === 'shabi') { shabiBuffer = ''; triggerShabiFlash(); }
+  });
+    /* =============================================
+     🖱️ EGG 6: 우클릭 → 말풍선
+  ============================================= */
+  const rcMsgs = ["흠.. 뭘 하려는거죠?", "복사하면 안 돼요!!", "소스 코드를 보려고요? 귀엽네요.", "앗!! 보지 마세요!!", "지금 낙원의 비밀을 캐려는거죠!!"];
+  let rcTO;
+  document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    const b = document.getElementById('rightclick-bubble');
+    b.textContent = rcMsgs[Math.floor(Math.random() * rcMsgs.length)];
+    b.style.left = Math.min(e.clientX, window.innerWidth - 240) + 'px';
+    b.style.top  = Math.max(e.clientY - 50, 10) + 'px';
+    b.classList.add('show');
+    clearTimeout(rcTO); rcTO = setTimeout(() => b.classList.remove('show'), 2500);
+  });
+
+  /* =============================================
+     🪟 EGG 7: 탭 이탈 / 복귀
+  ============================================= */
+  const originalTitle = '🩷 샤비의 낙원 🩷';
+  const tabBanner = document.getElementById('tab-banner');
+  let tabTO;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      document.title = '어디 가요?';
+    } else {
+      const msgs = ["돌아오셨네요. 조금만 더 늦었으면 샤비가 찾으러 갔을거에요 ✦", "다시 오셨네요! 도망치려던 건 아니죠?", "도망가려 했군요. 어차피 못 가는데 🩷"];
+      document.title = '돌아오셨네요 ✦';
+      tabBanner.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+      tabBanner.classList.add('show');
+      clearTimeout(tabTO);
+      tabTO = setTimeout(() => { tabBanner.classList.remove('show'); setTimeout(() => document.title = originalTitle, 600); }, 5000);
+    }
+  });
+
+  /* =============================================
+     📜 EGG 8: 스크롤 맨 아래
+  ============================================= */
+  let bottomDone = false;
+  function startScrollWatch() {
+    window.addEventListener('scroll', () => {
+      if (!bottomDone && window.scrollY + window.innerHeight >= document.body.scrollHeight - 60) {
+        bottomDone = true;
+        const flash = document.getElementById('bottom-flash');
+        flash.style.transition = 'opacity 0.06s'; flash.style.opacity = '1';
+        setTimeout(() => flash.style.opacity = '0', 110);
+        const msg = document.getElementById('bottom-msg');
+        msg.classList.add('show'); setTimeout(() => msg.classList.remove('show'), 5000);
+      }
+    });
+  }
+
+  /* =============================================
+     🌙 EGG 9: 새벽 0~5시 접속
+  ============================================= */
+  function checkMidnight() {
+    const h = new Date().getHours();
+    if (h >= 0 && h < 5) {
+      const msgs = [
+        `새벽 ${h}시에 낙원을 찾아오셨군요. 잠을 못 자고 있나요? 샤비가 옆에 있어요.`,
+        `이 시간에 여기 있는 사람은 특별해요. 샤비가 좋아하는 타입이에요.`,
+        `새벽에 낙원에 오는 사람은 이미 현실에서 도망쳤다는 뜻이에요. 잘 오셨어요.`,
+      ];
+      const b = document.getElementById('midnight-banner');
+      b.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+      b.classList.add('show'); setTimeout(() => b.classList.remove('show'), 8000);
+    }
+  }
+  // EGG 8, 9 실제로 실행
+document.getElementById('entry-button').addEventListener('click', () => {
+  setTimeout(() => {
+    startScrollWatch();
+    checkMidnight();
+  }, 500);
+}, { once: true });
+  
+  function closeEggPopup() {
+  document.getElementById('egg-popup').style.display = 'none';
+}
 </script>  
   
 </body>  
