@@ -1031,7 +1031,7 @@
 <div id="entry-screen">  
   <button id="entry-button" class="glow">
     ✦ 지상낙원 입장하기 ✦
-    <span class="btn-truth">못나가못나가못나가못나가</span>
+    <span class="btn-truth">낙원에함께있는거에요영원히낙원밖으로다시는못나가게</span>
   </button>  
 </div>    
   
@@ -1066,6 +1066,11 @@
     <img src="5cc612a28feb9b53192069a98d9572e8.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="5cc612a28feb9b53192069a98d9572e8.gif" class="floating-gif">
+    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" alt="Left GIF 1" class="floating-gif">
+    <img src="5cc612a28feb9b53192069a98d9572e8.gif" class="floating-gif">
+    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
+    <img src="5cc612a28feb9b53192069a98d9572e8.gif" class="floating-gif">
+    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
@@ -1079,6 +1084,11 @@
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" alt="Right GIF 1" class="floating-gif">
     <img src="5cc612a28feb9b53192069a98d9572e8.gif" class="floating-gif">
+    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
+    <img src="5cc612a28feb9b53192069a98d9572e8.gif" class="floating-gif">
+    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
+    <img src="5cc612a28feb9b53192069a98d9572e8.gif" class="floating-gif">
+    <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="5cc612a28feb9b53192069a98d9572e8.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
@@ -1390,7 +1400,7 @@ document.getElementById('entry-button').addEventListener('click', () => {
     /* =============================================
      🖱️ EGG 6: 우클릭 → 말풍선
   ============================================= */
-  const rcMsgs = ["어디 가려고요? 🩷", "복사하면 안 돼요!!", "소스 코드를 보려고요? 귀엽네요.", "도망가려는 건 아니죠?", "앗!! 보지 마세요!!", "지금 낙원의 비밀을 캐려는거죠!!", "여기서 나가는 방법은 없어요."];
+  const rcMsgs = ["흠.. 뭐하는거지", "복사하면 안 돼요!!", "소스 코드를 보려고요? 귀엽네요.", "뭘 자꾸 복사하려는거야~~!!", "앗!! 보지 마세요!!", "지금 낙원의 비밀을 캐려는거죠!!"];
   let rcTO;
   document.addEventListener('contextmenu', e => {
     e.preventDefault();
@@ -1412,7 +1422,7 @@ document.getElementById('entry-button').addEventListener('click', () => {
     if (document.hidden) {
       document.title = '어디 가요?';
     } else {
-      const msgs = ["돌아오셨네요. 조금만 더 늦었으면 샤비가 찾으러 갔을거에요 ✦", "다시 오셨네요! 도망치려던 건 아니죠?", "도망가려 했군요. 어차피 못 가는데 🩷"];
+      const msgs = ["돌아오셨네요. 조금만 더 늦었으면 샤비가 찾으러 갔을거에요 ✦", "다시 오셨네요! 도망치려던 건 아니죠? 샤비가 화낼지도 몰라요.", "도망가려 했군요. 어차피 못 가는데 🩷"];
       document.title = '돌아오셨네요 ✦';
       tabBanner.textContent = msgs[Math.floor(Math.random() * msgs.length)];
       tabBanner.classList.add('show');
