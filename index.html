@@ -1,10 +1,11 @@
-<!DOCTYPE html>  
-<html lang="ko">  
-  <head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>🩷 샤비의 낙원 🩷</title>  
-  <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🩷 샤비의 낙원 🩷</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
   <meta property="og:title" content="🩷 샤비의 낙원 🩷">
   <meta property="og:description" content="현생 탈출은 지능순! 샤비의 낙원으로 도망쳐~!">
   <meta property="og:image" content="0abc6811083fdd5d272d96d428c0cfe3.jpg">
@@ -12,56 +13,36 @@
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>  
-<!-- =============================================
-     🩸 이스터에그 DOM 요소들
-============================================= -->
-<div id="blood-vignette"></div>
-<div id="idle-msg">
-  <span id="idle-msg-text"></span>
+<body>
+
+<!-- 이스터에그 요소 (전부 브라우저 안에서만 동작, 외부로 아무것도 전송하지 않음) -->
+<div id="idle-veil"></div>
+<div id="syrup"></div>
+<div id="tea-note"></div>
+<div id="ledger">
+  <div class="ledger-paper">
+    <h2>손님 명부</h2>
+    <div class="seam"></div>
+    <ul id="ledger-list"></ul>
+    <p>명부는 당신이 도착하기 전에 이미 적혀 있었어요.<br>빈칸은 하나도 없죠?</p>
+    <button id="ledger-close">자리에서 일어나기 — 찻잔은 그대로 둘게요</button>
+  </div>
 </div>
 
-<div id="true-paradise">
-  <div class="true-title">진짜 낙원</div>
-  <p class="true-sub">코드를 알고 있군요.<br>그럼 이미 알고 있을 거예요.<br>여기서 나가는 방법은<br><span style="font-size:11px;color:rgba(255,140,140,.4);">없어요.</span></p>
-  <ul class="true-menu">
-    <li>현재 낙원 주민 수 : <span>██명</span></li>
-    <li>퇴소한 주민 수 : <span>0</span></li>
-    <li>샤비의 오늘 식사 : <span>███████</span></li>
-    <li>당신의 입주 예정일 : <span>이미 입주하셨습니다</span></li>
-    <li>Nmare의 마지막 꿈 섭취 : <span>3분 전</span></li>
-  </ul>
-  <button id="true-close" onclick="closeTrueParadise()">돌아가기 — 소용없지만요</button>
-</div>
-
-<div id="shabi-flash">
-  <div id="shabi-flash-text">샤비가<br>당신을 찾아냈어요</div>
-</div>
-
-<div id="egg-popup">
-  <p id="egg-popup-text"></p>
-  <div id="egg-popup-close" onclick="closeEggPopup()">닫기</div>
-</div>
-
-<div id="rightclick-bubble"></div>
-<div id="bottom-flash"></div>
-<div id="bottom-msg">맨 아래까지 내려오셨네요! 아쉽게도 출구는 없지만요 🩷</div>
-<div id="tab-banner"></div>
-<div id="midnight-banner"></div>
 <div class="stars" id="stars"></div>
 <div class="falling-hearts" id="falling-hearts"></div>
-  
-<div id="entry-screen">  
+
+<div id="entry-screen">
   <button id="entry-button" class="glow">
     ✦ 지상낙원 입장하기 ✦
-    <span class="btn-truth">낙원에함께있는거에요영원히낙원밖으로다시는못나가게</span>
-  </button>  
-</div>    
-  
-<div id="main-content" style="display: none;">  
+    <span class="btn-truth">이 문은 안쪽에서만 열려요</span>
+  </button>
+</div>
+
+<div id="main-content" style="display: none;">
   <img src="pc_샤비배너.png" alt="Header" class="header-image">
   <img src="모바일_샤비배너.png" alt="Header Mobile" class="header-image mobile">
-  
+
   <div class="visitor-counter">
     <span>TODAY <span class="count" id="today-count">0</span></span>
     <span>|</span>
@@ -69,18 +50,17 @@
   </div>
 
   <div class="minime" onclick="showMinimiBubble()">
-    <div class="minime-character">
-    </div>
+    <div class="minime-character"></div>
     <div class="minime-bubble" id="minime-bubble"></div>
   </div>
-  
+
   <audio id="bg-music" preload="auto"></audio>
-  
-  <div id="welcome-bubble" onclick="fadeOut(this)" class="pulse">  
+
+  <div id="welcome-bubble" onclick="fadeOut(this)" class="pulse">
     ꒰১샤비네 지상낙원 html고수 상시 모집중!! 연락주세요~~໒꒱ (클릭해서 지우기)
-  </div>  
-  
- <div class="floating-gifs left" id="left-floating-gifs">  
+  </div>
+
+  <div class="floating-gifs left" id="left-floating-gifs">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
@@ -98,9 +78,9 @@
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
-  </div>  
-  
-  <div class="floating-gifs right" id="right-floating-gifs"> 
+  </div>
+
+  <div class="floating-gifs right" id="right-floating-gifs">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
@@ -119,35 +99,36 @@
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
     <img src="97230f95445ad85d2ac639a62f0caa8a.gif" class="floating-gif">
   </div>
-  
-  <button class="menu-button" onclick="toggleSidebar()">☰</button>  
-  
-  <div class="sidebar" id="sidebar">  
-    <h2 class="glow">꒰১ MENU ໒꒱</h2>  
-    <a href="https://shabihasa.github.io/guest_page/" target="_blank">✦ 방명록</a>  
-    <a href="https://buymeacoffee.com/shabihasa" target="_blank">✦ 후원하기</a> 
-    <a href="https://open.kakao.com/me/Shabi" target="_blank">✦ 카카오톡</a>  
-    <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">✦ 유튜브</a>  
-    <a href="https://naver.me/FSvVHvby" target="_blank">✦ 팬카페</a>  
-    <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">✦ 블로그</a> 
+
+  <button class="menu-button" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <h2 class="glow">꒰১ MENU ໒꒱</h2>
+    <a href="https://shabihasa.github.io/guest_page/" target="_blank">✦ 방명록</a>
+    <a href="https://buymeacoffee.com/shabihasa" target="_blank">✦ 후원하기</a>
+    <a href="https://open.kakao.com/me/Shabi" target="_blank">✦ 카카오톡</a>
+    <a href="https://youtube.com/@bluecity1124?si=kE4sDMXyIgAXnON-" target="_blank">✦ 유튜브</a>
+    <a href="https://naver.me/FSvVHvby" target="_blank">✦ 팬카페</a>
+    <a href="https://m.blog.naver.com/twinkle_bluecity" target="_blank">✦ 블로그</a>
     <a href="https://shabihasa.github.io/Nmare_shabi_tarot/" target="_blank">✦ 타로보기</a>
-    <div class="gallery" id="gallery">  
+    <div class="gallery" id="gallery">
       <h2 style="font-size: 10px;">@샤비shabi</h2>
-      <img src="하트샤비.png" alt=""> 
-    </div>  
-  </div>  
-  
-  <div class="container">  
-    <div class="popup-header">  
-      <span class="popup-title">⊹.˚ ₊˚⊹ᡣ𐭩⊹.˚ ₊˚⊹ᡣ𐭩⊹.˚ ₊˚⊹ᡣ𐭩⊹.˚ ₊˚⊹ᡣ𐭩⊹.˚</span>  
+      <img src="하트샤비.png" alt="">
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="popup-header">
+      <span class="popup-title">⊹.˚ ₊˚⊹ᡣ𐭩⊹.˚ ₊˚⊹ᡣ𐭩⊹.˚ ₊˚⊹ᡣ𐭩⊹.˚ ₊˚⊹ᡣ𐭩⊹.˚</span>
       <div class="popup-controls">
-        <span class="popup-btn">⎙</span>  
-        <span class="popup-btn">✕</span>  
-      </div>  
+        <span class="popup-btn">⎙</span>
+        <span class="popup-btn">✕</span>
+      </div>
     </div>
 
     <div class="popup-content">
-      <h1>꒰১ 샤비의 낙원 ໒꒱</h1>  
+      <h1>꒰১ 샤비의 낙원 ໒꒱</h1>
+      <p class="invite">— 낙원으로의 초대 —</p>
 
       <div class="bgm-player">
         <h3>✦ BGM ✦</h3>
@@ -164,44 +145,40 @@
       </div>
 
       <div class="widget-container">
-        <div class="widget">
-          <h3>현재 시각</h3>
-          <div class="widget-content" id="clock">00:00:00</div>
-        </div>
         <div class="widget" style="cursor: pointer;" onclick="window.open('https://buymeacoffee.com/shabihasa/extras', '_blank')">
           <h3>쇼핑하기</h3>
-          <div class="widget-content" style="font-size: 13px;">샤비가 준비한 상품들</div>
+          <div class="widget-content">샤비가 준비한 상품들</div>
           <div class="weather-info">클릭하면 이동!</div>
         </div>
       </div>
-    
-      <div class="entry">  
-        <h2>✦ 샤비를 소개합니다~ ✦</h2>  
-        <p>샤비가 궁금하다면? 아래 샤비 소개서를 읽어주세요~!</p>  
+
+      <div class="entry">
+        <h2>✦ 샤비를 소개합니다~ ✦</h2>
+        <p>샤비가 궁금하다면? 아래 샤비 소개서를 읽어주세요~!</p>
         <a href="https://shabihasa.github.io/nugapwiki.kr.shabi/" target="_blank">
-          <img src="뉴 샤비소개서.png" alt="" style="cursor: pointer;">  
+          <img src="뉴 샤비소개서.png" alt="" style="cursor: pointer;">
         </a>
-      </div>  
-    
-      <div class="entry">  
-        <h2>✦ 지상낙원이란? ✦</h2>  
+      </div>
+
+      <div class="entry">
+        <h2>✦ 지상낙원이란? ✦</h2>
         <p>현생탈출은 지능순! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱ 지상낙원은 멀리 있지 않아요! 여러분의 마음 속에 샤비가 있다면 그 곳이 지상낙원!</p>
         <a href="https://shabihasa.github.io/WHOISSHABI/" target="_blank">
-          <img src="shabi.png" alt="">  
+          <img src="shabi.png" alt="">
         </a>
-      </div>  
-      
-      <div class="entry">  
-        <h2>✦ 낙원에 가야할 이유! ✦</h2>  
-        <p>현실에 지친 당신! 현실에서 도태된 당신! 언제까지 바닥에 머물러야 할까요? 누군가의 발 밑에 살지 말고 낙원으로 전이합시다ᡣ𐭩</p>  
+      </div>
+
+      <div class="entry">
+        <h2>✦ 낙원에 가야할 이유! ✦</h2>
+        <p>현실에 지친 당신! 현실에서 도태된 당신! 언제까지 바닥에 머물러야 할까요? 누군가의 발 밑에 살지 말고 낙원으로 전이합시다ᡣ𐭩</p>
         <a href="https://buymeacoffee.com/shabihasa/extras" target="_blank">
-          <img src="샤비스텟.png" alt="">  
+          <img src="샤비스텟.png" alt="">
         </a>
-      </div> 
-    
-      <div class="entry">  
-        <h2>✦ 낙원에 가는 방법! ✦</h2>  
-        <p>샤비를 믿는다면 당신도 낙원으로 갈 수 있어요! 당신에게도 행운이 깃들었기를.˚*ᡣ𐭩 </p>  
+      </div>
+
+      <div class="entry">
+        <h2>✦ 낙원에 가는 방법! ✦</h2>
+        <p>샤비를 믿는다면 당신도 낙원으로 갈 수 있어요! 당신에게도 행운이 깃들었기를.˚*ᡣ𐭩 </p>
         <a href="https://shabihasa.github.io/forher/" target="_blank">
           <img src="낙원입구.png" alt="" style="cursor: pointer;">
         </a>
@@ -210,7 +187,7 @@
   </div>
 
   <div class="footer">
-    <h2 style="color: #F4BEDD; font-size: 21px;">✦ CONTACT ✦</h2>
+    <h2 style="font-size: 21px;">✦ CONTACT ✦</h2>
     <div class="footer-icons">
       <a href="https://open.kakao.com/me/Shabi" target="_blank" class="footer-icon" title="카카오톡">💬</a>
       <a href="mailto:kawaii.tensi.shabi@gmail.com" target="_blank" class="footer-icon" title="이메일">✉️</a>
@@ -222,50 +199,39 @@
       Made with Love by Shabi
     </div>
   </div>
-  
-<script>  
-  const playlist = [
-    { file: "Nuvfr - Blink.mp3", title: "Nuvfr - Blink" }
-  ];
-  
+</div>
+
+<script>
+  /* =========================================================
+     기본 기능 (BGM / 방문자 카운터 / 미니샤비 / 장식)
+  ========================================================= */
+  const playlist = [{ file: "Nuvfr - Blink.mp3", title: "Nuvfr - Blink" }];
   let currentTrack = 0;
   const audioPlayer = document.getElementById('bg-music');
   let isPlaying = false;
 
   function playTrack(index) {
-    if (index >= playlist.length) { currentTrack = 0; }
-    else if (index < 0) { currentTrack = playlist.length - 1; }
-    else { currentTrack = index; }
+    if (index >= playlist.length) currentTrack = 0;
+    else if (index < 0) currentTrack = playlist.length - 1;
+    else currentTrack = index;
     audioPlayer.src = playlist[currentTrack].file;
     document.getElementById('current-song').textContent = playlist[currentTrack].title;
-    audioPlayer.play();
+    const p = audioPlayer.play();
+    if (p && p.catch) p.catch(() => {});
     isPlaying = true;
     updatePlayButton();
   }
-
   function togglePlay() {
     if (isPlaying) { audioPlayer.pause(); isPlaying = false; }
-    else { audioPlayer.play(); isPlaying = true; }
+    else { const p = audioPlayer.play(); if (p && p.catch) p.catch(() => {}); isPlaying = true; }
     updatePlayButton();
   }
-
   function nextTrack() { playTrack(currentTrack + 1); }
   function previousTrack() { playTrack(currentTrack - 1); }
-
   function updatePlayButton() {
     document.getElementById('play-pause-btn').textContent = isPlaying ? '❚❚' : '▶';
   }
-
   audioPlayer.addEventListener('ended', () => { nextTrack(); });
-
-document.getElementById('entry-button').addEventListener('click', () => {
-  document.getElementById('entry-screen').style.display = 'none';
-  document.getElementById('main-content').style.display = 'block';
-  playTrack(0);
-  updateVisitorCount();
-  startScrollWatch();   // ← 추가
-  checkMidnight();      // ← 추가
-});
 
   function updateVisitorCount() {
     const today = new Date().toDateString();
@@ -273,7 +239,7 @@ document.getElementById('entry-button').addEventListener('click', () => {
     let totalCount = parseInt(localStorage.getItem('shabiTotalCount') || '0');
     totalCount++;
     localStorage.setItem('shabiTotalCount', totalCount);
-    if (!visits[today]) { visits[today] = 0; }
+    if (!visits[today]) visits[today] = 0;
     visits[today]++;
     localStorage.setItem('shabiVisits', JSON.stringify(visits));
     document.getElementById('today-count').textContent = visits[today];
@@ -284,221 +250,393 @@ document.getElementById('entry-button').addEventListener('click', () => {
     "낙원에 온 걸 환영해!", "도태되는 감각은 불쾌해~", "낙원으로 도피하자! 🩷",
     "현생 탈출은 지능순!", "샤비와 함께라면 행복해질거야~", "샤비가 지켜줄게!", "샤비의 낙원으로 가자~"
   ];
-
   let bubbleTimeout;
-
   function showMinimiBubble() {
     const bubble = document.getElementById('minime-bubble');
     bubble.textContent = minimiMessages[Math.floor(Math.random() * minimiMessages.length)];
     bubble.classList.add('show');
     clearTimeout(bubbleTimeout);
-    bubbleTimeout = setTimeout(() => { bubble.classList.remove('show'); }, 3000);
+    bubbleTimeout = setTimeout(() => bubble.classList.remove('show'), 3000);
   }
 
   function createStars() {
-    const starsContainer = document.getElementById('stars');
+    const box = document.getElementById('stars');
     setInterval(() => {
       const star = document.createElement('div');
       star.className = 'star';
       star.innerHTML = '🩷';
       star.style.left = Math.random() * 100 + '%';
       star.style.animationDuration = (Math.random() * 2 + 4) + 's';
-      starsContainer.appendChild(star);
-      setTimeout(() => { star.remove(); }, 6000);
+      box.appendChild(star);
+      setTimeout(() => star.remove(), 6000);
     }, 1200);
   }
-  function createBgStars() {
-      const count = 80;
-      const symbols = ['✦', '✦', '✦', '·', '·', '·', '✧', '+'];
-      for (let i = 0; i < count; i++) {
-        const el = document.createElement('span');
-        el.className = 'bg-star';
-        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.top  = Math.random() * 100 + 'vh';
-        el.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-        el.style.setProperty('--delay',    -(Math.random() * 5)    + 's');
-        el.style.fontSize = (Math.random() * 8 + 6) + 'px';
-        document.body.appendChild(el);
-      }
-    }
-
-    window.addEventListener('load', () => {
-      createBgStars();
-      createStars();
-      createFallingHearts();
-    });
-
   function createFallingHearts() {
-    const heartsContainer = document.getElementById('falling-hearts');
+    const box = document.getElementById('falling-hearts');
     setInterval(() => {
       const heart = document.createElement('div');
       heart.className = 'heart';
       heart.innerHTML = '💗';
       heart.style.left = Math.random() * 100 + '%';
       heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
-      heartsContainer.appendChild(heart);
-      setTimeout(() => { heart.remove(); }, 8000);
+      box.appendChild(heart);
+      setTimeout(() => heart.remove(), 8000);
     }, 800);
+  }
+  function createBgStars() {
+    const symbols = ['✦', '✦', '✦', '·', '·', '·', '✧', '+'];
+    for (let i = 0; i < 70; i++) {
+      const el = document.createElement('span');
+      el.className = 'bg-star';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = Math.random() * 100 + 'vh';
+      el.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+      el.style.setProperty('--delay', -(Math.random() * 5) + 's');
+      el.style.fontSize = (Math.random() * 8 + 6) + 'px';
+      document.body.appendChild(el);
+    }
   }
 
   function createClickParticle(x, y) {
-    const particles = ['🪽', '💗', '🩷', '☁️'];
+    const particles = ['✦', '🩷', '🎀', '🫧'];
     for (let i = 0; i < 5; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'click-particle';
-      particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
-      particle.style.left = (x + Math.random() * 100 - 50) + 'px';
-      particle.style.top = (y + Math.random() * 100 - 50) + 'px';
-      document.body.appendChild(particle);
-      setTimeout(() => { particle.remove(); }, 1000);
+      const p = document.createElement('div');
+      p.className = 'click-particle';
+      p.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+      p.style.left = (x + Math.random() * 100 - 50) + 'px';
+      p.style.top = (y + Math.random() * 100 - 50) + 'px';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1000);
     }
+    if (Math.random() < 0.08) jam(x, y); // 가끔, 잼 한 방울
   }
+  document.addEventListener('click', e => createClickParticle(e.clientX, e.clientY));
 
-  document.addEventListener('click', (e) => { createClickParticle(e.clientX, e.clientY); });
-
-  window.addEventListener('load', () => { createStars(); createFallingHearts(); });
-  
   function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-  
-  function fadeOut(element) {
-    element.style.opacity = '0';
-    setTimeout(() => { element.style.display = 'none'; }, 1000);
+  function fadeOut(el) {
+    el.style.opacity = '0';
+    setTimeout(() => { el.style.display = 'none'; }, 1000);
   }
-  
+
   const entries = document.querySelectorAll('.entry');
   function checkFadeIn() {
     entries.forEach(entry => {
-      const rect = entry.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 100) { entry.classList.add('show'); }
+      if (entry.getBoundingClientRect().top < window.innerHeight - 100) entry.classList.add('show');
     });
   }
-  
   window.addEventListener('scroll', checkFadeIn);
-  window.addEventListener('load', checkFadeIn);
-    
-  function updateClock() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
-  }
 
-  setInterval(updateClock, 1000);
-  updateClock();
-    /* =============================================
-     🎮 EGG 2: 코나미 코드 → 진짜 낙원
-  ============================================= */
-  const konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-  let konamiIdx = 0;
-  function closeTrueParadise() { document.getElementById('true-paradise').classList.remove('show'); }
-
-  /* =============================================
-     ⌨️ EGG 3: "shabi" 타이핑 → 암전
-  ============================================= */
-  let shabiBuffer = '';
-  function triggerShabiFlash() {
-    const f = document.getElementById('shabi-flash');
-    const t = document.getElementById('shabi-flash-text');
-    f.style.opacity = '1'; f.classList.add('on');
-    setTimeout(() => { t.style.opacity = '1';
-      setTimeout(() => { t.style.opacity = '0';
-        setTimeout(() => { f.style.opacity = '0'; f.classList.remove('on'); }, 500);
-      }, 2200);
-    }, 600);
-  }
-
-  /* 키보드 — 코나미 + shabi 동시 처리 */
-  document.addEventListener('keydown', e => {
-    /* 코나미 */
-    if (e.key === konamiSeq[konamiIdx]) {
-      konamiIdx++;
-      if (konamiIdx === konamiSeq.length) { konamiIdx = 0; document.getElementById('true-paradise').classList.add('show'); }
-    } else konamiIdx = 0;
-    /* shabi 타이핑 */
-    if (e.key.length === 1) shabiBuffer = (shabiBuffer + e.key.toLowerCase()).slice(-5);
-    if (shabiBuffer === 'shabi') { shabiBuffer = ''; triggerShabiFlash(); }
-  });
-    /* =============================================
-     🖱️ EGG 6: 우클릭 → 말풍선
-  ============================================= */
-  const rcMsgs = ["흠.. 뭐하는거지", "복사하면 안 돼요!!", "소스 코드를 보려고요? 귀엽네요.", "뭘 자꾸 복사하려는거야~~!!", "앗!! 보지 마세요!!", "지금 낙원의 비밀을 캐려는거죠!!"];
-  let rcTO;
-  document.addEventListener('contextmenu', e => {
-    e.preventDefault();
-    const b = document.getElementById('rightclick-bubble');
-    b.textContent = rcMsgs[Math.floor(Math.random() * rcMsgs.length)];
-    b.style.left = Math.min(e.clientX, window.innerWidth - 240) + 'px';
-    b.style.top  = Math.max(e.clientY - 50, 10) + 'px';
-    b.classList.add('show');
-    clearTimeout(rcTO); rcTO = setTimeout(() => b.classList.remove('show'), 2500);
+  window.addEventListener('load', () => {
+    createBgStars();
+    createStars();
+    createFallingHearts();
+    checkFadeIn();
   });
 
-  /* =============================================
-     🪟 EGG 7: 탭 이탈 / 복귀
-  ============================================= */
-  const originalTitle = '🩷 샤비의 낙원 🩷';
-  const tabBanner = document.getElementById('tab-banner');
-  let tabTO;
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      document.title = '어디 가요?';
-    } else {
-      const msgs = ["돌아오셨네요. 조금만 더 늦었으면 샤비가 찾으러 갔을거에요 ✦", "다시 오셨네요! 도망치려던 건 아니죠? 샤비가 화낼지도 몰라요.", "도망가려 했군요. 어차피 못 가는데 🩷"];
-      document.title = '돌아오셨네요 ✦';
-      tabBanner.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-      tabBanner.classList.add('show');
-      clearTimeout(tabTO);
-      tabTO = setTimeout(() => { tabBanner.classList.remove('show'); setTimeout(() => document.title = originalTitle, 600); }, 5000);
+  /* =========================================================
+     🫖 이스터에그 — 낙원의 다과회
+     ※ 방문자의 브라우저가 원래 알려주는 정보(시간대, 언어, 기기,
+       화면 크기, 배터리, 이전 방문 기록)만 사용합니다.
+       전부 이 브라우저 안에서만 쓰이고 어디로도 전송되지 않아요.
+  ========================================================= */
+  const $ = id => document.getElementById(id);
+  const pad = n => String(n).padStart(2, '0');
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
+  let entered = false, enterAt = 0, batteryPct = null;
+
+  const cityName = (() => {
+    try {
+      const z = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      const map = {'Asia/Seoul':'서울','Asia/Tokyo':'도쿄','Asia/Shanghai':'상하이','Asia/Taipei':'타이베이','Asia/Hong_Kong':'홍콩',
+        'Asia/Singapore':'싱가포르','America/New_York':'뉴욕','America/Chicago':'시카고','America/Los_Angeles':'로스앤젤레스',
+        'Europe/London':'런던','Europe/Paris':'파리','Europe/Berlin':'베를린','Australia/Sydney':'시드니'};
+      return map[z] || (z.split('/').pop() || '').replace(/_/g, ' ') || '어딘가';
+    } catch (e) { return '어딘가'; }
+  })();
+
+  function deviceLabel() {
+    const ua = navigator.userAgent;
+    const os = /Android/i.test(ua) ? '안드로이드' : /iPhone/i.test(ua) ? '아이폰' : /iPad|iPod/i.test(ua) ? '아이패드' : /Windows/i.test(ua) ? '윈도우'
+             : /Mac OS X/i.test(ua) ? (navigator.maxTouchPoints > 1 ? '아이패드' : '맥') : /Linux/i.test(ua) ? '리눅스' : '알 수 없는 기기';
+    const br = /Edg\//.test(ua) ? '엣지' : /OPR\//.test(ua) ? '오페라' : /SamsungBrowser/.test(ua) ? '삼성 인터넷'
+             : /Chrome\//.test(ua) ? '크롬' : /Firefox\//.test(ua) ? '파이어폭스' : /Safari\//.test(ua) ? '사파리' : '브라우저';
+    return os + ' · ' + br;
+  }
+  const countryName = (() => {
+    try {
+      const z = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      const map = {'Asia/Seoul':'대한민국','Asia/Tokyo':'일본','Asia/Shanghai':'중국','Asia/Chongqing':'중국','Asia/Taipei':'대만',
+        'Asia/Hong_Kong':'홍콩','Asia/Singapore':'싱가포르','Asia/Bangkok':'태국','Asia/Ho_Chi_Minh':'베트남','Asia/Manila':'필리핀',
+        'Asia/Jakarta':'인도네시아','Asia/Kuala_Lumpur':'말레이시아','Asia/Kolkata':'인도','Asia/Calcutta':'인도','Asia/Dubai':'아랍에미리트',
+        'America/New_York':'미국','America/Chicago':'미국','America/Denver':'미국','America/Phoenix':'미국','America/Los_Angeles':'미국',
+        'America/Anchorage':'미국','Pacific/Honolulu':'미국','America/Toronto':'캐나다','America/Vancouver':'캐나다','America/Mexico_City':'멕시코',
+        'America/Sao_Paulo':'브라질','Europe/London':'영국','Europe/Paris':'프랑스','Europe/Berlin':'독일','Europe/Madrid':'스페인',
+        'Europe/Rome':'이탈리아','Europe/Amsterdam':'네덜란드','Europe/Moscow':'러시아','Pacific/Auckland':'뉴질랜드'};
+      if (map[z]) return map[z];
+      if (z.indexOf('Australia/') === 0) return '호주';
+      return null;
+    } catch (e) { return null; }
+  })();
+  const fmtDur = s => s < 60 ? s + '초' : Math.floor(s / 60) + '분 ' + (s % 60) + '초';
+
+  let charging = null;
+  if (navigator.getBattery) {
+    navigator.getBattery().then(b => {
+      batteryPct = Math.round(b.level * 100);
+      charging = b.charging;
+      b.addEventListener('levelchange', () => { batteryPct = Math.round(b.level * 100); });
+      b.addEventListener('chargingchange', () => {
+        const was = charging; charging = b.charging;
+        if (!entered || was === charging) return;
+        if (charging) note('전원', '충전기를 꽂으셨네요.<br>오래 계실 준비가 되셨군요.<br>좋아요, 서두를 필요 없어요.', 7000);
+        else note('전원', '충전기를 뽑으셨네요.<br>이제 <b>' + batteryPct + '%</b>가 전부예요.<br>그 안에 돌아가실 수 있을까요?', 7500);
+      });
+    }).catch(() => {});
+  }
+
+  /* 화면을 돌리면 */
+  const portraitMQ = matchMedia('(orientation: portrait)');
+  if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', e => {
+    if (!entered) return;
+    note('시선', e.matches ? '화면을 세우셨네요.<br>이제 정면에서 마주 보고 있어요.' : '화면을 눕히셨네요.<br>어느 쪽에서 봐도 보이는 자리예요.', 6500);
+  });
+
+  const isDark = () => matchMedia('(prefers-color-scheme: dark)').matches;
+  const isTouch = () => matchMedia('(pointer: coarse)').matches;
+  function ratioLabel() {
+    const w = screen.width, h = screen.height, r = Math.max(w, h) / Math.min(w, h);
+    const c = [[16,9],[16,10],[4,3],[3,2],[19.5,9],[20,9],[21,9],[5,4],[1,1]];
+    let best = c[0];
+    c.forEach(x => { if (Math.abs(r - x[0] / x[1]) < Math.abs(r - best[0] / best[1])) best = x; });
+    return h >= w ? best[1] + ':' + best[0] : best[0] + ':' + best[1];
+  }
+  function connLabel() {
+    const c = navigator.connection || navigator.mozConnection;
+    if (!c) return null;
+    if (c.type === 'wifi') return '와이파이';
+    if (c.type === 'cellular') return '모바일 데이터';
+    if (c.type === 'ethernet') return '유선';
+    if (c.effectiveType) return c.effectiveType === '4g' ? '빠른 회선' : '느린 회선';
+    return null;
+  }
+
+  /* 손님 명부 (이전 방문 기억) */
+  function loadGuest() { try { return JSON.parse(localStorage.getItem('shabiGuest') || 'null'); } catch (e) { return null; } }
+  function saveGuest(g) { try { localStorage.setItem('shabiGuest', JSON.stringify(g)); } catch (e) {} }
+  let guest = null, prevGuest = null;
+
+  /* 카드형 쪽지 */
+  let noteTO;
+  function note(label, html, ms) {
+    const n = $('tea-note');
+    n.innerHTML = '<small>' + label + '</small>' + html;
+    n.classList.add('show');
+    clearTimeout(noteTO);
+    noteTO = setTimeout(() => n.classList.remove('show'), ms || 7000);
+  }
+
+  /* 시럽이 흘러내리는 연출 / 잼 한 방울 */
+  function drip(x, count) {
+    const box = $('syrup');
+    for (let i = 0; i < (count || 6); i++) {
+      const d = document.createElement('div');
+      d.className = 'drip';
+      d.style.width = (6 + Math.random() * 7) + 'px';
+      d.style.left = Math.max(4, Math.min(innerWidth - 20, x + (Math.random() * 180 - 90))) + 'px';
+      d.style.setProperty('--h', (110 + Math.random() * innerHeight * 0.45) + 'px');
+      d.style.animationDelay = (Math.random() * 0.8) + 's';
+      d.style.animationDuration = (3.6 + Math.random() * 2) + 's';
+      box.appendChild(d);
+      setTimeout(() => d.remove(), 6800);
     }
-  });
-
-  /* =============================================
-     📜 EGG 8: 스크롤 맨 아래
-  ============================================= */
-  let bottomDone = false;
-  function startScrollWatch() {
-    window.addEventListener('scroll', () => {
-      if (!bottomDone && window.scrollY + window.innerHeight >= document.body.scrollHeight - 60) {
-        bottomDone = true;
-        const flash = document.getElementById('bottom-flash');
-        flash.style.transition = 'opacity 0.06s'; flash.style.opacity = '1';
-        setTimeout(() => flash.style.opacity = '0', 110);
-        const msg = document.getElementById('bottom-msg');
-        msg.classList.add('show'); setTimeout(() => msg.classList.remove('show'), 5000);
-      }
-    });
+  }
+  function jam(x, y) {
+    const j = document.createElement('div');
+    j.className = 'jam';
+    j.style.left = x + 'px';
+    j.style.top = y + 'px';
+    document.body.appendChild(j);
+    setTimeout(() => j.remove(), 1800);
   }
 
-  /* =============================================
-     🌙 EGG 9: 새벽 0~5시 접속
-  ============================================= */
-  function checkMidnight() {
+  /* 입장: 방문 기억 + 첫 인사 */
+  $('entry-button').addEventListener('click', () => {
+    $('entry-screen').style.display = 'none';
+    $('main-content').style.display = 'block';
+    playTrack(0);
+    updateVisitorCount();
+    checkFadeIn();
+
+    entered = true; enterAt = Date.now();
+    prevGuest = loadGuest();
+    guest = prevGuest
+      ? { n: (prevGuest.n || 1) + 1, first: prevGuest.first, last: enterAt }
+      : { n: 1, first: enterAt, last: enterAt };
+    saveGuest(guest);
+
+    setTimeout(() => {
+      if (!prevGuest) {
+        note('초대장 확인', '<b>' + esc(cityName) + '</b>에서 오셨군요.<br>자리는 이미 마련되어 있어요.<br>홍차는 식지 않게 해둘게요.', 7500);
+      } else {
+        const p = new Date(prevGuest.last), t = new Date();
+        const days = Math.round((new Date(t.getFullYear(), t.getMonth(), t.getDate()) - new Date(p.getFullYear(), p.getMonth(), p.getDate())) / 864e5);
+        const when = days <= 0 ? '오늘 조금 전' : days === 1 ? '어제' : days + '일 전';
+        note('다시 오신 손님', '<b>' + guest.n + '번째</b> 방문이에요.<br>' + when + ' ' + WEEK[p.getDay()] + '요일 ' + p.getHours() + '시쯤 앉으셨던 자리,<br>그대로 남겨뒀어요.', 8000);
+      }
+    }, 1400);
+
     const h = new Date().getHours();
     if (h >= 0 && h < 5) {
-      const msgs = [
-        `새벽 ${h}시에 낙원을 찾아오셨군요. 잠을 못 자고 있나요? 샤비가 옆에 있어요.`,
-        `이 시간에 여기 있는 사람은 특별해요. 샤비가 좋아하는 타입이에요.`,
-        `새벽에 낙원에 오는 사람은 이미 현실에서 도망쳤다는 뜻이에요. 잘 오셨어요.`,
-      ];
-      const b = document.getElementById('midnight-banner');
-      b.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-      b.classList.add('show'); setTimeout(() => b.classList.remove('show'), 8000);
+      setTimeout(() => {
+        const t = new Date();
+        note('깊은 밤의 손님', pad(t.getHours()) + '시 ' + pad(t.getMinutes()) + '분.<br>이 시간에는 아무도 초대하지 않는데…<br>아, 당신은 처음부터 초대했었네요.', 8000);
+      }, 10500);
     }
+
+    setTimeout(() => {
+      let bat = '';
+      if (batteryPct !== null) {
+        bat = charging ? '<br>배터리 <b>' + batteryPct + '%</b>, 충전기까지 꽂아두셨네요.'
+            : batteryPct < 20 ? '<br>배터리가 <b>' + batteryPct + '%</b>밖에 안 남았어요… 꺼지기 전에 돌아가실 수 있을까요?'
+            : '<br>배터리는 <b>' + batteryPct + '%</b>, 충전은 안 하고 계시고요.';
+      }
+      note('다과회 준비', esc(deviceLabel()) + '으로 오셨군요.<br>화면은 <b>' + screen.width + '×' + screen.height + '</b> (' + ratioLabel() + ')' + bat + '<br>오래 머무실 것 같아서 큰 잔으로 준비했어요.', 9500);
+    }, 24000);
+
+    setTimeout(() => {
+      const parts = [];
+      parts.push(isTouch() ? '손가락으로 만지고 계시네요.<br>화면이 조금 따뜻해졌겠어요.' : '마우스로 움직이고 계시네요.<br>커서가 별 모양인 건 눈치채셨죠?');
+      if (isDark()) parts.push('어두운 화면을 좋아하시네요.<br>이 방은 눈부실 텐데, 곧 익숙해질 거예요.');
+      const cn = connLabel();
+      if (cn) parts.push('지금은 <b>' + cn + '</b>로 이어져 있고요.');
+      note('관찰 기록', parts.join('<br>'), 10000);
+    }, 52000);
+
+    setTimeout(() => {
+      note('세 번째 잔', '벌써 <b>' + Math.floor((Date.now() - enterAt) / 60000) + '분</b>째예요.<br>잔은 세 번 채웠고, 시간은 아무도 재지 않아요.', 8000);
+    }, 180000);
+
+    resetIdle();
+  });
+
+  /* 가만히 있으면: 시야가 붉게 물듦 */
+  let idleTO, idleOn = false;
+  function resetIdle() {
+    if (!entered) return;
+    if (idleOn) { idleOn = false; $('idle-veil').classList.remove('on'); }
+    clearTimeout(idleTO);
+    idleTO = setTimeout(() => {
+      idleOn = true;
+      $('idle-veil').classList.add('on');
+      note('정적', '가만히 계시네요.<br>숨소리가 들릴 것 같아요.<br>그대로 계세요. 차가 아직 뜨거우니까.', 9000);
+    }, 25000);
   }
-  // EGG 8, 9 실제로 실행
-document.getElementById('entry-button').addEventListener('click', () => {
-  setTimeout(() => {
-    startScrollWatch();
-    checkMidnight();
-  }, 500);
-}, { once: true });
-  
-  function closeEggPopup() {
-  document.getElementById('egg-popup').style.display = 'none';
-}
-</script>  
-  
-</body>  
+  ['mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(ev => addEventListener(ev, resetIdle, { passive: true }));
+
+  /* 탭을 떠났다 돌아오면 */
+  const originalTitle = document.title;
+  let hiddenAt = 0, titleTO;
+  document.addEventListener('visibilitychange', () => {
+    if (!entered) return;
+    if (document.hidden) {
+      hiddenAt = Date.now();
+      document.title = '찻잔이 식어가요 ☕';
+    } else {
+      const s = Math.round((Date.now() - hiddenAt) / 1000);
+      document.title = '돌아오셨네요 ✦';
+      if (s >= 3) note('빈 자리', fmtDur(s) + ' 동안 자리를 비우셨어요.<br>홍차가 조금 식었지만, 다시 데워뒀어요.<br>어디에 다녀오셨는지는 묻지 않을게요.', 7500);
+      clearTimeout(titleTO);
+      titleTO = setTimeout(() => { document.title = originalTitle; }, 5000);
+    }
+  });
+
+  /* 우클릭: 시럽이 흘러내림 */
+  const rcMsgs = [
+    '만지지 말아요.<br>흘러버리니까.',
+    '그 밑에는 아무것도 없어요.<br>있다면 잼 정도예요.',
+    '열어보려는 마음은 알겠어요.<br>귀엽네요, 그런 호기심.',
+    '손끝이 끈적해졌죠?<br>기분 탓이에요. 아마도.'
+  ];
+  document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    drip(e.clientX, 6);
+    jam(e.clientX, e.clientY);
+    note('손대지 마세요', rcMsgs[Math.floor(Math.random() * rcMsgs.length)], 4500);
+  });
+
+  /* 복사하면 */
+  let lastCopy = 0;
+  document.addEventListener('copy', () => {
+    if (!entered || Date.now() - lastCopy < 30000) return;
+    lastCopy = Date.now();
+    note('가져가기', '복사하셨네요.<br>가져가도 좋아요.<br>어차피 다시 오시게 될 테니까요.', 6000);
+  });
+
+  /* 맨 아래까지 스크롤 */
+  let bottomDone = false;
+  addEventListener('scroll', () => {
+    if (!entered || bottomDone) return;
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 60) {
+      bottomDone = true;
+      drip(innerWidth / 2, 8);
+      note('마지막 페이지', '여기가 끝이에요.<br>문은 처음부터 없었고,<br>초대장에도 돌아가는 시간은 적혀 있지 않았어요.', 8000);
+    }
+  });
+
+  /* 키보드: 코나미 코드 → 손님 명부 / "shabi" 입력 */
+  const konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let konamiIdx = 0, shabiBuf = '';
+
+  function openLedger() {
+    const t = new Date();
+    const stay = enterAt ? Math.round((Date.now() - enterAt) / 1000) : 0;
+    const rows = [
+      ['도착', pad(t.getHours()) + ':' + pad(t.getMinutes())],
+      ['출신', cityName],
+      ['나라', countryName ? countryName + ' (시간대로 짐작했어요)' : '지도에 없는 곳'],
+      ['말씨', navigator.language || '알 수 없음'],
+      ['타고 오신 것', deviceLabel()],
+      ['화면', screen.width + ' × ' + screen.height + ' (' + ratioLabel() + ')'],
+      ['자세', portraitMQ.matches ? '세로로 들고 계심' : '가로로 보고 계심'],
+      ['손길', isTouch() ? '손가락' : '마우스'],
+      ['눈의 취향', isDark() ? '어두운 쪽' : '밝은 쪽'],
+      ['방문', guest ? guest.n + '번째' : '첫 번째']
+    ];
+    const cn = connLabel();
+    if (cn) rows.push(['이어진 길', cn]);
+    if (batteryPct !== null) {
+      rows.push(['남은 기력', batteryPct + '%'], ['전원', charging ? '꽂아두심 (오래 계실 예정)' : '꽂지 않으심']);
+    } else {
+      rows.push(['남은 기력', '비공개 — 이 기기는 입을 다물고 있어요']);
+    }
+    rows.push(['머문 시간', fmtDur(stay)], ['좌석', '이미 준비되어 있음'], ['퇴석 예정', '미정']);
+    $('ledger-list').innerHTML = rows.map(r => '<li>' + esc(r[0]) + '<span>' + esc(r[1]) + '</span></li>').join('');
+    $('ledger').classList.add('show');
+  }
+  function closeLedger() { $('ledger').classList.remove('show'); }
+  $('ledger-close').addEventListener('click', closeLedger);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLedger();
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (k === konamiSeq[konamiIdx]) {
+      konamiIdx++;
+      if (konamiIdx === konamiSeq.length) { konamiIdx = 0; openLedger(); }
+    } else { konamiIdx = (k === konamiSeq[0]) ? 1 : 0; }
+
+    if (e.key.length === 1) shabiBuf = (shabiBuf + e.key.toLowerCase()).slice(-5);
+    if (shabiBuf === 'shabi') {
+      shabiBuf = '';
+      drip(innerWidth * (0.25 + Math.random() * 0.5), 9);
+      const v = $('idle-veil');
+      v.classList.add('on');
+      setTimeout(() => { if (!idleOn) v.classList.remove('on'); }, 3200);
+      note('이름을 불렀어요', '샤비가 찻잔에서 눈을 들었어요.<br>이제 눈이 마주쳤네요.', 6500);
+    }
+  });
+</script>
+
+</body>
 </html>
