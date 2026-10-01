@@ -11,21 +11,34 @@
   <meta property="og:image" content="0abc6811083fdd5d272d96d428c0cfe3.jpg">
   <meta property="og:url" content="https://shabihasa.github.io/shabi_world/">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=4">
+  <style>
+    /* 안전장치: style.css가 옛날 버전이어도 이스터에그 요소가 페이지를 밀지 않도록 */
+    #shabi-note,#crt,#syrup,#idle-veil{position:fixed}
+    #shabi-note{left:50%;bottom:26px;opacity:0;pointer-events:none}
+    #crt{inset:0;display:none}
+    #crt.show{display:block}
+    #syrup,#idle-veil{inset:0;pointer-events:none}
+  </style>
 </head>
 <body>
 
 <!-- 이스터에그 요소 (전부 브라우저 안에서만 동작, 외부로 아무것도 전송하지 않음) -->
 <div id="idle-veil"></div>
 <div id="syrup"></div>
-<div id="tea-note"></div>
-<div id="ledger">
-  <div class="ledger-paper">
-    <h2>손님 명부</h2>
-    <div class="seam"></div>
-    <ul id="ledger-list"></ul>
-    <p>명부는 당신이 도착하기 전에 이미 적혀 있었어요.<br>빈칸은 하나도 없죠?</p>
-    <button id="ledger-close">자리에서 일어나기 — 찻잔은 그대로 둘게요</button>
+<div id="shabi-note"></div>
+<div id="crt" data-mode="">
+  <div class="crt-screen">
+    <canvas id="crt-organs"></canvas>
+    <div id="crt-blood"></div>
+    <div id="crt-drips"></div>
+    <div class="crt-hud tl"><i></i>REC</div>
+    <div class="crt-hud tr"><span id="crt-time">SP 00:00</span> · CH 04</div>
+    <div class="crt-hud bl">PLAY ▶</div>
+    <div class="crt-hud br">SIGNAL 12%</div>
+    <div id="crt-text"></div>
+    <button id="crt-close">닫기</button>
+    <div class="crt-fx scan"></div><div class="crt-fx noise"></div><div class="crt-fx roll"></div><div class="crt-fx vig"></div><div class="crt-fx glass"></div>
   </div>
 </div>
 
@@ -35,7 +48,7 @@
 <div id="entry-screen">
   <button id="entry-button" class="glow">
     ✦ 지상낙원 입장하기 ✦
-    <span class="btn-truth">이 문은 안쪽에서만 열려요</span>
+    <span class="btn-truth">낙원의 주인이 당신을 인도할게요 ♡</span>
   </button>
 </div>
 
@@ -309,7 +322,7 @@
       document.body.appendChild(p);
       setTimeout(() => p.remove(), 1000);
     }
-    if (Math.random() < 0.08) jam(x, y); // 가끔, 잼 한 방울
+    if (Math.random() < 0.08) bloodDrop(x, y); // 가끔, 핏방울 한 방울
   }
   document.addEventListener('click', e => createClickParticle(e.clientX, e.clientY));
 
@@ -335,76 +348,69 @@
   });
 
   /* =========================================================
-     🫖 이스터에그 — 낙원의 다과회
-     ※ 방문자의 브라우저가 원래 알려주는 정보(시간대, 언어, 기기,
-       화면 크기, 배터리, 이전 방문 기록)만 사용합니다.
-       전부 이 브라우저 안에서만 쓰이고 어디로도 전송되지 않아요.
+     🩸 낙원의 주인 샤비 — 이스터에그
+     ※ 방문자의 브라우저가 원래 알려주는 정보(시간대·언어·기기·화면·배터리)와
+       이 브라우저에 저장된 방문 기록만 사용해요. 전부 이 기기 안에서만 쓰이고
+       어디로도 전송되지 않아요.
   ========================================================= */
   const $ = id => document.getElementById(id);
   const pad = n => String(n).padStart(2, '0');
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
-  let entered = false, enterAt = 0, batteryPct = null;
+  const touchy = matchMedia('(pointer: coarse)').matches;
+  let entered = false, enterAt = 0, batteryPct = null, charging = null, guest = null, prevGuest = null;
 
-  const cityName = (() => {
-    try {
-      const z = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-      const map = {'Asia/Seoul':'서울','Asia/Tokyo':'도쿄','Asia/Shanghai':'상하이','Asia/Taipei':'타이베이','Asia/Hong_Kong':'홍콩',
-        'Asia/Singapore':'싱가포르','America/New_York':'뉴욕','America/Chicago':'시카고','America/Los_Angeles':'로스앤젤레스',
-        'Europe/London':'런던','Europe/Paris':'파리','Europe/Berlin':'베를린','Australia/Sydney':'시드니'};
-      return map[z] || (z.split('/').pop() || '').replace(/_/g, ' ') || '어딘가';
-    } catch (e) { return '어딘가'; }
+  /* 받침 보고 '로/으로' 고르기 */
+  const eu = w => {
+    const c = w.charCodeAt(w.length - 1);
+    if (c < 0xAC00 || c > 0xD7A3) return '로';
+    const j = (c - 0xAC00) % 28;
+    return (j === 0 || j === 8) ? '로' : '으로';
+  };
+
+  /* 사는 곳 — 시간대로 짐작 */
+  const TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } })();
+  const TZMAP = {
+    'Asia/Seoul':['서울','대한민국'],'Asia/Tokyo':['도쿄','일본'],'Asia/Shanghai':['상하이','중국'],'Asia/Taipei':['타이베이','대만'],
+    'Asia/Hong_Kong':['홍콩','홍콩'],'Asia/Singapore':['싱가포르','싱가포르'],'Asia/Bangkok':['방콕','태국'],'Asia/Ho_Chi_Minh':['호치민','베트남'],
+    'Asia/Manila':['마닐라','필리핀'],'Asia/Jakarta':['자카르타','인도네시아'],'Asia/Kuala_Lumpur':['쿠알라룸푸르','말레이시아'],
+    'Asia/Kolkata':['콜카타','인도'],'Asia/Calcutta':['콜카타','인도'],'Asia/Dubai':['두바이','아랍에미리트'],
+    'America/New_York':['뉴욕','미국'],'America/Chicago':['시카고','미국'],'America/Denver':['덴버','미국'],'America/Phoenix':['피닉스','미국'],
+    'America/Los_Angeles':['로스앤젤레스','미국'],'America/Anchorage':['앵커리지','미국'],'Pacific/Honolulu':['호놀룰루','미국'],
+    'America/Toronto':['토론토','캐나다'],'America/Vancouver':['밴쿠버','캐나다'],'America/Mexico_City':['멕시코시티','멕시코'],
+    'America/Sao_Paulo':['상파울루','브라질'],'Europe/London':['런던','영국'],'Europe/Paris':['파리','프랑스'],'Europe/Berlin':['베를린','독일'],
+    'Europe/Madrid':['마드리드','스페인'],'Europe/Rome':['로마','이탈리아'],'Europe/Amsterdam':['암스테르담','네덜란드'],
+    'Europe/Moscow':['모스크바','러시아'],'Pacific/Auckland':['오클랜드','뉴질랜드'],'Australia/Sydney':['시드니','호주'],'Australia/Melbourne':['멜버른','호주']
+  };
+  const where = (() => {
+    const m = TZMAP[TZ];
+    if (m) return { city: m[0], country: m[1] };
+    const last = (TZ.split('/').pop() || '').replace(/_/g, ' ');
+    if (TZ.indexOf('Australia/') === 0) return { city: last, country: '호주' };
+    return { city: last || '어딘가', country: null };
   })();
+  const whereLabel = () => (where.country && where.country !== where.city) ? where.city + '(' + where.country + ')' : where.city;
 
-  function deviceLabel() {
+  /* 기기 */
+  function osName() {
     const ua = navigator.userAgent;
-    const os = /Android/i.test(ua) ? '안드로이드' : /iPhone/i.test(ua) ? '아이폰' : /iPad|iPod/i.test(ua) ? '아이패드' : /Windows/i.test(ua) ? '윈도우'
-             : /Mac OS X/i.test(ua) ? (navigator.maxTouchPoints > 1 ? '아이패드' : '맥') : /Linux/i.test(ua) ? '리눅스' : '알 수 없는 기기';
-    const br = /Edg\//.test(ua) ? '엣지' : /OPR\//.test(ua) ? '오페라' : /SamsungBrowser/.test(ua) ? '삼성 인터넷'
-             : /Chrome\//.test(ua) ? '크롬' : /Firefox\//.test(ua) ? '파이어폭스' : /Safari\//.test(ua) ? '사파리' : '브라우저';
-    return os + ' · ' + br;
+    if (/iPhone/i.test(ua)) return '아이폰';
+    if (/iPad|iPod/i.test(ua)) return '아이패드';
+    if (/Android/i.test(ua)) return '안드로이드';
+    if (/Windows/i.test(ua)) return '윈도우';
+    if (/Mac OS X/i.test(ua)) return navigator.maxTouchPoints > 1 ? '아이패드' : '맥';
+    if (/Linux/i.test(ua)) return '리눅스';
+    return '알 수 없는 기기';
   }
-  const countryName = (() => {
-    try {
-      const z = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-      const map = {'Asia/Seoul':'대한민국','Asia/Tokyo':'일본','Asia/Shanghai':'중국','Asia/Chongqing':'중국','Asia/Taipei':'대만',
-        'Asia/Hong_Kong':'홍콩','Asia/Singapore':'싱가포르','Asia/Bangkok':'태국','Asia/Ho_Chi_Minh':'베트남','Asia/Manila':'필리핀',
-        'Asia/Jakarta':'인도네시아','Asia/Kuala_Lumpur':'말레이시아','Asia/Kolkata':'인도','Asia/Calcutta':'인도','Asia/Dubai':'아랍에미리트',
-        'America/New_York':'미국','America/Chicago':'미국','America/Denver':'미국','America/Phoenix':'미국','America/Los_Angeles':'미국',
-        'America/Anchorage':'미국','Pacific/Honolulu':'미국','America/Toronto':'캐나다','America/Vancouver':'캐나다','America/Mexico_City':'멕시코',
-        'America/Sao_Paulo':'브라질','Europe/London':'영국','Europe/Paris':'프랑스','Europe/Berlin':'독일','Europe/Madrid':'스페인',
-        'Europe/Rome':'이탈리아','Europe/Amsterdam':'네덜란드','Europe/Moscow':'러시아','Pacific/Auckland':'뉴질랜드'};
-      if (map[z]) return map[z];
-      if (z.indexOf('Australia/') === 0) return '호주';
-      return null;
-    } catch (e) { return null; }
-  })();
+  function browserName() {
+    const ua = navigator.userAgent;
+    return /Edg\//.test(ua) ? '엣지' : /OPR\//.test(ua) ? '오페라' : /SamsungBrowser/.test(ua) ? '삼성 인터넷'
+         : /Chrome\//.test(ua) || /CriOS/.test(ua) ? '크롬' : /Firefox\//.test(ua) ? '파이어폭스' : /Safari\//.test(ua) ? '사파리' : '브라우저';
+  }
+  const deviceLabel = () => osName() + ' · ' + browserName();
   const fmtDur = s => s < 60 ? s + '초' : Math.floor(s / 60) + '분 ' + (s % 60) + '초';
-
-  let charging = null;
-  if (navigator.getBattery) {
-    navigator.getBattery().then(b => {
-      batteryPct = Math.round(b.level * 100);
-      charging = b.charging;
-      b.addEventListener('levelchange', () => { batteryPct = Math.round(b.level * 100); });
-      b.addEventListener('chargingchange', () => {
-        const was = charging; charging = b.charging;
-        if (!entered || was === charging) return;
-        if (charging) note('전원', '충전기를 꽂으셨네요.<br>오래 계실 준비가 되셨군요.<br>좋아요, 서두를 필요 없어요.', 7000);
-        else note('전원', '충전기를 뽑으셨네요.<br>이제 <b>' + batteryPct + '%</b>가 전부예요.<br>그 안에 돌아가실 수 있을까요?', 7500);
-      });
-    }).catch(() => {});
-  }
-
-  /* 화면을 돌리면 */
   const portraitMQ = matchMedia('(orientation: portrait)');
-  if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', e => {
-    if (!entered) return;
-    note('시선', e.matches ? '화면을 세우셨네요.<br>이제 정면에서 마주 보고 있어요.' : '화면을 눕히셨네요.<br>어느 쪽에서 봐도 보이는 자리예요.', 6500);
-  });
-
   const isDark = () => matchMedia('(prefers-color-scheme: dark)').matches;
-  const isTouch = () => matchMedia('(pointer: coarse)').matches;
   function ratioLabel() {
     const w = screen.width, h = screen.height, r = Math.max(w, h) / Math.min(w, h);
     const c = [[16,9],[16,10],[4,3],[3,2],[19.5,9],[20,9],[21,9],[5,4],[1,1]];
@@ -422,22 +428,18 @@
     return null;
   }
 
-  /* 손님 명부 (이전 방문 기억) */
-  function loadGuest() { try { return JSON.parse(localStorage.getItem('shabiGuest') || 'null'); } catch (e) { return null; } }
-  function saveGuest(g) { try { localStorage.setItem('shabiGuest', JSON.stringify(g)); } catch (e) {} }
-  let guest = null, prevGuest = null;
-
-  /* 카드형 쪽지 */
+  /* 쪽지 (샤비의 말풍선) */
   let noteTO;
-  function note(label, html, ms) {
-    const n = $('tea-note');
-    n.innerHTML = '<small>' + label + '</small>' + html;
+  function note(html, ms, scary) {
+    const n = $('shabi-note');
+    n.innerHTML = '<small>낙원의 주인 · 샤비 ♡</small>' + html;
+    n.classList.toggle('scary', !!scary);
     n.classList.add('show');
     clearTimeout(noteTO);
     noteTO = setTimeout(() => n.classList.remove('show'), ms || 7000);
   }
 
-  /* 시럽이 흘러내리는 연출 / 잼 한 방울 */
+  /* 피 — 흘러내림 / 한 방울 */
   function drip(x, count) {
     const box = $('syrup');
     for (let i = 0; i < (count || 6); i++) {
@@ -452,16 +454,40 @@
       setTimeout(() => d.remove(), 6800);
     }
   }
-  function jam(x, y) {
+  function bloodDrop(x, y) {
     const j = document.createElement('div');
-    j.className = 'jam';
+    j.className = 'bdrop';
     j.style.left = x + 'px';
     j.style.top = y + 'px';
     document.body.appendChild(j);
     setTimeout(() => j.remove(), 1800);
   }
 
-  /* 입장: 방문 기억 + 첫 인사 */
+  /* 방문 기억 */
+  function loadGuest() { try { return JSON.parse(localStorage.getItem('shabiGuest') || 'null'); } catch (e) { return null; } }
+  function saveGuest(g) { try { localStorage.setItem('shabiGuest', JSON.stringify(g)); } catch (e) {} }
+
+  /* 배터리 */
+  if (navigator.getBattery) {
+    navigator.getBattery().then(b => {
+      batteryPct = Math.round(b.level * 100);
+      charging = b.charging;
+      b.addEventListener('levelchange', () => { batteryPct = Math.round(b.level * 100); });
+      b.addEventListener('chargingchange', () => {
+        const was = charging; charging = b.charging;
+        if (!entered || was === charging) return;
+        if (charging) note('앗, 충전기 꽂았다~<br>샤비는 다 안다구! 오래 있을 거지~ ♡', 7000);
+        else note('충전기 뽑았네?<br>이제 <b>' + batteryPct + '%</b>밖에 없는데~<br>도망가는 거 아니지?', 7500, true);
+      });
+    }).catch(() => {});
+  }
+  if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', e => {
+    if (!entered) return;
+    note(e.matches ? '화면 세웠네~<br>이제 정면에서 눈 마주친다 ♡' : '화면 눕혔네~<br>어느 쪽으로 봐도 샤비가 있어 ♡', 6500);
+  });
+
+  /* ───────── 입장 ───────── */
+  const originalTitle = document.title;
   $('entry-button').addEventListener('click', () => {
     $('entry-screen').style.display = 'none';
     $('main-content').style.display = 'block';
@@ -471,57 +497,62 @@
 
     entered = true; enterAt = Date.now();
     prevGuest = loadGuest();
-    guest = prevGuest
-      ? { n: (prevGuest.n || 1) + 1, first: prevGuest.first, last: enterAt }
-      : { n: 1, first: enterAt, last: enterAt };
+    guest = prevGuest ? { n: (prevGuest.n || 1) + 1, first: prevGuest.first, last: enterAt } : { n: 1, first: enterAt, last: enterAt };
     saveGuest(guest);
 
     setTimeout(() => {
       if (!prevGuest) {
-        note('초대장 확인', '<b>' + esc(cityName) + '</b>에서 오셨군요.<br>자리는 이미 마련되어 있어요.<br>홍차는 식지 않게 해둘게요.', 7500);
+        note('낙원의 주인 샤비가 당신을 낙원으로 인도할게요~!<br>모두모두 낙원으로 도망가자! ♡', 8000);
       } else {
         const p = new Date(prevGuest.last), t = new Date();
         const days = Math.round((new Date(t.getFullYear(), t.getMonth(), t.getDate()) - new Date(p.getFullYear(), p.getMonth(), p.getDate())) / 864e5);
         const when = days <= 0 ? '오늘 조금 전' : days === 1 ? '어제' : days + '일 전';
-        note('다시 오신 손님', '<b>' + guest.n + '번째</b> 방문이에요.<br>' + when + ' ' + WEEK[p.getDay()] + '요일 ' + p.getHours() + '시쯤 앉으셨던 자리,<br>그대로 남겨뒀어요.', 8000);
+        note('또 왔네~? 벌써 <b>' + guest.n + '번째</b>야! ♡<br>' + when + ' ' + WEEK[p.getDay()] + '요일 ' + p.getHours() + '시쯤에도 왔었지?<br>샤비는 다 기억해~', 9000);
       }
     }, 1400);
 
     const h = new Date().getHours();
     if (h >= 0 && h < 5) {
-      setTimeout(() => {
-        const t = new Date();
-        note('깊은 밤의 손님', pad(t.getHours()) + '시 ' + pad(t.getMinutes()) + '분.<br>이 시간에는 아무도 초대하지 않는데…<br>아, 당신은 처음부터 초대했었네요.', 8000);
-      }, 10500);
+      setTimeout(() => note('새벽 <b>' + h + '시</b>인데 안 자고 낙원에 왔네~<br>현실에서 도망쳐 온 거지? 잘했어~ ♡<br>샤비가 옆에 있을게.', 8500), 10500);
     }
 
     setTimeout(() => {
-      let bat = '';
+      const os = osName();
+      let msg = '흐응~ 지금 <b>' + esc(os) + '</b>' + eu(os) + ' 보고 있구나~';
       if (batteryPct !== null) {
-        bat = charging ? '<br>배터리 <b>' + batteryPct + '%</b>, 충전기까지 꽂아두셨네요.'
-            : batteryPct < 20 ? '<br>배터리가 <b>' + batteryPct + '%</b>밖에 안 남았어요… 꺼지기 전에 돌아가실 수 있을까요?'
-            : '<br>배터리는 <b>' + batteryPct + '%</b>, 충전은 안 하고 계시고요.';
+        msg += '<br>배터리 <b>' + batteryPct + '%</b>? ' + (batteryPct < 20 ? '곧 꺼지겠다… 꺼져도 낙원은 안 꺼져~' : '낙원에 오래 있을 수 있겠다~');
+        msg += charging ? '<br>너 충전하구 있지? 샤비는 다 안다구!' : '<br>충전은 안 하네? 걱정 마, 낙원엔 콘센트 많아~';
+      } else {
+        msg += '<br>배터리는 안 알려주네? 그래도 샤비는 다 안다구!';
       }
-      note('다과회 준비', esc(deviceLabel()) + '으로 오셨군요.<br>화면은 <b>' + screen.width + '×' + screen.height + '</b> (' + ratioLabel() + ')' + bat + '<br>오래 머무실 것 같아서 큰 잔으로 준비했어요.', 9500);
+      note(msg, 9500);
     }, 24000);
 
-    setTimeout(() => {
-      const parts = [];
-      parts.push(isTouch() ? '손가락으로 만지고 계시네요.<br>화면이 조금 따뜻해졌겠어요.' : '마우스로 움직이고 계시네요.<br>커서가 별 모양인 건 눈치채셨죠?');
-      if (isDark()) parts.push('어두운 화면을 좋아하시네요.<br>이 방은 눈부실 텐데, 곧 익숙해질 거예요.');
-      const cn = connLabel();
-      if (cn) parts.push('지금은 <b>' + cn + '</b>로 이어져 있고요.');
-      note('관찰 기록', parts.join('<br>'), 10000);
-    }, 52000);
+    setTimeout(() => note('흐음~ 너는 <b>' + esc(whereLabel()) + '</b>에 살려나~<br>낙원에 살면 더 좋을텐데~ ♡', 8000), 52000);
 
     setTimeout(() => {
-      note('세 번째 잔', '벌써 <b>' + Math.floor((Date.now() - enterAt) / 60000) + '분</b>째예요.<br>잔은 세 번 채웠고, 시간은 아무도 재지 않아요.', 8000);
-    }, 180000);
+      const parts = ['화면은 <b>' + screen.width + '×' + screen.height + '</b> (' + ratioLabel() + ')네~ ' + (portraitMQ.matches ? '세로로 들고 있구나~' : '가로로 보고 있구나~')];
+      parts.push(touchy ? '손가락으로 만지고 있네~ 따뜻하겠다~' : '마우스로 움직이네~ 커서가 별 모양인 거 알아챘어?');
+      if (isDark()) parts.push('어두운 화면을 좋아하는구나~ 낙원은 눈부신데 괜찮겠어?');
+      const cn = connLabel();
+      if (cn) parts.push('<b>' + cn + '</b>로 연결돼 있네~ 줄이 길게 이어져 있어~');
+      note(parts.join('<br>'), 10500);
+    }, 66000);
+
+    setTimeout(() => note(touchy
+      ? '절대 <b>제목</b>을 연타하지 마~ 진짜 안 돼~<br>알겠지? 절대로 안 돼!'
+      : '절대 키보드에서 <b>shabi</b>를 치지 마~ 진짜 안 돼~<br>알겠지? 절대로 안 돼!', 8000, true), 80000);
+
+    setTimeout(() => note(touchy
+      ? '절대 <b>방문자 숫자</b>를 연타하지 마…<br>절대로♡'
+      : '절대 <b>코나미 코드</b>를 치지 마…<br>절대로♡', 8000, true), 110000);
+
+    setTimeout(() => note('벌써 <b>' + Math.floor((Date.now() - enterAt) / 60000) + '분</b>째네~<br>낙원이 마음에 들었구나? 이제 나가기 싫지? ♡', 8000), 180000);
 
     resetIdle();
   });
 
-  /* 가만히 있으면: 시야가 붉게 물듦 */
+  /* 가만히 있으면 */
   let idleTO, idleOn = false;
   function resetIdle() {
     if (!entered) return;
@@ -530,112 +561,290 @@
     idleTO = setTimeout(() => {
       idleOn = true;
       $('idle-veil').classList.add('on');
-      note('정적', '가만히 계시네요.<br>숨소리가 들릴 것 같아요.<br>그대로 계세요. 차가 아직 뜨거우니까.', 9000);
+      note('움직이지 마… 숨소리 들려.<br>…농담이야~ 움직여도 돼.<br>어차피 못 가지만♡', 9000, true);
     }, 25000);
   }
   ['mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(ev => addEventListener(ev, resetIdle, { passive: true }));
 
-  /* 탭을 떠났다 돌아오면 */
-  const originalTitle = document.title;
-  let hiddenAt = 0, titleTO;
+  /* 다른 창으로 갔다 오면 */
+  let hiddenAt = 0, titleTO, titleIV;
   document.addEventListener('visibilitychange', () => {
     if (!entered) return;
     if (document.hidden) {
       hiddenAt = Date.now();
-      document.title = '찻잔이 식어가요 ☕';
+      const T = ['어디가?어디가?어디가?어디가?', '어디가?!어디가?!어디가?!', '어디 가는 거야?어디가?어디가?'];
+      let k = 0;
+      document.title = T[0];
+      clearInterval(titleIV);
+      titleIV = setInterval(() => { document.title = T[++k % T.length]; }, 900);
     } else {
+      clearInterval(titleIV);
       const s = Math.round((Date.now() - hiddenAt) / 1000);
-      document.title = '돌아오셨네요 ✦';
-      if (s >= 3) note('빈 자리', fmtDur(s) + ' 동안 자리를 비우셨어요.<br>홍차가 조금 식었지만, 다시 데워뒀어요.<br>어디에 다녀오셨는지는 묻지 않을게요.', 7500);
+      document.title = '돌아왔네 ♡';
+      if (s >= 2) note('도망가려던 거 아니지?<br><b>' + fmtDur(s) + '</b> 동안 어디 갔다 온 거야?<br>도망가면 평생 잡아둘 거야 ♡', 8500, true);
       clearTimeout(titleTO);
       titleTO = setTimeout(() => { document.title = originalTitle; }, 5000);
     }
   });
 
-  /* 우클릭: 시럽이 흘러내림 */
+  /* 우클릭 */
   const rcMsgs = [
-    '만지지 말아요.<br>흘러버리니까.',
-    '그 밑에는 아무것도 없어요.<br>있다면 잼 정도예요.',
-    '열어보려는 마음은 알겠어요.<br>귀엽네요, 그런 호기심.',
-    '손끝이 끈적해졌죠?<br>기분 탓이에요. 아마도.'
+    '앗!! 지금 복사하려는 거죠!<br>낙원의 비밀을 캐려는 속셈인 거 다 알아요!!',
+    '만지지 마아~ 피 나잖아~ ♡',
+    '그 밑엔 아무것도 없어~<br>…있다면 샤비 정도?',
+    '손가락 끈적해졌지?<br>기분 탓이야~ 아마도 ♡'
   ];
+  let rcCount = 0;
   document.addEventListener('contextmenu', e => {
     e.preventDefault();
     drip(e.clientX, 6);
-    jam(e.clientX, e.clientY);
-    note('손대지 마세요', rcMsgs[Math.floor(Math.random() * rcMsgs.length)], 4500);
+    bloodDrop(e.clientX, e.clientY);
+    note(rcMsgs[rcCount++ === 0 ? 0 : Math.floor(Math.random() * rcMsgs.length)], 5000, true);
   });
 
-  /* 복사하면 */
+  /* 복사 */
   let lastCopy = 0;
   document.addEventListener('copy', () => {
     if (!entered || Date.now() - lastCopy < 30000) return;
     lastCopy = Date.now();
-    note('가져가기', '복사하셨네요.<br>가져가도 좋아요.<br>어차피 다시 오시게 될 테니까요.', 6000);
+    note('복사했네? 가져가도 돼~<br>어차피 낙원은 못 가져가니까 ♡', 6000);
   });
 
-  /* 맨 아래까지 스크롤 */
+  /* 맨 아래 */
   let bottomDone = false;
   addEventListener('scroll', () => {
     if (!entered || bottomDone) return;
     if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 60) {
       bottomDone = true;
       drip(innerWidth / 2, 8);
-      note('마지막 페이지', '여기가 끝이에요.<br>문은 처음부터 없었고,<br>초대장에도 돌아가는 시간은 적혀 있지 않았어요.', 8000);
+      note('여기가 끝이야~<br>출구? 그런 거 없는데? ♡', 7000, true);
     }
   });
 
-  /* 키보드: 코나미 코드 → 손님 명부 / "shabi" 입력 */
-  const konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-  let konamiIdx = 0, shabiBuf = '';
+  /* ───────── 고어 CRT 화면 ───────── */
+  const crt = { show: false, t0: 0, raf: null, drip: null, auto: null };
+  let typeToken = 0;
 
-  function openLedger() {
-    const t = new Date();
-    const stay = enterAt ? Math.round((Date.now() - enterAt) / 1000) : 0;
-    const rows = [
-      ['도착', pad(t.getHours()) + ':' + pad(t.getMinutes())],
-      ['출신', cityName],
-      ['나라', countryName ? countryName + ' (시간대로 짐작했어요)' : '지도에 없는 곳'],
-      ['말씨', navigator.language || '알 수 없음'],
-      ['타고 오신 것', deviceLabel()],
-      ['화면', screen.width + ' × ' + screen.height + ' (' + ratioLabel() + ')'],
-      ['자세', portraitMQ.matches ? '세로로 들고 계심' : '가로로 보고 계심'],
-      ['손길', isTouch() ? '손가락' : '마우스'],
-      ['눈의 취향', isDark() ? '어두운 쪽' : '밝은 쪽'],
-      ['방문', guest ? guest.n + '번째' : '첫 번째']
+  function rng(seed) { let s = seed >>> 0; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
+  function blobPath(r, cx, cy, rad, n) {
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = i / n * Math.PI * 2, k = rad * (0.6 + r() * 0.75);
+      pts.push([cx + Math.cos(a) * k, cy + Math.sin(a) * k]);
+    }
+    let d = 'M' + ((pts[n - 1][0] + pts[0][0]) / 2).toFixed(1) + ' ' + ((pts[n - 1][1] + pts[0][1]) / 2).toFixed(1);
+    for (let i = 0; i < n; i++) {
+      const p = pts[i], q = pts[(i + 1) % n];
+      d += ' Q' + p[0].toFixed(1) + ' ' + p[1].toFixed(1) + ' ' + ((p[0] + q[0]) / 2).toFixed(1) + ' ' + ((p[1] + q[1]) / 2).toFixed(1);
+    }
+    return d + 'Z';
+  }
+
+  /* 핏자국 (열 때마다 모양이 달라요) */
+  function buildBlood() {
+    const r = rng((Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0);
+    const R = (a, b) => a + r() * (b - a);
+    const W = 1000, H = Math.round(1000 * innerHeight / innerWidth);
+    let g = '';
+    for (let i = 0; i < 4; i++) {
+      const cx = R(.1, .9) * W, cy = R(.1, .88) * H, rad = R(.07, .13) * W;
+      g += '<path d="' + blobPath(r, cx, cy, rad, 9) + '" fill="url(#crtBg)"/>';
+      const sat = 14 + Math.floor(r() * 12);
+      for (let j = 0; j < sat; j++) {
+        const a = r() * Math.PI * 2, dist = rad * R(1.15, 3.1), rr = 1.5 + r() * r() * 11;
+        g += '<circle cx="' + (cx + Math.cos(a) * dist).toFixed(1) + '" cy="' + (cy + Math.sin(a) * dist).toFixed(1) + '" r="' + rr.toFixed(1) + '" fill="url(#crtBg)"/>';
+      }
+    }
+    for (let k = 0; k < 2; k++) {
+      const x0 = R(0, .5) * W, y0 = R(.25, .85) * H;
+      g += '<path d="M' + x0.toFixed(0) + ' ' + y0.toFixed(0) + ' C' + (x0 + W * .2).toFixed(0) + ' ' + (y0 - H * .08).toFixed(0) + ' ' + (x0 + W * .4).toFixed(0) + ' ' + (y0 + H * .1).toFixed(0) + ' ' + (x0 + W * R(.35, .6)).toFixed(0) + ' ' + (y0 + H * R(-.04, .08)).toFixed(0) + '" stroke="#8e0f27" stroke-width="' + R(16, 38).toFixed(0) + '" stroke-linecap="round" fill="none" opacity=".93"/>';
+    }
+    g += '<path d="' + blobPath(r, W * .5, H * 1.04, Math.min(W * .62, H * .3), 11) + '" fill="url(#crtBg)"/>';
+    const defs = '<defs>' +
+      '<radialGradient id="crtBg" cx=".4" cy=".35" r=".78"><stop offset="0" stop-color="#b8142f"/><stop offset=".55" stop-color="#7a0b1f"/><stop offset="1" stop-color="#3d0610"/></radialGradient>' +
+      '<filter id="crtWet" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">' +
+      '<feTurbulence type="fractalNoise" baseFrequency=".018 .024" numOctaves="3" seed="' + Math.floor(r() * 90 + 1) + '" result="n"/>' +
+      '<feDisplacementMap in="SourceGraphic" in2="n" scale="34" xChannelSelector="R" yChannelSelector="G" result="d"/>' +
+      '<feGaussianBlur in="d" stdDeviation="2.2" result="bl"/>' +
+      '<feSpecularLighting in="bl" surfaceScale="5" specularConstant=".95" specularExponent="26" lighting-color="#ffd9e2" result="sp"><feDistantLight azimuth="235" elevation="52"/></feSpecularLighting>' +
+      '<feComposite in="sp" in2="d" operator="in" result="spi"/>' +
+      '<feComposite in="d" in2="spi" operator="arithmetic" k1="0" k2="1" k3=".9" k4="0"/>' +
+      '</filter></defs>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice">' + defs + '<g filter="url(#crtWet)">' + g + '</g></svg>';
+  }
+
+  /* 모자이크 처리된 장기 — 작은 해상도로 그려서 네모 픽셀로 키움 */
+  function drawOrgans(t) {
+    const cv = $('crt-organs'); if (!cv) return;
+    const block = innerWidth < 700 ? 14 : 20;
+    const cols = Math.ceil(innerWidth / block), rows = Math.ceil(innerHeight / block);
+    if (cv.width !== cols || cv.height !== rows) { cv.width = cols; cv.height = rows; }
+    const c = cv.getContext('2d');
+    c.clearRect(0, 0, cols, rows);
+    const ph = (t % 0.95) / 0.95;
+    const pulse = (x, a, b) => (x > a && x < b) ? Math.sin((x - a) / (b - a) * Math.PI) : 0;
+    const beat = pulse(ph, 0, .14) + .6 * pulse(ph, .22, .38);
+    function lump(cx, cy, rx, ry, rot, c0, c1, a) {
+      c.save(); c.globalAlpha = a;
+      c.translate(cx * cols, cy * rows); c.rotate(rot); c.scale(rx * cols, ry * rows);
+      const g = c.createRadialGradient(-.25, -.3, 0, 0, 0, 1.05);
+      g.addColorStop(0, c0); g.addColorStop(1, c1);
+      c.fillStyle = g; c.beginPath(); c.arc(0, 0, 1, 0, 6.2832); c.fill(); c.restore();
+    }
+    function gut(y0, amp, phase, w, col, a) {
+      c.save(); c.globalAlpha = a; c.lineCap = 'round'; c.lineJoin = 'round';
+      c.strokeStyle = col; c.lineWidth = w * rows; c.beginPath();
+      for (let i = 0; i <= 44; i++) {
+        const x = i / 44;
+        const y = y0 + Math.sin(x * 14 + phase) * amp + Math.sin(x * 5 + phase * .6) * amp * .6;
+        if (!i) c.moveTo(x * cols, y * rows); else c.lineTo(x * cols, y * rows);
+      }
+      c.stroke(); c.restore();
+    }
+    lump(.74, .6, .24, .15, -.3, '#9c3045', '#4c0f1f', .95);
+    lump(.64, .66, .13, .09, .2, '#b04058', '#5a1426', .9);
+    lump(.28, .3, .13, .2, .25, '#e08aa0', '#8c3050', .92);
+    lump(.52, .26, .12, .18, -.2, '#e695ab', '#8c3050', .92);
+    lump(.42, .52, .09 * (1 + beat * .09), .115 * (1 + beat * .09), .2, '#d3203f', '#5a0618', 1);
+    lump(.36, .6, .05, .06, 0, '#c2455f', '#6a1228', .9);
+    [[.80, .06, 0, .10], [.90, .05, 2.1, .09]].forEach(s => {
+      gut(s[0], s[1], t * .8 + s[2], s[3], '#7a2038', .96);
+      gut(s[0], s[1], t * .8 + s[2], s[3] * .72, '#d9768f', .96);
+      gut(s[0], s[1], t * .8 + s[2], s[3] * .3, '#f3b3c0', .8);
+    });
+  }
+
+  function addCrtDrip() {
+    const box = $('crt-drips'); if (!box || box.children.length > 24) return;
+    const d = document.createElement('div');
+    d.className = 'cdrip';
+    d.style.left = (3 + Math.random() * 94) + '%';
+    d.style.setProperty('--w', (5 + Math.random() * 9) + 'px');
+    d.style.setProperty('--h', (14 + Math.random() * 62) + '%');
+    d.style.setProperty('--t', (5 + Math.random() * 6) + 's');
+    box.appendChild(d);
+  }
+
+  function typeLines(lines, cps, done) {
+    const box = $('crt-text'); box.innerHTML = '';
+    const token = ++typeToken;
+    let li = 0, ci = 0, cur = null;
+    (function step() {
+      if (token !== typeToken) return;
+      if (li >= lines.length) { if (done) done(); return; }
+      const line = lines[li];
+      if (ci === 0) { cur = document.createElement('div'); cur.className = 'crt-line ' + (line.cls || ''); box.appendChild(cur); }
+      ci++;
+      cur.textContent = line.t.slice(0, ci);
+      if (ci >= line.t.length) { li++; ci = 0; setTimeout(step, line.wait || 170); }
+      else setTimeout(step, cps);
+    })();
+  }
+
+  function fileLines() {
+    const stay = Math.round((Date.now() - enterAt) / 1000);
+    let prevTxt = '첫 방문 (마지막 방문? 아직 없어)';
+    if (prevGuest) {
+      const p = new Date(prevGuest.last), t = new Date();
+      const days = Math.round((new Date(t.getFullYear(), t.getMonth(), t.getDate()) - new Date(p.getFullYear(), p.getMonth(), p.getDate())) / 864e5);
+      prevTxt = guest.n + '번째 (마지막: ' + (days <= 0 ? '오늘 조금 전' : days === 1 ? '어제' : days + '일 전') + ' ' + WEEK[p.getDay()] + '요일 ' + p.getHours() + '시)';
+    } else if (guest) prevTxt = '첫 방문 (마지막 방문? 아직 없어)';
+    let bat;
+    if (batteryPct === null) bat = '비공개 (입을 다물고 있네? 그래도 알아~)';
+    else bat = batteryPct + '%' + (charging ? ' — 충전 중! 샤비는 다 안다구' : ' — 충전 안 하는 중');
+    const L = [
+      { t: 'FILE No.0001 ─ 낙원 입주자 기록', cls: 'head', wait: 320 },
+      { t: '이름 : ████████ (알지만 안 알려줘♡)' },
+      { t: '사는 곳 : ' + whereLabel() + ' ← 낙원에 살면 더 좋을텐데~' },
+      { t: '기기 : ' + deviceLabel() },
+      { t: '화면 : ' + screen.width + '×' + screen.height + ' (' + ratioLabel() + ') · ' + (portraitMQ.matches ? '세로' : '가로') },
+      { t: '배터리 : ' + bat },
+      { t: '말씨 : ' + (navigator.language || '알 수 없음') },
+      { t: '손길 : ' + (touchy ? '손가락' : '마우스') + ' · ' + (isDark() ? '어두운 화면 선호' : '밝은 화면 선호') }
     ];
     const cn = connLabel();
-    if (cn) rows.push(['이어진 길', cn]);
-    if (batteryPct !== null) {
-      rows.push(['남은 기력', batteryPct + '%'], ['전원', charging ? '꽂아두심 (오래 계실 예정)' : '꽂지 않으심']);
-    } else {
-      rows.push(['남은 기력', '비공개 — 이 기기는 입을 다물고 있어요']);
-    }
-    rows.push(['머문 시간', fmtDur(stay)], ['좌석', '이미 준비되어 있음'], ['퇴석 예정', '미정']);
-    $('ledger-list').innerHTML = rows.map(r => '<li>' + esc(r[0]) + '<span>' + esc(r[1]) + '</span></li>').join('');
-    $('ledger').classList.add('show');
+    if (cn) L.push({ t: '연결 : ' + cn });
+    L.push({ t: '방문 : ' + prevTxt }, { t: '머문 시간 : ' + fmtDur(stay) },
+      { t: '퇴실 예정 : 없음', cls: 'red', wait: 380 }, { t: '너는 이미 입주했어 ♡', cls: 'big' });
+    return L;
   }
-  function closeLedger() { $('ledger').classList.remove('show'); }
-  $('ledger-close').addEventListener('click', closeLedger);
 
+  function openCRT(mode) {
+    const el = $('crt');
+    if (crt.show) return;
+    crt.show = true;
+    el.dataset.mode = mode;
+    $('crt-blood').innerHTML = buildBlood();
+    $('crt-drips').innerHTML = '';
+    $('crt-close').classList.remove('ready');
+    $('crt-close').textContent = mode === 'shabi' ? '닫기 — 도망쳐봐 ♡' : '돌아가기 — 돌아갈 수 있다면';
+    el.classList.remove('off'); el.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    crt.t0 = Date.now();
+    drawOrgans(0);
+    crt.raf = setInterval(() => {
+      const t = (Date.now() - crt.t0) / 1000;
+      drawOrgans(t);
+      $('crt-time').textContent = 'SP ' + pad(Math.floor(t / 60)) + ':' + pad(Math.floor(t) % 60);
+    }, 140);
+    crt.drip = setInterval(addCrtDrip, 650);
+    for (let i = 0; i < 4; i++) setTimeout(addCrtDrip, i * 180);
+    const ready = () => $('crt-close').classList.add('ready');
+    if (mode === 'shabi') {
+      typeLines([
+        { t: '치지 말랬잖아…', cls: 'big', wait: 600 },
+        { t: '샤비는 다 안다구 ♡', cls: 'pink', wait: 500 },
+        { t: '이제 도망 못 가', cls: 'red' }
+      ], 55, ready);
+      crt.auto = setTimeout(closeCRT, 9000);
+    } else {
+      typeLines(fileLines(), 24, ready);
+    }
+  }
+  function closeCRT() {
+    const el = $('crt');
+    if (!crt.show) return;
+    crt.show = false;
+    typeToken++;
+    clearInterval(crt.raf); clearInterval(crt.drip); clearTimeout(crt.auto);
+    el.classList.add('off');
+    setTimeout(() => {
+      el.classList.remove('show', 'off');
+      $('crt-drips').innerHTML = ''; $('crt-blood').innerHTML = '';
+      document.body.style.overflow = '';
+    }, 430);
+  }
+  $('crt-close').addEventListener('click', closeCRT);
+  $('crt').addEventListener('click', () => { if ($('crt').dataset.mode === 'shabi' && Date.now() - crt.t0 > 900) closeCRT(); });
+
+  /* 키보드: 코나미 코드 → 입주자 기록 / "shabi" 입력 → 암전 */
+  const konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let konamiIdx = 0, shabiBuf = '';
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLedger();
+    if (e.key === 'Escape') { closeCRT(); return; }
+    if (crt.show) return;
     const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     if (k === konamiSeq[konamiIdx]) {
       konamiIdx++;
-      if (konamiIdx === konamiSeq.length) { konamiIdx = 0; openLedger(); }
+      if (konamiIdx === konamiSeq.length) { konamiIdx = 0; openCRT('file'); }
     } else { konamiIdx = (k === konamiSeq[0]) ? 1 : 0; }
-
     if (e.key.length === 1) shabiBuf = (shabiBuf + e.key.toLowerCase()).slice(-5);
-    if (shabiBuf === 'shabi') {
-      shabiBuf = '';
-      drip(innerWidth * (0.25 + Math.random() * 0.5), 9);
-      const v = $('idle-veil');
-      v.classList.add('on');
-      setTimeout(() => { if (!idleOn) v.classList.remove('on'); }, 3200);
-      note('이름을 불렀어요', '샤비가 찻잔에서 눈을 들었어요.<br>이제 눈이 마주쳤네요.', 6500);
-    }
+    if (shabiBuf === 'shabi') { shabiBuf = ''; openCRT('shabi'); }
   });
+
+  /* 터치 기기용: 제목 5번 연타 → shabi 화면 / 방문자 숫자 7번 연타 → 입주자 기록 */
+  function rapid(arr, n, ms) {
+    const now = Date.now(); arr.push(now);
+    while (arr.length && now - arr[0] > ms) arr.shift();
+    if (arr.length >= n) { arr.length = 0; return true; }
+    return false;
+  }
+  const tapsH1 = [], tapsCnt = [];
+  const h1El = document.querySelector('.popup-content h1');
+  const cntEl = document.querySelector('.visitor-counter');
+  if (h1El) h1El.addEventListener('click', () => { if (entered && rapid(tapsH1, 5, 3000)) openCRT('shabi'); });
+  if (cntEl) cntEl.addEventListener('click', () => { if (entered && rapid(tapsCnt, 7, 4000)) openCRT('file'); });
+
 </script>
 
 </body>
