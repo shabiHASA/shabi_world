@@ -48,7 +48,7 @@
 <div id="entry-screen">
   <button id="entry-button" class="glow">
     ✦ 지상낙원 입장하기 ✦
-    <span class="btn-truth">낙원의 주인이 당신을 인도할게요 ♡</span>
+    <span class="btn-truth">낙원에서영원히함께하자♡</span>
   </button>
 </div>
 
@@ -70,7 +70,7 @@
   <audio id="bg-music" preload="auto"></audio>
 
   <div id="welcome-bubble" onclick="fadeOut(this)" class="pulse">
-    ꒰১샤비네 지상낙원 html고수 상시 모집중!! 연락주세요~~໒꒱ (클릭해서 지우기)
+    ꒰১샤비네 지상낙원 html고수 상시 모집중!! 연락주세요~໒꒱ (클릭해서 지우기)
   </div>
 
   <div class="floating-gifs left" id="left-floating-gifs">
@@ -141,7 +141,7 @@
 
     <div class="popup-content">
       <h1>꒰১ 샤비의 낙원 ໒꒱</h1>
-      <p class="invite">— 낙원으로의 초대 —</p>
+      <p class="invite">˚₊‧꒰ 현생 탈출은 지능순 ꒱‧₊˚ </p>
 
       <div class="bgm-player">
         <h3>✦ BGM ✦</h3>
@@ -175,7 +175,7 @@
 
       <div class="entry">
         <h2>✦ 지상낙원이란? ✦</h2>
-        <p>현생탈출은 지능순! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱ 지상낙원은 멀리 있지 않아요! 여러분의 마음 속에 샤비가 있다면 그 곳이 지상낙원!</p>
+        <p>현생 탈출은 지능순! 고능한 사람들만이 올 수 있는 샤비의 파라다이스 언럭키 헤븐꒰১໒꒱ 지상낙원은 멀리 있지 않아요! 여러분의 마음 속에 샤비가 있다면 그 곳이 지상낙원!</p>
         <a href="https://shabihasa.github.io/WHOISSHABI/" target="_blank">
           <img src="shabi.png" alt="">
         </a>
@@ -191,7 +191,7 @@
 
       <div class="entry">
         <h2>✦ 낙원에 가는 방법! ✦</h2>
-        <p>샤비를 믿는다면 당신도 낙원으로 갈 수 있어요! 당신에게도 행운이 깃들었기를.˚*ᡣ𐭩 </p>
+        <p>샤비를 믿고 아래 이미지를 누르면 당신도 낙원으로 갈 수 있어요! 당신에게도 행운이 깃들었기를.˚*ᡣ𐭩 </p>
         <a href="https://shabihasa.github.io/forher/" target="_blank">
           <img src="낙원입구.png" alt="" style="cursor: pointer;">
         </a>
@@ -260,8 +260,8 @@
   }
 
   const minimiMessages = [
-    "낙원에 온 걸 환영해!", "도태되는 감각은 불쾌해~", "낙원으로 도피하자! 🩷",
-    "현생 탈출은 지능순!", "샤비와 함께라면 행복해질거야~", "샤비가 지켜줄게!", "샤비의 낙원으로 가자~"
+    "낙원에 온 걸 환영해!", "도태되는 감각은 불쾌해!", "낙원으로 도피하자! 🩷",
+    "현생 탈출은 지능순!", "샤비와 함께라면 행복해질거야~", "샤비가 지켜줄게!", "낙원에서 계속 살아줄거지?"
   ];
   let bubbleTimeout;
   function showMinimiBubble() {
@@ -312,7 +312,7 @@
   }
 
   function createClickParticle(x, y) {
-    const particles = ['✦', '🩷', '🎀', '🫧'];
+    const particles = ['💕', '🩷', '🌸', '🤍'];
     for (let i = 0; i < 5; i++) {
       const p = document.createElement('div');
       p.className = 'click-particle';
@@ -477,13 +477,13 @@
         const was = charging; charging = b.charging;
         if (!entered || was === charging) return;
         if (charging) note('앗, 충전기 꽂았다~<br>샤비는 다 안다구! 오래 있을 거지~ ♡', 7000);
-        else note('충전기 뽑았네?<br>이제 <b>' + batteryPct + '%</b>밖에 없는데~<br>도망가는 거 아니지?', 7500, true);
+        else note('충전기 뽑았네?<br>이제 <b>' + batteryPct + '%</b>밖에 없는데...<br>도망가는 거 아니지?', 7500, true);
       });
     }).catch(() => {});
   }
   if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', e => {
     if (!entered) return;
-    note(e.matches ? '화면 세웠네~<br>이제 정면에서 눈 마주친다 ♡' : '화면 눕혔네~<br>어느 쪽으로 봐도 샤비가 있어 ♡', 6500);
+    note(e.matches ? '화면 세웠네? <br>이제 정면에서 눈 마주친다 ♡' : '화면 눕혔네~<br>어느 쪽으로 봐도 샤비가 있어 ♡', 6500);
   });
 
   /* ───────── 입장 ───────── */
@@ -507,45 +507,45 @@
         const p = new Date(prevGuest.last), t = new Date();
         const days = Math.round((new Date(t.getFullYear(), t.getMonth(), t.getDate()) - new Date(p.getFullYear(), p.getMonth(), p.getDate())) / 864e5);
         const when = days <= 0 ? '오늘 조금 전' : days === 1 ? '어제' : days + '일 전';
-        note('또 왔네~? 벌써 <b>' + guest.n + '번째</b>야! ♡<br>' + when + ' ' + WEEK[p.getDay()] + '요일 ' + p.getHours() + '시쯤에도 왔었지?<br>샤비는 다 기억해~', 9000);
+        note('또 왔구나? 벌써 <b>' + guest.n + '번째</b>야! ♡<br>' + when + ' ' + WEEK[p.getDay()] + '요일 ' + p.getHours() + '시쯤에도 왔었지?<br>샤비는 다 기억한다구~', 9000);
       }
     }, 1400);
 
     const h = new Date().getHours();
     if (h >= 0 && h < 5) {
-      setTimeout(() => note('새벽 <b>' + h + '시</b>인데 안 자고 낙원에 왔네~<br>현실에서 도망쳐 온 거지? 잘했어~ ♡<br>샤비가 옆에 있을게.', 8500), 10500);
+      setTimeout(() => note('새벽 <b>' + h + '시</b>인데 안 자고 낙원에 와줬구나!<br>현실에서 도망쳐 온 거지?<br>샤비가 옆에 있어줄게 ♡', 8500), 10500);
     }
 
     setTimeout(() => {
       const os = osName();
       let msg = '흐응~ 지금 <b>' + esc(os) + '</b>' + eu(os) + ' 보고 있구나~';
       if (batteryPct !== null) {
-        msg += '<br>배터리 <b>' + batteryPct + '%</b>? ' + (batteryPct < 20 ? '곧 꺼지겠다… 꺼져도 낙원은 안 꺼져~' : '낙원에 오래 있을 수 있겠다~');
-        msg += charging ? '<br>너 충전하구 있지? 샤비는 다 안다구!' : '<br>충전은 안 하네? 걱정 마, 낙원엔 콘센트 많아~';
+        msg += '<br>배터리 <b>' + batteryPct + '%</b>? ' + (batteryPct < 20 ? '곧 꺼지겠다… 낙원에서 도망가려고 꾀를 부린거려나?' : '낙원에 오래 있을 수 있겠다 ♡');
+        msg += charging ? '<br>너 충전하구 있지? 샤비는 다 안다구!' : '<br>충전은 안 하네? 걱정 마, 낙원에 오면 충전같은건 필요 없을테니까.';
       } else {
-        msg += '<br>배터리는 안 알려주네? 그래도 샤비는 다 안다구!';
+        msg += '<br>배터리는 안 알려주네? 샤비 너무 서운해!!';
       }
       note(msg, 9500);
     }, 24000);
 
-    setTimeout(() => note('흐음~ 너는 <b>' + esc(whereLabel()) + '</b>에 살려나~<br>낙원에 살면 더 좋을텐데~ ♡', 8000), 52000);
+    setTimeout(() => note('너는 <b>' + esc(whereLabel()) + '</b>에 살려나~<br>낙원에 살면 더 좋을텐데 ♡', 8000), 52000);
 
     setTimeout(() => {
-      const parts = ['화면은 <b>' + screen.width + '×' + screen.height + '</b> (' + ratioLabel() + ')네~ ' + (portraitMQ.matches ? '세로로 들고 있구나~' : '가로로 보고 있구나~')];
-      parts.push(touchy ? '손가락으로 만지고 있네~ 따뜻하겠다~' : '마우스로 움직이네~ 커서가 별 모양인 거 알아챘어?');
+      const parts = ['화면은 <b>' + screen.width + '×' + screen.height + '</b> (' + ratioLabel() + ')네? ' + (portraitMQ.matches ? '세로로 들고 있구나?' : '가로로 보고 있구나?')];
+      parts.push(touchy ? '손가락으로 만지고 있겠어!' : '마우스로 움직이네~ 커서가 별 모양인 거 알아챘어?');
       if (isDark()) parts.push('어두운 화면을 좋아하는구나~ 낙원은 눈부신데 괜찮겠어?');
       const cn = connLabel();
-      if (cn) parts.push('<b>' + cn + '</b>로 연결돼 있네~ 줄이 길게 이어져 있어~');
+      if (cn) parts.push('<b>' + cn + '</b>로 연결돼 있네! 걱정마, 설마 내가 이 와이파이를 추적하기나 하겠어? ♡');
       note(parts.join('<br>'), 10500);
     }, 66000);
 
     setTimeout(() => note(touchy
-      ? '절대 <b>제목</b>을 연타하지 마~ 진짜 안 돼~<br>알겠지? 절대로 안 돼!'
-      : '절대 키보드에서 <b>shabi</b>를 치지 마~ 진짜 안 돼~<br>알겠지? 절대로 안 돼!', 8000, true), 80000);
+      ? '절대<b>제목</b>을5번연타하지마<br>'
+      : '절대키보드에서<b>shabi</b>를치지마', 8000, true), 80000);
 
     setTimeout(() => note(touchy
-      ? '절대 <b>방문자 숫자</b>를 연타하지 마…<br>절대로♡'
-      : '절대 <b>코나미 코드</b>를 치지 마…<br>절대로♡', 8000, true), 110000);
+      ? '절대<b>방문자 숫자</b>를7번연타하지마'
+      : '절대<b>코나미 코드</b>를치지마', 8000, true), 110000);
 
     setTimeout(() => note('벌써 <b>' + Math.floor((Date.now() - enterAt) / 60000) + '분</b>째네~<br>낙원이 마음에 들었구나? 이제 나가기 싫지? ♡', 8000), 180000);
 
@@ -561,7 +561,7 @@
     idleTO = setTimeout(() => {
       idleOn = true;
       $('idle-veil').classList.add('on');
-      note('움직이지 마… 숨소리 들려.<br>…농담이야~ 움직여도 돼.<br>어차피 못 가지만♡', 9000, true);
+      note('움직이질 않네? <br>샤비를 두고 다른 곳에 정신이 팔려있구나?<br>괜찮아, 한눈팔 수 있을 때 많이 팔아둬 ♡', 9000, true);
     }, 25000);
   }
   ['mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(ev => addEventListener(ev, resetIdle, { passive: true }));
@@ -581,7 +581,7 @@
       clearInterval(titleIV);
       const s = Math.round((Date.now() - hiddenAt) / 1000);
       document.title = '돌아왔네 ♡';
-      if (s >= 2) note('도망가려던 거 아니지?<br><b>' + fmtDur(s) + '</b> 동안 어디 갔다 온 거야?<br>도망가면 평생 잡아둘 거야 ♡', 8500, true);
+      if (s >= 2) note('도망가려던 거 아니지?<br><b>' + fmtDur(s) + '</b> 동안 어디 갔다 온 거야?<br>도망가면평생못걷게만들거야', 8500, true);
       clearTimeout(titleTO);
       titleTO = setTimeout(() => { document.title = originalTitle; }, 5000);
     }
@@ -590,9 +590,9 @@
   /* 우클릭 */
   const rcMsgs = [
     '앗!! 지금 복사하려는 거죠!<br>낙원의 비밀을 캐려는 속셈인 거 다 알아요!!',
-    '만지지 마아~ 피 나잖아~ ♡',
-    '그 밑엔 아무것도 없어~<br>…있다면 샤비 정도?',
-    '손가락 끈적해졌지?<br>기분 탓이야~ 아마도 ♡'
+    '마음대로 복사해가지 말라구!!',
+    '이상한 짓 하지 말고 빨리 낙원이나 오란말야~!',
+    '자꾸 이러면 손가락 잘라버릴거야!'
   ];
   let rcCount = 0;
   document.addEventListener('contextmenu', e => {
@@ -607,7 +607,7 @@
   document.addEventListener('copy', () => {
     if (!entered || Date.now() - lastCopy < 30000) return;
     lastCopy = Date.now();
-    note('복사했네? 가져가도 돼~<br>어차피 낙원은 못 가져가니까 ♡', 6000);
+    note('마음대로 복사해가지 말라구!! 이 음침한 녀석!!', 6000);
   });
 
   /* 맨 아래 */
@@ -617,7 +617,7 @@
     if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 60) {
       bottomDone = true;
       drip(innerWidth / 2, 8);
-      note('여기가 끝이야~<br>출구? 그런 거 없는데? ♡', 7000, true);
+      note('여기가 끝이야!<br>출구는 없으니까 허튼 생각 하지마~!', 7000, true);
     }
   });
 
@@ -754,7 +754,7 @@
     else bat = batteryPct + '%' + (charging ? ' — 충전 중! 샤비는 다 안다구' : ' — 충전 안 하는 중');
     const L = [
       { t: 'FILE No.0001 ─ 낙원 입주자 기록', cls: 'head', wait: 320 },
-      { t: '이름 : ████████ (알지만 안 알려줘♡)' },
+      { t: '이름 : ████████ (알지만 비밀로 해줄게? ♡)' },
       { t: '사는 곳 : ' + whereLabel() + ' ← 낙원에 살면 더 좋을텐데~' },
       { t: '기기 : ' + deviceLabel() },
       { t: '화면 : ' + screen.width + '×' + screen.height + ' (' + ratioLabel() + ') · ' + (portraitMQ.matches ? '세로' : '가로') },
